@@ -1,0 +1,186 @@
+==============
+Temporary seek
+==============
+
+p8 10 @ 0xdeadbeef
+p8 10 @ flag
+
+---
+
+(commands
+  (tmp_seek_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier)))
+  (tmp_seek_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier))))
+
+
+===================
+Temporary blocksize
+===================
+
+p8 10 @! 30
+
+---
+
+(commands
+  (tmp_blksz_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier))))
+
+
+=================
+Temporary from/to
+=================
+
+/x 9090 @(0xbeef 0xdead
+
+---
+
+(commands
+  (tmp_fromto_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier))
+    (arg (arg_identifier))))
+
+
+=================
+Temporary arch
+=================
+
+pd 2 @a:x86
+
+---
+
+(commands
+  (tmp_arch_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier))))
+
+=================
+Temporary bits
+=================
+
+pd 2 @b:16
+
+---
+
+(commands
+  (tmp_bits_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier))))
+
+=================
+Temporary seek to nth instr
+=================
+
+pd 2 @B:3
+
+---
+
+(commands
+  (tmp_nthi_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier))))
+
+=================
+Temporary eval
+=================
+
+pd 2 @e:scr.utf8=false
+pd 2 @e:asm.arch=x86,scr.utf8=true
+
+---
+
+(commands
+  (tmp_eval_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (tmp_eval_args
+      (tmp_eval_arg
+        (key: (tmp_eval_arg_key), value: (tmp_eval_arg_val)))))
+  (tmp_eval_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (tmp_eval_args
+      (tmp_eval_arg
+        (key: (tmp_eval_arg_key), value: (tmp_eval_arg_val)))
+      (tmp_eval_arg
+        (key: (tmp_eval_arg_key), value: (tmp_eval_arg_val))))))
+
+=================
+Temporary flagspace
+=================
+
+f @F:symbols
+
+---
+
+(commands
+  (tmp_fs_command
+    (cmd_identifier)
+    (arg (arg_identifier))))
+
+=================
+Temporary relative instruction
+=================
+
+pd 2 @i:4
+
+---
+
+(commands
+  (tmp_reli_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier))))
+
+=================
+Temporary seek to sdb key
+=================
+---
+=================
+Temporary switch fd
+=================
+---
+=================
+Temporary seek to reg value
+=================
+---
+=================
+Temporary file content
+=================
+---
+=================
+Temporary string content
+=================
+---
+=================
+Temporary hex content
+=================
+---
+=================================
+2 Temporary changes + Redirection
+=================================
+
+p8 4 @ 0xdead @a:x86 > /tmp/out.txt
+
+---
+
+(commands
+  (out_redirect_command
+    (tmp_arch_command
+      (tmp_seek_command
+        (arged_command (cmd_identifier)
+	  (arg (arg_identifier)))
+	(arg (arg_identifier)))
+      (arg (arg_identifier)))
+    (arg (arg_identifier))))

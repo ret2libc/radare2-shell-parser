@@ -1,0 +1,46 @@
+=========================
+One digit repeat commands
+=========================
+
+7/x 90
+
+---
+
+(commands
+  (repeat_command
+    (number)
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))))
+
+
+=========================
+Multiple digits repeat commands
+=========================
+
+17/x 90
+
+---
+
+(commands
+  (repeat_command
+    (number)
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))))
+
+
+=======================
+Repeat with redirection
+=======================
+
+2p8 8 > /tmp/out.txt
+
+---
+
+(commands
+  (out_redirect_command
+    (repeat_command
+      (number)
+      (arged_command
+	(cmd_identifier)
+	(arg (arg_identifier))))
+    (arg (arg_identifier))))

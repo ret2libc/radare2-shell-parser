@@ -1,0 +1,67 @@
+=======================
+One command and comment
+=======================
+
+afl # af is not going to be parsed
+
+---
+
+(commands
+  (cmd_identifier))
+
+
+==================
+Begin with comment
+==================
+
+# this is just a comment
+
+---
+
+(commands)
+
+
+====================================
+Multiple commands multiple comments
+====================================
+
+afl # first comment
+p8 10 # second comment
+
+---
+
+(commands
+  (cmd_identifier)
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier))))
+
+
+===========================
+Multiline comment on a line
+===========================
+
+p8 /* inline comment */ 3
+afl
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier)))
+  (cmd_identifier))
+
+
+=====================================
+Multiline comment on multiple lines
+=====================================
+
+p8 /* multiline
+comment */ 3
+afl
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier)))
+  (cmd_identifier))

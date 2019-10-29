@@ -1,0 +1,75 @@
+======================
+Pointer type commands
+======================
+
+*entry0
+*entry0=cc
+*entry0+10=cc
+
+---
+
+(commands
+  (command (pointer_command))
+  (command (pointer_command))
+  (command (pointer_command)))
+
+
+==============================
+Environment variable command
+==============================
+
+%
+%SHELL
+%TMPDIR=/tmp
+
+---
+
+(commands
+  (command (perc_command))
+  (command (perc_command))
+  (command (perc_command)))
+
+
+===============
+Macro commands
+===============
+
+(foo x y, p8 $0 @ $1)
+
+---
+
+(commands
+  (command (macro_command)))
+
+
+===============
+System commands
+===============
+
+!
+!ls
+!!
+!!ls
+!=!
+
+---
+
+(commands
+  (command (sys_command))
+  (command (sys_command))
+  (command (sys_command))
+  (command (sys_command)))
+
+
+===================
+Interepret commands
+===================
+
+.cmd a1
+
+---
+
+(commands
+  (interpret_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))))

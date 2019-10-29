@@ -1,0 +1,87 @@
+============
+Iter flags
+============
+
+p8 4 @@ sym.*
+
+---
+
+(commands
+  (iter_flags_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (arg (arg_identifier))))
+
+========
+Iter dbt
+========
+
+p8 4 @@dbt
+p8 4 @@dbta
+p8 4 @@dbtb
+p8 4 @@dbts
+
+---
+
+(commands
+  (iter_dbta_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier))))
+  (iter_dbta_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier))))
+  (iter_dbtb_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier))))
+  (iter_dbts_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))))
+
+===============
+Iter file lines
+===============
+---
+===============
+Iter offsets
+===============
+---
+===============
+Iter search
+===============
+---
+===============
+Iter sdbquery
+===============
+---
+===============
+Iter threads
+===============
+---
+===============
+Iter basic blocks
+===============
+---
+===============
+Iter instructions
+===============
+---
+===============
+Iter sections
+===============
+---
+===============
+Iter functions
+===============
+---
+===============
+Iter function matching
+===============
+---
+===============
+Iter by step
+===============
+---
+===============
+Iter command
+===============
+---

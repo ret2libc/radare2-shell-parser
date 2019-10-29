@@ -1,0 +1,108 @@
+================
+No arguments
+================
+
+afl
+
+---
+
+(commands
+  (cmd_identifier))
+
+=============
+One argument
+=============
+
+af 0xdeadbeef
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+     (arg (arg_identifier))))
+
+
+==============================
+Semi-colon separated commands
+==============================
+
+afl;af 0xdeadbeef
+
+---
+
+(commands
+  (cmd_identifier)
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier))))
+
+
+=========================
+Newline separate commands
+=========================
+
+afl
+af 0xdeadbeef
+
+---
+
+(commands
+  (cmd_identifier)
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier))))
+
+
+======================
+Question mark commands
+======================
+
+? x
+??
+???
+?t cmd
+?x hello
+?:
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier)))
+  (cmd_identifier)
+  (cmd_identifier)
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier)))
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier)))
+  (cmd_identifier))
+
+
+===============
+Search commands
+===============
+
+/x 90
+/v4 0xdead
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier)))
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier))))
+
+
+========================
+Different output formats
+========================
+
+afl*
+afl+
+aflj
+
+---
+
+(commands
+  (cmd_identifier)
+  (cmd_identifier)
+  (cmd_identifier))
