@@ -15,6 +15,11 @@
     }
   },
   {
+    "type": "arg_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "arged_command",
     "named": true,
     "fields": {},
@@ -32,6 +37,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "cmd_identifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "commands",
@@ -54,7 +64,7 @@
           "named": true
         },
         {
-          "type": "eof",
+          "type": "env_command",
           "named": true
         },
         {
@@ -66,7 +76,19 @@
           "named": true
         },
         {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
           "type": "html_redirect_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
           "named": true
         },
         {
@@ -86,6 +108,10 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
           "type": "out_append_redirect_command",
           "named": true
         },
@@ -94,7 +120,19 @@
           "named": true
         },
         {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -161,6 +199,30 @@
     }
   },
   {
+    "type": "env_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "eq_sep_key",
+          "named": true
+        },
+        {
+          "type": "eq_sep_val",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "eq_sep_val",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "err_append_redirect_command",
     "named": true,
     "fields": {},
@@ -181,6 +243,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -197,7 +275,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -284,6 +378,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -300,7 +410,285 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
+          "named": true
+        },
+        {
+          "type": "tmp_arch_command",
+          "named": true
+        },
+        {
+          "type": "tmp_bits_command",
+          "named": true
+        },
+        {
+          "type": "tmp_blksz_command",
+          "named": true
+        },
+        {
+          "type": "tmp_eval_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fd_command",
+          "named": true
+        },
+        {
+          "type": "tmp_file_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fromto_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fs_command",
+          "named": true
+        },
+        {
+          "type": "tmp_hex_command",
+          "named": true
+        },
+        {
+          "type": "tmp_kuery_command",
+          "named": true
+        },
+        {
+          "type": "tmp_nthi_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reg_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reli_command",
+          "named": true
+        },
+        {
+          "type": "tmp_seek_command",
+          "named": true
+        },
+        {
+          "type": "tmp_string_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_disable_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "cmd_identifier",
+          "named": true
+        },
+        {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbta_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbtb_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbts_command",
+          "named": true
+        },
+        {
+          "type": "iter_flags_command",
+          "named": true
+        },
+        {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
+          "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
+          "named": true
+        },
+        {
+          "type": "tmp_arch_command",
+          "named": true
+        },
+        {
+          "type": "tmp_bits_command",
+          "named": true
+        },
+        {
+          "type": "tmp_blksz_command",
+          "named": true
+        },
+        {
+          "type": "tmp_eval_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fd_command",
+          "named": true
+        },
+        {
+          "type": "tmp_file_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fromto_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fs_command",
+          "named": true
+        },
+        {
+          "type": "tmp_hex_command",
+          "named": true
+        },
+        {
+          "type": "tmp_kuery_command",
+          "named": true
+        },
+        {
+          "type": "tmp_nthi_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reg_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reli_command",
+          "named": true
+        },
+        {
+          "type": "tmp_seek_command",
+          "named": true
+        },
+        {
+          "type": "tmp_string_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_enable_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "cmd_identifier",
+          "named": true
+        },
+        {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbta_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbtb_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbts_command",
+          "named": true
+        },
+        {
+          "type": "iter_flags_command",
+          "named": true
+        },
+        {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
+          "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -387,6 +775,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -403,7 +807,154 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
+          "named": true
+        },
+        {
+          "type": "tmp_arch_command",
+          "named": true
+        },
+        {
+          "type": "tmp_bits_command",
+          "named": true
+        },
+        {
+          "type": "tmp_blksz_command",
+          "named": true
+        },
+        {
+          "type": "tmp_eval_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fd_command",
+          "named": true
+        },
+        {
+          "type": "tmp_file_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fromto_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fs_command",
+          "named": true
+        },
+        {
+          "type": "tmp_hex_command",
+          "named": true
+        },
+        {
+          "type": "tmp_kuery_command",
+          "named": true
+        },
+        {
+          "type": "tmp_nthi_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reg_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reli_command",
+          "named": true
+        },
+        {
+          "type": "tmp_seek_command",
+          "named": true
+        },
+        {
+          "type": "tmp_string_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interpret_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "cmd_identifier",
+          "named": true
+        },
+        {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbta_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbtb_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbts_command",
+          "named": true
+        },
+        {
+          "type": "iter_flags_command",
+          "named": true
+        },
+        {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
+          "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -486,6 +1037,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -502,7 +1069,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -585,6 +1168,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -601,7 +1200,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -684,6 +1299,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -700,7 +1331,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -787,6 +1434,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -803,7 +1466,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -870,6 +1549,11 @@
     }
   },
   {
+    "type": "macro_command",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "out_append_redirect_command",
     "named": true,
     "fields": {},
@@ -890,6 +1574,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -906,7 +1606,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -993,6 +1709,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1009,7 +1741,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1070,6 +1818,165 @@
         },
         {
           "type": "tmp_string_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pipe_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "cmd_identifier",
+          "named": true
+        },
+        {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbta_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbtb_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbts_command",
+          "named": true
+        },
+        {
+          "type": "iter_flags_command",
+          "named": true
+        },
+        {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pipe_second_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
+          "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
+          "named": true
+        },
+        {
+          "type": "tmp_arch_command",
+          "named": true
+        },
+        {
+          "type": "tmp_bits_command",
+          "named": true
+        },
+        {
+          "type": "tmp_blksz_command",
+          "named": true
+        },
+        {
+          "type": "tmp_eval_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fd_command",
+          "named": true
+        },
+        {
+          "type": "tmp_file_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fromto_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fs_command",
+          "named": true
+        },
+        {
+          "type": "tmp_hex_command",
+          "named": true
+        },
+        {
+          "type": "tmp_kuery_command",
+          "named": true
+        },
+        {
+          "type": "tmp_nthi_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reg_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reli_command",
+          "named": true
+        },
+        {
+          "type": "tmp_seek_command",
+          "named": true
+        },
+        {
+          "type": "tmp_string_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pipe_second_command",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "pointer_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "eq_sep_key",
+          "named": true
+        },
+        {
+          "type": "eq_sep_val",
           "named": true
         }
       ]
@@ -1092,6 +1999,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1108,11 +2031,27 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
         {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1179,6 +2118,11 @@
     }
   },
   {
+    "type": "system_command",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "tmp_arch_command",
     "named": true,
     "fields": {},
@@ -1199,6 +2143,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1215,7 +2175,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1302,6 +2278,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1318,7 +2310,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1405,6 +2413,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1421,7 +2445,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1508,6 +2548,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1524,7 +2580,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1611,6 +2683,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1627,7 +2715,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1714,6 +2818,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1730,7 +2850,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1817,6 +2953,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1833,7 +2985,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -1920,6 +3088,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -1936,7 +3120,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -2023,6 +3223,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -2039,7 +3255,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -2126,6 +3358,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -2142,7 +3390,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -2229,6 +3493,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -2245,7 +3525,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -2332,6 +3628,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -2348,7 +3660,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -2435,6 +3763,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -2451,7 +3795,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -2538,6 +3898,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -2554,7 +3930,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -2641,6 +4033,22 @@
           "named": true
         },
         {
+          "type": "env_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "interpret_command",
+          "named": true
+        },
+        {
           "type": "iter_dbta_command",
           "named": true
         },
@@ -2657,7 +4065,23 @@
           "named": true
         },
         {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "pointer_command",
+          "named": true
+        },
+        {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "system_command",
           "named": true
         },
         {
@@ -2732,7 +4156,31 @@
     "named": false
   },
   {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {
@@ -2756,11 +4204,19 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": ">",
     "named": false
   },
   {
     "type": ">>",
+    "named": false
+  },
+  {
+    "type": "?|?",
     "named": false
   },
   {
@@ -2848,15 +4304,27 @@
     "named": false
   },
   {
-    "type": "arg_identifier",
-    "named": true
-  },
-  {
-    "type": "cmd_identifier",
+    "type": "eq_sep_key",
     "named": true
   },
   {
     "type": "number",
     "named": true
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "|.",
+    "named": false
+  },
+  {
+    "type": "|?",
+    "named": false
+  },
+  {
+    "type": "|H",
+    "named": false
   }
 ]

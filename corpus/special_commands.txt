@@ -9,9 +9,14 @@ Pointer type commands
 ---
 
 (commands
-  (command (pointer_command))
-  (command (pointer_command))
-  (command (pointer_command)))
+  (pointer_command
+    (eq_sep_key))
+  (pointer_command
+    (eq_sep_key)
+    (eq_sep_val))
+  (pointer_command
+    (eq_sep_key)
+    (eq_sep_val)))
 
 
 ==============================
@@ -25,9 +30,12 @@ Environment variable command
 ---
 
 (commands
-  (command (perc_command))
-  (command (perc_command))
-  (command (perc_command)))
+  (env_command)
+  (env_command
+    (eq_sep_key))
+  (env_command
+    (eq_sep_key)
+    (eq_sep_val)))
 
 
 ===============
@@ -39,7 +47,7 @@ Macro commands
 ---
 
 (commands
-  (command (macro_command)))
+  (macro_command))
 
 
 ===============
@@ -55,14 +63,15 @@ System commands
 ---
 
 (commands
-  (command (sys_command))
-  (command (sys_command))
-  (command (sys_command))
-  (command (sys_command)))
+  (system_command)
+  (system_command)
+  (system_command)
+  (system_command)
+  (system_command))
 
 
 ===================
-Interepret commands
+Interpret commands
 ===================
 
 .cmd a1

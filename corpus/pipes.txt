@@ -1,11 +1,29 @@
 ======================
 Disable html and color
 ======================
+
+p8 10 |
+
 ---
+
+(commands
+  (html_disable_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))))
+
 ======================
 Enable html and color
 ======================
+
+p8 10 |H
+
 ---
+
+(commands
+  (html_enable_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))))
+
 ======================
 Use sctr.ts
 ======================
@@ -13,8 +31,26 @@ Use sctr.ts
 ======================
 Pipe to another command
 ======================
+
+p8 10 | grep 10
+
 ---
+
+(commands
+  (pipe_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))
+    (pipe_second_command)))
+
 =======================
 Pipe to interpreter "."
 =======================
+
+p8 10 |.
+
 ---
+
+(commands
+  (interpret_command
+    (arged_command (cmd_identifier)
+      (arg (arg_identifier)))))

@@ -2,20 +2,46 @@
   "name": "r2cmd",
   "rules": {
     "commands": {
-      "type": "REPEAT",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_command"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "delimiter"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": []
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_command"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "delimiter"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_command"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     "_command": {
       "type": "CHOICE",
@@ -68,6 +94,30 @@
         {
           "type": "SYMBOL",
           "name": "_iter_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_pipe_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pointer_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "env_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "system_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interpret_command"
         }
       ]
     },
@@ -156,6 +206,78 @@
           "name": "iter_dbts_command"
         }
       ]
+    },
+    "_pipe_command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "html_disable_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "html_enable_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pipe_command"
+        }
+      ]
+    },
+    "html_disable_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "|"
+          }
+        ]
+      }
+    },
+    "html_enable_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "|H"
+          }
+        ]
+      }
+    },
+    "pipe_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_simple_command"
+        },
+        {
+          "type": "STRING",
+          "value": "|"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pipe_second_command"
+        }
+      ]
+    },
+    "pipe_second_command": {
+      "type": "SYMBOL",
+      "name": "_any_command"
     },
     "iter_flags_command": {
       "type": "PREC_RIGHT",
@@ -573,6 +695,152 @@
         ]
       }
     },
+    "pointer_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eq_sep_key"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "eq_sep_val"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "env_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "%"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "eq_sep_key"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "="
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "eq_sep_val"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "macro_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_macro_content"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "system_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "!"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_any_command"
+        }
+      ]
+    },
+    "interpret_command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_simple_command"
+            }
+          ]
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": 1,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_command"
+              },
+              {
+                "type": "STRING",
+                "value": "|."
+              }
+            ]
+          }
+        }
+      ]
+    },
     "arged_command": {
       "type": "SEQ",
       "members": [
@@ -734,9 +1002,38 @@
         }
       ]
     },
-    "cmd_identifier": {
+    "eq_sep_key": {
       "type": "PATTERN",
-      "value": "[a-zA-Z?!:\\.+*=\\/][a-zA-Z0-9?!:\\.+*=\\/]*"
+      "value": "[^\\r\\n#@|>=; ]+"
+    },
+    "eq_sep_val": {
+      "type": "PATTERN",
+      "value": "[^\\r\\n#@|>; ]+"
+    },
+    "_macro_content": {
+      "type": "PATTERN",
+      "value": "[^\\r\\n)]+"
+    },
+    "_any_command": {
+      "type": "PATTERN",
+      "value": "[^\\r\\n;]*"
+    },
+    "cmd_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[a-zA-Z?:+=\\/][a-zA-Z0-9?!:\\.+*=\\/]*"
+        },
+        {
+          "type": "STRING",
+          "value": "?|?"
+        },
+        {
+          "type": "STRING",
+          "value": "|?"
+        }
+      ]
     },
     "arg_identifier": {
       "type": "PATTERN",
@@ -789,10 +1086,6 @@
         {
           "type": "STRING",
           "value": ";"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eof"
         }
       ]
     }
@@ -808,12 +1101,7 @@
     }
   ],
   "conflicts": [],
-  "externals": [
-    {
-      "type": "SYMBOL",
-      "name": "eof"
-    }
-  ],
+  "externals": [],
   "inline": [
     "delimiter",
     "_comment"

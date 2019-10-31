@@ -11,12 +11,11 @@ module.exports = grammar({
 	$._comment,
     ],
 
-    externals: $ => [
-	$.eof
-    ],
-
     rules: {
-	commands: $ => repeat(seq($._command, $.delimiter)),
+	commands: $ => choice(
+	    seq(),
+	    seq($._command, repeat(seq($.delimiter, optional($._command)))),
+	),
 
 	_command: $ => choice(
 	    $.out_redirect_command,
@@ -33,6 +32,12 @@ module.exports = grammar({
 	    $.arged_command,
 	    $._tmp_command,
 	    $._iter_command,
+	    $._pipe_command,
+	    $.pointer_command,
+	    $.env_command,
+	    $.macro_command,
+	    $.system_command,
+	    $.interpret_command,
 	),
 
 	_tmp_command: $ => choice(
@@ -60,6 +65,17 @@ module.exports = grammar({
 	    $.iter_dbts_command,
 	),
 
+	_pipe_command: $ => choice(
+	    $.html_disable_command,
+	    $.html_enable_command,
+	    $.pipe_command,
+	),
+
+	html_disable_command: $ => prec.right(1, seq($._simple_command, '|')),
+	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),
+	pipe_command: $ => seq($._simple_command, '|', $.pipe_second_command),
+	pipe_second_command: $ => $._any_command,
+
 	iter_flags_command: $ => prec.right(1, seq($._simple_command, '@@', $.arg)),
 	iter_dbta_command: $ => prec.right(1, seq($._simple_command, choice('@@dbt', '@@dbta'))),
 	iter_dbtb_command: $ => prec.right(1, seq($._simple_command, '@@dbtb')),
@@ -81,6 +97,42 @@ module.exports = grammar({
 	tmp_string_command: $ => prec.right(1, seq($._simple_command, '@s:', $.arg)),
 	tmp_hex_command: $ => prec.right(1, seq($._simple_command, '@x:', $.arg)),
 
+	pointer_command: $ => seq(
+	    '*',
+	    $.eq_sep_key,
+	    optional(seq(
+		'=',
+		$.eq_sep_val,
+	    )),
+	),
+
+	env_command: $ => seq(
+	    '%',
+	    optional(seq(
+		$.eq_sep_key,
+		optional(seq(
+		    '=',
+		    $.eq_sep_val,
+		)),
+	    )),
+	),
+
+	macro_command: $ => seq(
+	    '(',
+	    $._macro_content,
+	    ')',
+	),
+
+	system_command: $ => seq(
+	    '!',
+	    $._any_command,
+	),
+
+	interpret_command: $ => choice(
+	    seq('.', $._simple_command),
+	    prec.right(1, seq($._simple_command, '|.')),
+	),
+
 	arged_command: $ => seq($.cmd_identifier, repeat1($.arg)),
 	repeat_command: $ => seq($.number, $._simple_command),
 
@@ -94,7 +146,16 @@ module.exports = grammar({
 	    $.arg_identifier
 	),
 
-	cmd_identifier: $ => /[a-zA-Z?!:\.+*=\/][a-zA-Z0-9?!:\.+*=\/]*/,
+	eq_sep_key: $ => /[^\r\n#@|>=; ]+/,
+	eq_sep_val: $ => /[^\r\n#@|>; ]+/,
+	_macro_content: $ => /[^\r\n)]+/,
+	_any_command: $ => /[^\r\n;]*/,
+
+	cmd_identifier: $ => choice(
+	    /[a-zA-Z?:+=\/][a-zA-Z0-9?!:\.+*=\/]*/,
+	    '?|?',
+	    '|?',
+	),
 	arg_identifier: $ => /[^\r\n#@|>; ]+/,
 	number: $ => /[1-9]+[0-9]*/,
 
@@ -107,7 +168,6 @@ module.exports = grammar({
 	    '\n',
 	    '\r',
 	    ';',
-	    $.eof
 	)
     }
 });
