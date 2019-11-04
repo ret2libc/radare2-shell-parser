@@ -126,7 +126,7 @@ f @F:symbols
 
 (commands
   (tmp_fs_command
-    (cmd_identifier)
+    (arged_command (cmd_identifier))
     (arg (arg_identifier))))
 
 =================

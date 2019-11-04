@@ -7,7 +7,7 @@ afl # af is not going to be parsed
 ---
 
 (commands
-  (cmd_identifier))
+  (arged_command (cmd_identifier)))
 
 
 ==================
@@ -31,7 +31,7 @@ p8 10 # second comment
 ---
 
 (commands
-  (cmd_identifier)
+  (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)
     (arg (arg_identifier))))
 
@@ -48,7 +48,7 @@ afl
 (commands
   (arged_command (cmd_identifier)
     (arg (arg_identifier)))
-  (cmd_identifier))
+  (arged_command (cmd_identifier)))
 
 
 =====================================
@@ -64,4 +64,17 @@ afl
 (commands
   (arged_command (cmd_identifier)
     (arg (arg_identifier)))
-  (cmd_identifier))
+  (arged_command (cmd_identifier)))
+
+
+==================================
+Comment with #! in the middle line
+==================================
+
+p8 4 #!something
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier))))

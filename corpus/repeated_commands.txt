@@ -40,7 +40,6 @@ Repeat with redirection
   (out_redirect_command
     (repeat_command
       (number)
-      (arged_command
-	(cmd_identifier)
+      (arged_command (cmd_identifier)
 	(arg (arg_identifier))))
     (arg (arg_identifier))))

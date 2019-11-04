@@ -24,11 +24,11 @@ module.exports = grammar({
 	    $.out_append_redirect_command,
 	    $.err_append_redirect_command,
 	    $._simple_command,
+	    $.interpreter_command,
 	),
 
 	_simple_command: $ => choice(
 	    $.repeat_command,
-	    $.cmd_identifier,
 	    $.arged_command,
 	    $._tmp_command,
 	    $._iter_command,
@@ -133,7 +133,12 @@ module.exports = grammar({
 	    prec.right(1, seq($._simple_command, '|.')),
 	),
 
-	arged_command: $ => seq($.cmd_identifier, repeat1($.arg)),
+	interpreter_command: $ => /#![A-Za-z0-9]*( [^\r\n;]*)?/,
+
+	arged_command: $ => seq(
+	    field('command', $.cmd_identifier),
+	    repeat($.arg)
+	),
 	repeat_command: $ => seq($.number, $._simple_command),
 
 	out_redirect_command: $ => prec.right(2, seq($._simple_command, choice('>', '1>'), $.arg)),
@@ -160,6 +165,7 @@ module.exports = grammar({
 	number: $ => /[1-9]+[0-9]*/,
 
 	_comment: $ => token(choice(
+	    '#',
 	    /#[^\r\n]*/,
 	    seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/')
 	)),

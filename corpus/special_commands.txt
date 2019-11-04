@@ -71,7 +71,7 @@ System commands
 
 
 ===================
-Interpret commands
+Interpret r2 commands
 ===================
 
 .cmd a1
@@ -82,3 +82,18 @@ Interpret commands
   (interpret_command
     (arged_command (cmd_identifier)
       (arg (arg_identifier)))))
+
+===================
+Interpreter commands
+===================
+
+#!
+#!python arg0
+#!rust
+
+---
+
+(commands
+  (interpreter_command)
+  (interpreter_command)
+  (interpreter_command))

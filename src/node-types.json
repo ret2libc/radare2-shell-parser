@@ -22,17 +22,24 @@
   {
     "type": "arged_command",
     "named": true,
-    "fields": {},
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "cmd_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "arg",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         }
       ]
@@ -53,10 +60,6 @@
       "types": [
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -89,6 +92,10 @@
         },
         {
           "type": "interpret_command",
+          "named": true
+        },
+        {
+          "type": "interpreter_command",
           "named": true
         },
         {
@@ -239,10 +246,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -374,10 +377,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -505,10 +504,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -633,10 +628,6 @@
       "types": [
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -771,10 +762,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -899,10 +886,6 @@
       "types": [
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -1033,10 +1016,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -1164,10 +1143,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -1292,10 +1267,6 @@
       "types": [
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -1427,10 +1398,6 @@
         },
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -1570,10 +1537,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -1705,10 +1668,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -1833,10 +1792,6 @@
       "types": [
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -1995,10 +1950,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -2139,10 +2090,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -2271,10 +2218,6 @@
         },
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -2409,10 +2352,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -2541,10 +2480,6 @@
         },
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -2679,10 +2614,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -2811,10 +2742,6 @@
         },
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -2949,10 +2876,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -3081,10 +3004,6 @@
         },
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -3219,10 +3138,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -3351,10 +3266,6 @@
         },
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -3489,10 +3400,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -3621,10 +3528,6 @@
         },
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -3759,10 +3662,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -3894,10 +3793,6 @@
           "named": true
         },
         {
-          "type": "cmd_identifier",
-          "named": true
-        },
-        {
           "type": "env_command",
           "named": true
         },
@@ -4026,10 +3921,6 @@
         },
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
           "named": true
         },
         {
@@ -4305,6 +4196,10 @@
   },
   {
     "type": "eq_sep_key",
+    "named": true
+  },
+  {
+    "type": "interpreter_command",
     "named": true
   },
   {

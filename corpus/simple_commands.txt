@@ -7,7 +7,7 @@ afl
 ---
 
 (commands
-  (cmd_identifier))
+  (arged_command (cmd_identifier)))
 
 =============
 One argument
@@ -31,7 +31,7 @@ afl;af 0xdeadbeef
 ---
 
 (commands
-  (cmd_identifier)
+  (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)
     (arg (arg_identifier))))
 
@@ -46,7 +46,7 @@ af 0xdeadbeef
 ---
 
 (commands
-  (cmd_identifier)
+  (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)
     (arg (arg_identifier))))
 
@@ -67,13 +67,13 @@ Question mark commands
 (commands
   (arged_command (cmd_identifier)
     (arg (arg_identifier)))
-  (cmd_identifier)
-  (cmd_identifier)
+  (arged_command (cmd_identifier))
+  (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)
     (arg (arg_identifier)))
   (arged_command (cmd_identifier)
     (arg (arg_identifier)))
-  (cmd_identifier))
+  (arged_command (cmd_identifier)))
 
 
 ===============
@@ -103,6 +103,6 @@ aflj
 ---
 
 (commands
-  (cmd_identifier)
-  (cmd_identifier)
-  (cmd_identifier))
+  (arged_command (cmd_identifier))
+  (arged_command (cmd_identifier))
+  (arged_command (cmd_identifier)))
