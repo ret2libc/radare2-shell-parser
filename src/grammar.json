@@ -204,6 +204,46 @@
         {
           "type": "SYMBOL",
           "name": "iter_dbts_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_file_lines_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_offsets_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_sdbquery_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_threads_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_bbs_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_instrs_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_sections_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_functions_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_step_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_interpret_command"
         }
       ]
     },
@@ -356,6 +396,228 @@
           {
             "type": "STRING",
             "value": "@@dbts"
+          }
+        ]
+      }
+    },
+    "iter_file_lines_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@."
+          },
+          {
+            "type": "SYMBOL",
+            "name": "arg"
+          }
+        ]
+      }
+    },
+    "iter_offsets_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@="
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "arg"
+            }
+          }
+        ]
+      }
+    },
+    "iter_sdbquery_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@k"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "arg"
+          }
+        ]
+      }
+    },
+    "iter_threads_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@t"
+          }
+        ]
+      }
+    },
+    "iter_bbs_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@b"
+          }
+        ]
+      }
+    },
+    "iter_instrs_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@i"
+          }
+        ]
+      }
+    },
+    "iter_sections_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@iS"
+          }
+        ]
+      }
+    },
+    "iter_functions_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@f"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ":"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "arg"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "iter_step_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@s:"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "arg"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "arg"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "arg"
+          }
+        ]
+      }
+    },
+    "iter_interpret_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@c:"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
           }
         ]
       }

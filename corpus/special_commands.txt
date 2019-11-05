@@ -43,10 +43,12 @@ Macro commands
 ===============
 
 (foo x y, p8 $0 @ $1)
+(-foo)
 
 ---
 
 (commands
+  (macro_command)
   (macro_command))
 
 
@@ -75,13 +77,43 @@ Interpret r2 commands
 ===================
 
 .cmd a1
+.. myfile
+. myfile.r2
+.* file
+.!rabin2 -ri $FILE
+.(foo 1 2 3)
+./ ELF
 
 ---
 
 (commands
   (interpret_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))))
+      (arg (arg_identifier))))
+  (interpret_file_output_command)
+  (interpret_command
+    (arg (arg_identifier)))
+  (interpret_command
+    (arg (arg_identifier)))
+  (interpret_system_command)
+  (interpret_command
+    (macro_command))
+  (interpret_search_command
+    (arg (arg_identifier))))
+
+
+============
+Last cmd
+============
+
+.
+...
+
+---
+
+(commands
+  (last_cmd_bck)
+  (last_cmd_fwd))
 
 ===================
 Interpreter commands

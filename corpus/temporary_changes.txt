@@ -146,27 +146,84 @@ pd 2 @i:4
 =================
 Temporary seek to sdb key
 =================
+
+pd @k:key
+
 ---
+
+(commands
+  (tmp_kuery_command
+    (arged_command (cmd_identifier))
+    (arg (arg_identifier))))
+
 =================
 Temporary switch fd
 =================
+
+pd @o:3
+
 ---
+
+(commands
+  (tmp_fd_command
+    (arged_command (cmd_identifier))
+    (arg (arg_identifier))))
+
 =================
 Temporary seek to reg value
 =================
+
+pd @r:rax
+
 ---
+
+(commands
+  (tmp_reg_command
+    (arged_command (cmd_identifier))
+    (arg (arg_identifier))))
+
 =================
 Temporary file content
 =================
+
+pd @f:myfile
+
 ---
+
+(commands
+  (tmp_file_command
+    (arged_command (cmd_identifier))
+    (arg (arg_identifier))))
+
+
 =================
 Temporary string content
 =================
+
+pd @s:mystring
+
 ---
+
+(commands
+  (tmp_string_command
+    (arged_command (cmd_identifier))
+    (arg (arg_identifier))))
+
+
 =================
 Temporary hex content
 =================
+
+pd @x:90deadbeef
+
 ---
+
+(commands
+  (tmp_hex_command
+    (arged_command (cmd_identifier))
+    (arg (arg_identifier))))
+
+
 =================================
 2 Temporary changes + Redirection
 =================================

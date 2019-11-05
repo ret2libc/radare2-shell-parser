@@ -106,3 +106,12 @@ aflj
   (arged_command (cmd_identifier))
   (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)))
+
+
+===============
+Alias command
+===============
+
+$alias=value
+
+---
