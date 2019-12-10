@@ -1,4 +1,6 @@
 language: generic
 script:
-        - ./node_modules/.bin/tree-sitter generate
-        - ./node_modules/.bin/tree-sitter test
+        - npm install
+        - export PATH=./node_modules/.bin:$PATH
+        - tree-sitter generate
+        - tree-sitter test
