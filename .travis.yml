@@ -1,0 +1,5 @@
+language: generic
+script:
+        - export PATH=./node_modules/.bin:$PATH
+        - tree-sitter generate
+        - tree-sitter test
