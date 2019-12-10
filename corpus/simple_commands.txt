@@ -65,10 +65,10 @@ Question mark commands
 ---
 
 (commands
-  (arged_command (cmd_identifier)
+  (arged_command (question_mark_identifier)
     (arg (arg_identifier)))
-  (arged_command (cmd_identifier))
-  (arged_command (cmd_identifier))
+  (help_command)
+  (help_command)
   (arged_command (cmd_identifier)
     (arg (arg_identifier)))
   (arged_command (cmd_identifier)
@@ -108,10 +108,29 @@ aflj
   (arged_command (cmd_identifier)))
 
 
-===============
-Alias command
-===============
+=============
+Help commands
+=============
 
-$alias=value
+?
+a?
+$?
+*?
+afl?
+(?
+=?
+/v?
+/v4?
 
 ---
+
+(commands
+  (help_command)
+  (help_command)
+  (help_command)
+  (help_command)
+  (help_command)
+  (help_command)
+  (help_command)
+  (help_command)
+  (help_command))

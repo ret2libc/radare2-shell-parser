@@ -9,12 +9,12 @@ Pointer type commands
 ---
 
 (commands
-  (pointer_command
+  (arged_command (pointer_identifier)
     (eq_sep_key))
-  (pointer_command
+  (arged_command (pointer_identifier)
     (eq_sep_key)
     (eq_sep_val))
-  (pointer_command
+  (arged_command (pointer_identifier)
     (eq_sep_key)
     (eq_sep_val)))
 
@@ -30,10 +30,10 @@ Environment variable command
 ---
 
 (commands
-  (env_command)
-  (env_command
+  (arged_command)
+  (arged_command
     (eq_sep_key))
-  (env_command
+  (arged_command
     (eq_sep_key)
     (eq_sep_val)))
 
@@ -44,12 +44,18 @@ Macro commands
 
 (foo x y, p8 $0 @ $1)
 (-foo)
+(foo x y, p8 $0 @ $1)(10 0x10)
 
 ---
 
 (commands
-  (macro_command)
-  (macro_command))
+  (arged_command (macro_identifier)
+    (macro_content))
+  (arged_command (macro_identifier)
+    (macro_content))
+  (arged_command (macro_identifier)
+    (macro_content)
+    (macro_call_content)))
 
 
 ===============
@@ -65,11 +71,13 @@ System commands
 ---
 
 (commands
-  (system_command)
-  (system_command)
-  (system_command)
-  (system_command)
-  (system_command))
+  (arged_command (system_identifier))
+  (arged_command (system_identifier)
+    (system_arg))
+  (arged_command (system_identifier))
+  (arged_command (system_identifier)
+    (system_arg))
+  (arged_command (system_identifier)))
 
 
 ===================
@@ -87,19 +95,26 @@ Interpret r2 commands
 ---
 
 (commands
-  (interpret_command
-    (arged_command (cmd_identifier)
-      (arg (arg_identifier))))
-  (interpret_file_output_command)
-  (interpret_command
-    (arg (arg_identifier)))
-  (interpret_command
-    (arg (arg_identifier)))
-  (interpret_system_command)
-  (interpret_command
-    (macro_command))
-  (interpret_search_command
-    (arg (arg_identifier))))
+  (arged_command
+    command: (interpret_identifier)
+    args: (arged_command command: (cmd_identifier)
+            args: (arg (arg_identifier))))
+  (arged_command
+    command: (interpret_identifier)
+    args: (arged_command command: (cmd_identifier)))
+  (arged_command
+    command: (interpret_identifier)
+    args: (arged_command command: (cmd_identifier)))
+  (arged_command
+    command: (interpret_identifier)
+    args: (arged_command command: (cmd_identifier)))
+  (arged_command
+    args: (interpret_arg))
+  (arged_command
+    args: (macro_content))
+  (arged_command
+    args: (arg (arg_identifier)))
+  )
 
 
 ============
@@ -112,8 +127,8 @@ Last cmd
 ---
 
 (commands
-  (last_cmd_bck)
-  (last_cmd_fwd))
+  (arged_command)
+  (arged_command))
 
 ===================
 Interpreter commands

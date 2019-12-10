@@ -73,6 +73,6 @@ p8 10 |.
 ---
 
 (commands
-  (interpret_command
+  (arged_command
     (arged_command (cmd_identifier)
       (arg (arg_identifier)))))

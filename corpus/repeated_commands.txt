@@ -43,3 +43,20 @@ Repeat with redirection
       (arged_command (cmd_identifier)
 	(arg (arg_identifier))))
     (arg (arg_identifier))))
+
+
+====================
+Repeat with tmp seek
+====================
+
+2p8 8 @ 0xdeadbeef
+
+---
+
+(commands
+  (repeat_command
+    (number)
+    (tmp_seek_command
+      (arged_command (cmd_identifier)
+	(arg (arg_identifier)))
+      (arg (arg_identifier)))))

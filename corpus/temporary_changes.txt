@@ -1,3 +1,14 @@
+======================
+Temporary changes help
+======================
+
+@?
+
+---
+
+(commands
+  (help_command))
+
 ==============
 Temporary seek
 ==============
@@ -102,19 +113,14 @@ pd 2 @e:asm.arch=x86,scr.utf8=true
 
 (commands
   (tmp_eval_command
-    (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
-    (tmp_eval_args
-      (tmp_eval_arg
-        (key: (tmp_eval_arg_key), value: (tmp_eval_arg_val)))))
+    (arged_command command: (cmd_identifier)
+      args: (arg (arg_identifier)))
+    (tmp_eval_arg))
   (tmp_eval_command
-    (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
-    (tmp_eval_args
-      (tmp_eval_arg
-        (key: (tmp_eval_arg_key), value: (tmp_eval_arg_val)))
-      (tmp_eval_arg
-        (key: (tmp_eval_arg_key), value: (tmp_eval_arg_val))))))
+    (arged_command command: (cmd_identifier)
+      args: (arg (arg_identifier)))
+    (tmp_eval_arg)
+    (tmp_eval_arg)))
 
 =================
 Temporary flagspace
