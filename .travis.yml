@@ -1,5 +1,4 @@
 language: generic
 script:
-        - export PATH=./node_modules/.bin:$PATH
-        - tree-sitter generate
-        - tree-sitter test
+        - ./node_modules/.bin/tree-sitter generate
+        - ./node_modules/.bin/tree-sitter test
