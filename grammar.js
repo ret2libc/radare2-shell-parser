@@ -3,7 +3,8 @@ module.exports = grammar({
 
     extras: $ => [
 	$._comment,
-	/[\t ]/,
+	'\t',
+	' ',
     ],
 
     externals: $ => [

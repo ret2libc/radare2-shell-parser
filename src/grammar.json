@@ -1863,8 +1863,12 @@
       "name": "_comment"
     },
     {
-      "type": "PATTERN",
-      "value": "[\\t ]"
+      "type": "STRING",
+      "value": "\t"
+    },
+    {
+      "type": "STRING",
+      "value": " "
     }
   ],
   "conflicts": [],

@@ -3,10 +3,12 @@ No arguments
 ================
 
 afl
+ afl
 
 ---
 
 (commands
+  (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)))
 
 =============
@@ -26,14 +28,15 @@ af 0xdeadbeef
 Semi-colon separated commands
 ==============================
 
-afl;af 0xdeadbeef
+afl;af 0xdeadbeef  ; afl
 
 ---
 
 (commands
   (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)
-    (arg (arg_identifier))))
+    (arg (arg_identifier)))
+  (arged_command (cmd_identifier)))
 
 
 =========================
