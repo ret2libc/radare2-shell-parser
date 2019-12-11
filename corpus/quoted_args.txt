@@ -1,0 +1,23 @@
+==============================
+Echo with (double) quoted args
+==============================
+
+?e "This;is.one@string"
+
+---
+
+(commands
+  (arged_command command: (cmd_identifier)
+    args: (arg (quoted_arg))))
+
+==============================
+Echo with (single) quoted args
+==============================
+
+?e 'This;is.one@string'
+
+---
+
+(commands
+  (arged_command command: (cmd_identifier)
+    args: (arg (quoted_arg))))

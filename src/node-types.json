@@ -10,6 +10,14 @@
         {
           "type": "arg_identifier",
           "named": true
+        },
+        {
+          "type": "cmd_substitution_arg",
+          "named": true
+        },
+        {
+          "type": "quoted_arg",
+          "named": true
         }
       ]
     }
@@ -272,19 +280,19 @@
     }
   },
   {
-    "type": "commands",
+    "type": "cmd_substitution_arg",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "arged_command",
           "named": true
         },
         {
-          "type": "cmd_delimiter",
+          "type": "cmd_delimiter_singleline",
           "named": true
         },
         {
@@ -455,9 +463,191 @@
     }
   },
   {
-    "type": "eq_sep_val",
+    "type": "commands",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "cmd_delimiter",
+          "named": true
+        },
+        {
+          "type": "cmd_delimiter_singleline",
+          "named": true
+        },
+        {
+          "type": "err_append_redirect_command",
+          "named": true
+        },
+        {
+          "type": "err_redirect_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
+          "named": true
+        },
+        {
+          "type": "html_disable_command",
+          "named": true
+        },
+        {
+          "type": "html_enable_command",
+          "named": true
+        },
+        {
+          "type": "html_redirect_command",
+          "named": true
+        },
+        {
+          "type": "interpreter_command",
+          "named": true
+        },
+        {
+          "type": "iter_bbs_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbta_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbtb_command",
+          "named": true
+        },
+        {
+          "type": "iter_dbts_command",
+          "named": true
+        },
+        {
+          "type": "iter_file_lines_command",
+          "named": true
+        },
+        {
+          "type": "iter_flags_command",
+          "named": true
+        },
+        {
+          "type": "iter_functions_command",
+          "named": true
+        },
+        {
+          "type": "iter_instrs_command",
+          "named": true
+        },
+        {
+          "type": "iter_interpret_command",
+          "named": true
+        },
+        {
+          "type": "iter_offsets_command",
+          "named": true
+        },
+        {
+          "type": "iter_sdbquery_command",
+          "named": true
+        },
+        {
+          "type": "iter_sections_command",
+          "named": true
+        },
+        {
+          "type": "iter_step_command",
+          "named": true
+        },
+        {
+          "type": "iter_threads_command",
+          "named": true
+        },
+        {
+          "type": "out_append_redirect_command",
+          "named": true
+        },
+        {
+          "type": "out_redirect_command",
+          "named": true
+        },
+        {
+          "type": "pipe_command",
+          "named": true
+        },
+        {
+          "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "scr_tts_command",
+          "named": true
+        },
+        {
+          "type": "tmp_arch_command",
+          "named": true
+        },
+        {
+          "type": "tmp_bits_command",
+          "named": true
+        },
+        {
+          "type": "tmp_blksz_command",
+          "named": true
+        },
+        {
+          "type": "tmp_eval_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fd_command",
+          "named": true
+        },
+        {
+          "type": "tmp_file_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fromto_command",
+          "named": true
+        },
+        {
+          "type": "tmp_fs_command",
+          "named": true
+        },
+        {
+          "type": "tmp_hex_command",
+          "named": true
+        },
+        {
+          "type": "tmp_kuery_command",
+          "named": true
+        },
+        {
+          "type": "tmp_nthi_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reg_command",
+          "named": true
+        },
+        {
+          "type": "tmp_reli_command",
+          "named": true
+        },
+        {
+          "type": "tmp_seek_command",
+          "named": true
+        },
+        {
+          "type": "tmp_string_command",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "err_append_redirect_command",
@@ -3850,14 +4040,20 @@
     "fields": {}
   },
   {
-    "type": "pointer_identifier",
+    "type": "question_mark_identifier",
     "named": true,
     "fields": {}
   },
   {
-    "type": "question_mark_identifier",
+    "type": "quoted_arg",
     "named": true,
-    "fields": {}
+    "fields": {
+      "string": {
+        "multiple": false,
+        "required": true,
+        "types": []
+      }
+    }
   },
   {
     "type": "repeat_command",
@@ -6508,7 +6704,19 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "$(",
+    "named": false
+  },
+  {
     "type": "%",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -6516,15 +6724,7 @@
     "named": false
   },
   {
-    "type": "()",
-    "named": false
-  },
-  {
     "type": ")",
-    "named": false
-  },
-  {
-    "type": "*",
     "named": false
   },
   {
@@ -6708,7 +6908,15 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
     "type": "eq_sep_key",
+    "named": true
+  },
+  {
+    "type": "eq_sep_val",
     "named": true
   },
   {
@@ -6729,6 +6937,10 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "pointer_identifier",
     "named": true
   },
   {

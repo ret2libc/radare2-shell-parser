@@ -14,6 +14,7 @@ module.exports = grammar({
 
     inline: $ => [
 	$.cmd_delimiter,
+	$.cmd_delimiter_singleline,
 	$._comment,
     ],
 
@@ -27,6 +28,11 @@ module.exports = grammar({
 		repeat(seq($.cmd_delimiter, optional($._command)))
 	    ),
 	),
+	_commands_singleline: $ => prec(1,seq(
+	    repeat($.cmd_delimiter_singleline),
+	    $._command,
+	    repeat(seq($.cmd_delimiter_singleline, optional($._command)))
+	)),
 
 	_command: $ => choice(
 	    $.out_redirect_command,
@@ -139,19 +145,19 @@ module.exports = grammar({
 	    $._last_command,
 	),
 
-	_simple_arged_command: $ => seq(
+	_simple_arged_command: $ => prec.left(1, seq(
 	    field('command', $.cmd_identifier),
 	    field('args', repeat($.arg)),
-	),
-	_math_arged_command: $ => seq(
+	)),
+	_math_arged_command: $ => prec.left(1, seq(
 	    field('command', $.question_mark_identifier),
 	    field('args', repeat1($.arg)),
-	),
-	_pointer_arged_command: $ => seq(
+	)),
+	_pointer_arged_command: $ => prec.left(1, seq(
 	    field('command', $.pointer_identifier),
 	    field('args', $._eq_sep_args),
-	),
-	_macro_arged_command: $ => seq(
+	)),
+	_macro_arged_command: $ => prec.left(1, seq(
 	    field('command', $.macro_identifier),
 	    field('args', $.macro_content),
 	    ')',
@@ -162,12 +168,12 @@ module.exports = grammar({
 		    ')',
 		)
 	    ),
-	),
-	_system_command: $ => seq(
+	)),
+	_system_command: $ => prec.left(1, seq(
 	    field('command', $.system_identifier),
 	    optional(field('args', $.system_arg)),
-	),
-	_interpret_command: $ => choice(
+	)),
+	_interpret_command: $ => prec.left(1, choice(
 	    seq(
 		field('command', $.interpret_identifier),
 		field('args', $._simple_command),
@@ -189,7 +195,7 @@ module.exports = grammar({
 		field('args', $._simple_command),
 		field('command', '|.'),
 	    )),
-	),
+	)),
 	_env_command: $ => seq(
 	    field('command', '%'),
 	    optional($._eq_sep_args),
@@ -209,10 +215,10 @@ module.exports = grammar({
 	system_identifier: $ => /![\*!-=]*/,
 	system_arg: $ => $._any_command,
 	question_mark_identifier: $ => $._question_mark_identifier,
-	help_command: $ => choice(
+	help_command: $ => prec(1, choice(
 	    $._question_mark_identifier,
 	    $._help_command,
-	),
+	)),
 	repeat_command: $ => seq($.number, $._simple_command),
 
 	pointer_identifier: $ => '*',
@@ -233,17 +239,40 @@ module.exports = grammar({
 	err_append_redirect_command: $ => prec.right(2, seq($._simple_command, '2>>', $.arg)),
 
 	arg: $ => choice(
-	    $.arg_identifier
+	    $.arg_identifier,
+	    $.quoted_arg,
+	    $.cmd_substitution_arg,
 	),
 	tmp_eval_arg: $ => /[^\r\n#@|>,; ]+/,
 
 	eq_sep_key: $ => /[^\r\n#@|>=; ]+/,
+	// TODO: this should accept a quoted_arg and a cmd_substitution_arg as well
 	eq_sep_val: $ => /[^\r\n#@|>; ]+/,
 	macro_content: $ => /[^\r\n)]+/,
 	_any_command: $ => /[^\r\n;]+/,
 
-	arg_identifier: $ => /[^\r\n#@|>; ]+/,
+	arg_identifier: $ => choice(
+	    /[^\r\n#@|"'>;$()` ]+/,
+	    /\$[^\r\n#@|"'>;(` ]*/,
+	),
 	number: $ => /[1-9]+[0-9]*/,
+	quoted_arg: $ => choice(
+	    seq(
+		'"',
+		field('string', /[^\\"\n]+/),
+		'"',
+	    ),
+	    seq(
+		'\'',
+		field('string', /[^\\'\n]+/),
+		'\'',
+	    ),
+	),
+	cmd_substitution_arg: $ => choice(
+	    seq('$(', $._commands_singleline, ')'),
+	    prec(1, seq('`', $._commands_singleline, '`')),
+	),
+
 
 	_comment: $ => token(choice(
 	    '#',
@@ -254,7 +283,8 @@ module.exports = grammar({
 	cmd_delimiter: $ => choice(
 	    '\n',
 	    '\r',
-	    ';',
-	)
+	    $.cmd_delimiter_singleline,
+	),
+	cmd_delimiter_singleline: $ => choice(';'),
     }
 });
