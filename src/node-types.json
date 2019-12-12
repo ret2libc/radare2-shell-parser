@@ -207,7 +207,7 @@
       },
       "command": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": " ",
@@ -223,6 +223,10 @@
           },
           {
             "type": ".(",
+            "named": false
+          },
+          {
+            "type": "...",
             "named": false
           },
           {
@@ -261,17 +265,9 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
-        {
-          "type": "eq_sep_key",
-          "named": true
-        },
-        {
-          "type": "eq_sep_val",
-          "named": true
-        },
         {
           "type": "macro_call_content",
           "named": true

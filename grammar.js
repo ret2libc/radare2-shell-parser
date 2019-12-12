@@ -199,11 +199,11 @@ module.exports = grammar({
 	)),
 	_env_command: $ => seq(
 	    field('command', '%'),
-	    optional($._eq_sep_args),
+	    field('args', optional($._eq_sep_args)),
 	),
 	_last_command: $ => choice(
-	    $._point_interpret_identifier,
-	    '...',
+	    seq(field('command', $._point_interpret_identifier)),
+	    seq(field('command', '...')),
 	),
 
 
