@@ -21,3 +21,15 @@ Echo with (single) quoted args
 (commands
   (arged_command command: (cmd_identifier)
     args: (arg (quoted_arg))))
+
+
+===========================
+Legacy command - all quoted
+===========================
+
+"?e This;is.one@string"
+
+---
+
+(commands
+  (legacy_quoted_command))

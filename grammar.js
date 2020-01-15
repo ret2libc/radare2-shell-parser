@@ -11,6 +11,7 @@ module.exports = grammar({
 	$.cmd_identifier,
 	$._help_command,
 	$._question_mark_identifier,
+	$._env_identifier,
     ],
 
     inline: $ => [
@@ -36,6 +37,7 @@ module.exports = grammar({
 	)),
 
 	_command: $ => choice(
+	    $.legacy_quoted_command,
 	    $.out_redirect_command,
 	    $.err_redirect_command,
 	    $.html_redirect_command,
@@ -44,6 +46,12 @@ module.exports = grammar({
 	    $.help_command,
 	    $._simple_command,
 	    $.interpreter_command,
+	),
+
+	legacy_quoted_command: $ => seq(
+	    '"',
+	    field('string', /[^\\"\n]+/),
+	    '"',
 	),
 
 	_simple_command: $ => choice(
@@ -158,16 +166,21 @@ module.exports = grammar({
 	    field('command', $.pointer_identifier),
 	    field('args', $._eq_sep_args),
 	)),
-	_macro_arged_command: $ => prec.left(1, seq(
-	    field('command', $.macro_identifier),
-	    field('args', $.macro_content),
-	    ')',
-	    optional(
-		seq(
-		    '(',
-		    optional($.macro_call_content),
-		    ')',
-		)
+	_macro_arged_command: $ => prec.left(1, choice(
+	    seq(
+		field('command', $.macro_identifier),
+		field('args', $.macro_content),
+		')',
+		optional(
+		    seq(
+			'(',
+			optional($.macro_call_content),
+			')',
+		    )
+		),
+	    ),
+	    seq(
+		field('command', '(*'),
 	    ),
 	)),
 	_system_command: $ => prec.left(1, seq(
@@ -178,6 +191,9 @@ module.exports = grammar({
 	    seq(
 		field('command', $.interpret_identifier),
 		field('args', $._simple_command),
+	    ),
+	    seq(
+		field('command', '.-'),
 	    ),
 	    seq(
 		field('command', '.!'),
@@ -198,15 +214,15 @@ module.exports = grammar({
 	    )),
 	)),
 	_env_command: $ => seq(
-	    field('command', '%'),
+	    field('command', choice('%', $._env_identifier)),
 	    field('args', optional($._eq_sep_args)),
 	),
-	_last_command: $ => choice(
-	    seq(field('command', $._point_interpret_identifier)),
-	    seq(field('command', '...')),
+	_last_command: $ => seq(
+	    field('command', $.last_command_identifier),
+	    field('args', seq()),
 	),
 
-
+	last_command_identifier: $ => choice($._point_interpret_identifier, '...'),
 	interpret_identifier: $ => choice(
 	    $._point_interpret_identifier,
 	    /\.[\.:\-*]*[ ]+/,
@@ -216,9 +232,12 @@ module.exports = grammar({
 	system_identifier: $ => /![\*!-=]*/,
 	system_arg: $ => $._any_command,
 	question_mark_identifier: $ => $._question_mark_identifier,
-	help_command: $ => prec(1, choice(
+	help_command: $ => prec.left(1, choice(
 	    $._question_mark_identifier,
-	    $._help_command,
+	    seq(
+		field('command', $._help_command),
+		field('args', repeat($.arg)),
+	    ),
 	)),
 	repeat_command: $ => seq($.number, $._simple_command),
 

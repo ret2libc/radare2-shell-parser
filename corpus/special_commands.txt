@@ -127,8 +127,8 @@ Last cmd
 ---
 
 (commands
-  (arged_command)
-  (arged_command))
+  (arged_command (last_command_identifier))
+  (arged_command (last_command_identifier)))
 
 ===================
 Interpreter commands

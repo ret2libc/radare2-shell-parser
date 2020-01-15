@@ -6,6 +6,7 @@ enum TokenType {
 	CMD_IDENTIFIER,
 	HELP_COMMAND,
 	QUESTION_MARK_IDENTIFIER,
+	ENV_IDENTIFIER,
 };
 
 void *tree_sitter_r2cmd_external_scanner_create() {
@@ -33,7 +34,8 @@ static bool is_start_of_command(const int32_t ch) {
 
 static bool is_mid_command(const int32_t ch) {
 	return isalnum(ch) ||  ch == '$' || ch == '?' || ch == '.' || ch == '!' ||
-		ch == ':' || ch == '+' || ch == '=' || ch == '/' || ch == '*';
+		ch == ':' || ch == '+' || ch == '=' || ch == '/' || ch == '*' ||
+		ch == '-' || ch == ',';
 }
 
 bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {

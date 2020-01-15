@@ -218,6 +218,10 @@
             "named": false
           },
           {
+            "type": "(*",
+            "named": false
+          },
+          {
             "type": ".!",
             "named": false
           },
@@ -226,7 +230,7 @@
             "named": false
           },
           {
-            "type": "...",
+            "type": ".-",
             "named": false
           },
           {
@@ -239,6 +243,10 @@
           },
           {
             "type": "interpret_identifier",
+            "named": true
+          },
+          {
+            "type": "last_command_identifier",
             "named": true
           },
           {
@@ -373,6 +381,10 @@
         },
         {
           "type": "iter_threads_command",
+          "named": true
+        },
+        {
+          "type": "legacy_quoted_command",
           "named": true
         },
         {
@@ -560,6 +572,10 @@
         },
         {
           "type": "iter_threads_command",
+          "named": true
+        },
+        {
+          "type": "legacy_quoted_command",
           "named": true
         },
         {
@@ -958,7 +974,23 @@
   {
     "type": "help_command",
     "named": true,
-    "fields": {}
+    "fields": {
+      "args": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "arg",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": false,
+        "types": []
+      }
+    }
   },
   {
     "type": "html_disable_command",
@@ -3563,6 +3595,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "last_command_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "legacy_quoted_command",
+    "named": true,
+    "fields": {
+      "string": {
+        "multiple": false,
+        "required": true,
+        "types": []
+      }
     }
   },
   {
@@ -6720,6 +6768,10 @@
     "named": false
   },
   {
+    "type": "(*",
+    "named": false
+  },
+  {
     "type": ")",
     "named": false
   },
@@ -6733,6 +6785,10 @@
   },
   {
     "type": ".(",
+    "named": false
+  },
+  {
+    "type": ".-",
     "named": false
   },
   {
