@@ -56,6 +56,10 @@
             "named": true
           },
           {
+            "type": "grep_command",
+            "named": true
+          },
+          {
             "type": "html_disable_command",
             "named": true
           },
@@ -308,6 +312,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "help_command",
           "named": true
         },
@@ -499,6 +507,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "help_command",
           "named": true
         },
@@ -678,6 +690,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -833,6 +849,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -972,6 +992,172 @@
     }
   },
   {
+    "type": "grep_command",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arged_command",
+            "named": true
+          },
+          {
+            "type": "grep_command",
+            "named": true
+          },
+          {
+            "type": "html_disable_command",
+            "named": true
+          },
+          {
+            "type": "html_enable_command",
+            "named": true
+          },
+          {
+            "type": "iter_bbs_command",
+            "named": true
+          },
+          {
+            "type": "iter_dbta_command",
+            "named": true
+          },
+          {
+            "type": "iter_dbtb_command",
+            "named": true
+          },
+          {
+            "type": "iter_dbts_command",
+            "named": true
+          },
+          {
+            "type": "iter_file_lines_command",
+            "named": true
+          },
+          {
+            "type": "iter_flags_command",
+            "named": true
+          },
+          {
+            "type": "iter_functions_command",
+            "named": true
+          },
+          {
+            "type": "iter_instrs_command",
+            "named": true
+          },
+          {
+            "type": "iter_interpret_command",
+            "named": true
+          },
+          {
+            "type": "iter_offsets_command",
+            "named": true
+          },
+          {
+            "type": "iter_sdbquery_command",
+            "named": true
+          },
+          {
+            "type": "iter_sections_command",
+            "named": true
+          },
+          {
+            "type": "iter_step_command",
+            "named": true
+          },
+          {
+            "type": "iter_threads_command",
+            "named": true
+          },
+          {
+            "type": "pipe_command",
+            "named": true
+          },
+          {
+            "type": "repeat_command",
+            "named": true
+          },
+          {
+            "type": "scr_tts_command",
+            "named": true
+          },
+          {
+            "type": "tmp_arch_command",
+            "named": true
+          },
+          {
+            "type": "tmp_bits_command",
+            "named": true
+          },
+          {
+            "type": "tmp_blksz_command",
+            "named": true
+          },
+          {
+            "type": "tmp_eval_command",
+            "named": true
+          },
+          {
+            "type": "tmp_fd_command",
+            "named": true
+          },
+          {
+            "type": "tmp_file_command",
+            "named": true
+          },
+          {
+            "type": "tmp_fromto_command",
+            "named": true
+          },
+          {
+            "type": "tmp_fs_command",
+            "named": true
+          },
+          {
+            "type": "tmp_hex_command",
+            "named": true
+          },
+          {
+            "type": "tmp_kuery_command",
+            "named": true
+          },
+          {
+            "type": "tmp_nthi_command",
+            "named": true
+          },
+          {
+            "type": "tmp_reg_command",
+            "named": true
+          },
+          {
+            "type": "tmp_reli_command",
+            "named": true
+          },
+          {
+            "type": "tmp_seek_command",
+            "named": true
+          },
+          {
+            "type": "tmp_string_command",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "grep_specifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "help_command",
     "named": true,
     "fields": {
@@ -1002,6 +1188,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -1153,6 +1343,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -1308,6 +1502,10 @@
         },
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -1472,6 +1670,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -1620,6 +1822,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -1774,6 +1980,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -1922,6 +2132,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -2080,6 +2294,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -2232,6 +2450,10 @@
         },
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -2390,6 +2612,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -2541,6 +2767,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -2689,6 +2919,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -2847,6 +3081,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -3002,6 +3240,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -3150,6 +3392,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -3308,6 +3554,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -3456,6 +3706,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -3630,6 +3884,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -3785,6 +4043,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -3933,6 +4195,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -4112,6 +4378,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -4264,6 +4534,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -4427,6 +4701,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -4579,6 +4857,10 @@
         },
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -4737,6 +5019,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -4885,6 +5171,10 @@
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -5047,6 +5337,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -5199,6 +5493,10 @@
         },
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -5357,6 +5655,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -5509,6 +5811,10 @@
         },
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -5667,6 +5973,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -5819,6 +6129,10 @@
         },
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -5977,6 +6291,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -6129,6 +6447,10 @@
         },
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -6287,6 +6609,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -6442,6 +6768,10 @@
           "named": true
         },
         {
+          "type": "grep_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -6594,6 +6924,10 @@
         },
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "grep_command",
           "named": true
         },
         {
@@ -6972,6 +7306,10 @@
     "named": true
   },
   {
+    "type": "grep_specifier",
+    "named": true
+  },
+  {
     "type": "interpreter_command",
     "named": true
   },
@@ -7017,6 +7355,10 @@
   },
   {
     "type": "|T",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]

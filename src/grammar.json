@@ -190,6 +190,10 @@
         {
           "type": "SYMBOL",
           "name": "_pipe_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "grep_command"
         }
       ]
     },
@@ -339,6 +343,31 @@
           "name": "scr_tts_command"
         }
       ]
+    },
+    "grep_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "~"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "grep_specifier"
+        }
+      ]
+    },
+    "grep_specifier": {
+      "type": "PATTERN",
+      "value": "[A-Za-z0-9 \\&,$!+\\^<?:{}\\-\\[\\]]*"
     },
     "html_disable_command": {
       "type": "PREC_RIGHT",
@@ -1586,17 +1615,21 @@
       }
     },
     "repeat_command": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "number"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_simple_command"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "number"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          }
+        ]
+      }
     },
     "pointer_identifier": {
       "type": "STRING",
@@ -1805,11 +1838,11 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[^\\r\\n#@|\"'>;$()` ]+"
+          "value": "[^\\r\\n~#@|\"'>;$()` ]+"
         },
         {
           "type": "PATTERN",
-          "value": "\\$[^\\r\\n#@|\"'>;(` ]*"
+          "value": "\\$[^\\r\\n~#@|\"'>;(` ]*"
         }
       ]
     },

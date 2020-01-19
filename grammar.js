@@ -60,6 +60,7 @@ module.exports = grammar({
 	    $._tmp_command,
 	    $._iter_command,
 	    $._pipe_command,
+	    $.grep_command,
 	),
 
 	_tmp_command: $ => choice(
@@ -103,6 +104,14 @@ module.exports = grammar({
 	    $.pipe_command,
 	    $.scr_tts_command,
 	),
+
+	grep_command: $ => seq(
+	    field('command', $._simple_command),
+	    '~',
+	    $.grep_specifier,
+	),
+	// FIXME: improve parser for grep specifier
+	grep_specifier: $ => /[A-Za-z0-9 \&,$!+\^<?:{}\-\[\]]*/,
 
 	html_disable_command: $ => prec.right(1, seq($._simple_command, '|')),
 	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),
@@ -239,7 +248,7 @@ module.exports = grammar({
 		field('args', repeat($.arg)),
 	    ),
 	)),
-	repeat_command: $ => seq($.number, $._simple_command),
+	repeat_command: $ => prec.right(1, seq($.number, $._simple_command)),
 
 	pointer_identifier: $ => '*',
 	_eq_sep_args: $ => seq(
@@ -272,8 +281,8 @@ module.exports = grammar({
 	_any_command: $ => /[^\r\n;]+/,
 
 	arg_identifier: $ => choice(
-	    /[^\r\n#@|"'>;$()` ]+/,
-	    /\$[^\r\n#@|"'>;(` ]*/,
+	    /[^\r\n~#@|"'>;$()` ]+/,
+	    /\$[^\r\n~#@|"'>;(` ]*/,
 	),
 	number: $ => /[1-9]+[0-9]*/,
 	quoted_arg: $ => choice(
