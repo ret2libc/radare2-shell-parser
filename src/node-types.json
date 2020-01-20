@@ -838,7 +838,7 @@
       "required": false,
       "types": [
         {
-          "type": "number",
+          "type": "file_descriptor",
           "named": true
         }
       ]
@@ -853,7 +853,7 @@
       "required": false,
       "types": [
         {
-          "type": "number",
+          "type": "file_descriptor",
           "named": true
         }
       ]
@@ -3837,15 +3837,15 @@
           "named": true
         },
         {
-          "type": "number",
-          "named": true
-        },
-        {
           "type": "pipe_command",
           "named": true
         },
         {
           "type": "repeat_command",
+          "named": true
+        },
+        {
+          "type": "repeat_number",
           "named": true
         },
         {
@@ -6706,10 +6706,6 @@
   },
   {
     "type": "macro_identifier",
-    "named": true
-  },
-  {
-    "type": "number",
     "named": true
   },
   {

@@ -12,6 +12,8 @@ module.exports = grammar({
 	$._help_command,
 	$._question_mark_identifier,
 	$._env_identifier,
+	$.file_descriptor,
+	$.repeat_number,
     ],
 
     inline: $ => [
@@ -242,7 +244,7 @@ module.exports = grammar({
 		field('args', repeat($.arg)),
 	    ),
 	)),
-	repeat_command: $ => prec.right(1, seq($.number, $._simple_command)),
+	repeat_command: $ => prec.right(1, seq($.repeat_number, $._simple_command)),
 
 	pointer_identifier: $ => '*',
 	_eq_sep_args: $ => seq(
@@ -266,8 +268,8 @@ module.exports = grammar({
 	    $.html_redirect_operator,
 	    $.html_append_operator,
 	),
-	fdn_redirect_operator: $ => seq(optional($.number), '>'),
-	fdn_append_operator: $ => seq(optional($.number), '>>'),
+	fdn_redirect_operator: $ => seq(optional($.file_descriptor), '>'),
+	fdn_append_operator: $ => seq(optional($.file_descriptor), '>>'),
 	html_redirect_operator: $ => 'H>',
 	html_append_operator: $ => 'H>>',
 
@@ -288,7 +290,6 @@ module.exports = grammar({
 	    /[^\r\n~#@|"'>;$()` ]+/,
 	    /\$[^\r\n~#@|"'>;(` ]*/,
 	),
-	number: $ => /[0-9]+[0-9]*/,
 	quoted_arg: $ => choice(
 	    seq(
 		'"',

@@ -24,7 +24,7 @@ afl 2> /tmp/test.txt
 (commands
   (fd_redirect_command
     (arged_command (cmd_identifier))
-    (fdn_redirect_operator)
+    (fdn_redirect_operator (file_descriptor))
     (arg (arg_identifier))))
 
 
@@ -69,5 +69,5 @@ afl 2>> /tmp/test.txt
 (commands
    (fd_redirect_command
      (arged_command (cmd_identifier))
-   (fdn_append_operator)
+   (fdn_append_operator (file_descriptor))
    (arg (arg_identifier))))

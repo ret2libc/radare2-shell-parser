@@ -8,7 +8,7 @@ One digit repeat commands
 
 (commands
   (repeat_command
-    (number)
+    (repeat_number)
     (arged_command (cmd_identifier)
       (arg (arg_identifier)))))
 
@@ -23,7 +23,7 @@ Multiple digits repeat commands
 
 (commands
   (repeat_command
-    (number)
+    (repeat_number)
     (arged_command (cmd_identifier)
       (arg (arg_identifier)))))
 
@@ -39,7 +39,7 @@ Repeat with redirection
 (commands
   (fd_redirect_command
     (repeat_command
-      (number)
+      (repeat_number)
       (arged_command (cmd_identifier)
 	(arg (arg_identifier))))
     (fdn_redirect_operator)
@@ -56,7 +56,7 @@ Repeat with tmp seek
 
 (commands
   (repeat_command
-    (number)
+    (repeat_number)
     (tmp_seek_command
       (arged_command (cmd_identifier)
 	(arg (arg_identifier)))
