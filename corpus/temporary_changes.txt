@@ -239,7 +239,7 @@ p8 4 @ 0xdead @a:x86 > /tmp/out.txt
 ---
 
 (commands
-  (fd_redirect_command
+  (redirect_command
     (tmp_arch_command
       (tmp_seek_command
         (arged_command (cmd_identifier)

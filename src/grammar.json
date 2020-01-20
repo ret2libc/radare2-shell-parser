@@ -115,7 +115,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "fd_redirect_command"
+          "name": "redirect_command"
         },
         {
           "type": "SYMBOL",
@@ -1726,7 +1726,7 @@
       "type": "PATTERN",
       "value": "[^\\r\\n()]*"
     },
-    "fd_redirect_command": {
+    "redirect_command": {
       "type": "PREC_RIGHT",
       "value": 2,
       "content": {
@@ -1742,10 +1742,10 @@
           },
           {
             "type": "FIELD",
-            "name": "fdn_operator",
+            "name": "redirect_operator",
             "content": {
               "type": "SYMBOL",
-              "name": "_fdn_operator"
+              "name": "_redirect_operator"
             }
           },
           {
@@ -1759,7 +1759,7 @@
         ]
       }
     },
-    "_fdn_operator": {
+    "_redirect_operator": {
       "type": "CHOICE",
       "members": [
         {

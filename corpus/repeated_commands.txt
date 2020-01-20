@@ -37,7 +37,7 @@ Repeat with redirection
 ---
 
 (commands
-  (fd_redirect_command
+  (redirect_command
     (repeat_command
       (repeat_number)
       (arged_command (cmd_identifier)

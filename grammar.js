@@ -40,7 +40,7 @@ module.exports = grammar({
 
 	_command: $ => choice(
 	    $.legacy_quoted_command,
-	    $.fd_redirect_command,
+	    $.redirect_command,
 	    $.help_command,
 	    $._simple_command,
 	    $.interpreter_command,
@@ -259,12 +259,12 @@ module.exports = grammar({
 	macro_identifier: $ => /\([-\*]?/,
 	macro_call_content: $ => /[^\r\n()]*/,
 
-	fd_redirect_command: $ => prec.right(2, seq(
+	redirect_command: $ => prec.right(2, seq(
 	    field('command', $._simple_command),
-	    field('fdn_operator', $._fdn_operator),
+	    field('redirect_operator', $._redirect_operator),
 	    field('arg', $.arg),
 	)),
-	_fdn_operator: $ => choice(
+	_redirect_operator: $ => choice(
 	    $.fdn_redirect_operator,
 	    $.fdn_append_operator,
 	    $.html_redirect_operator,
