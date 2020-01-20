@@ -68,10 +68,10 @@ Question mark commands
 ---
 
 (commands
-  (arged_command (question_mark_identifier)
+  (arged_command (cmd_identifier)
     (arg (arg_identifier)))
-  (help_command)
-  (help_command)
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
   (arged_command (cmd_identifier)
     (arg (arg_identifier)))
   (arged_command (cmd_identifier)
@@ -129,13 +129,13 @@ afl?
 ---
 
 (commands
-  (help_command)
-  (help_command)
-  (help_command)
-  (help_command)
-  (help_command)
-  (help_command)
-  (help_command)
-  (help_command)
-  (help_command)
-  (help_command))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier)))

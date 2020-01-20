@@ -9,12 +9,12 @@ Pointer type commands
 ---
 
 (commands
-  (arged_command (pointer_identifier)
+  (arged_command (cmd_identifier)
     (eq_sep_key))
-  (arged_command (pointer_identifier)
+  (arged_command (cmd_identifier)
     (eq_sep_key)
     (eq_sep_val))
-  (arged_command (pointer_identifier)
+  (arged_command (cmd_identifier)
     (eq_sep_key)
     (eq_sep_val)))
 
@@ -30,10 +30,10 @@ Environment variable command
 ---
 
 (commands
-  (arged_command)
-  (arged_command
+  (arged_command (cmd_identifier))
+  (arged_command (cmd_identifier)
     (eq_sep_key))
-  (arged_command
+  (arged_command (cmd_identifier)
     (eq_sep_key)
     (eq_sep_val)))
 
@@ -49,11 +49,11 @@ Macro commands
 ---
 
 (commands
-  (arged_command (macro_identifier)
+  (arged_command (cmd_identifier)
     (macro_content))
-  (arged_command (macro_identifier)
+  (arged_command (cmd_identifier)
     (macro_content))
-  (arged_command (macro_identifier)
+  (arged_command (cmd_identifier)
     (macro_content)
     (macro_call_content)))
 
@@ -96,23 +96,26 @@ Interpret r2 commands
 
 (commands
   (arged_command
-    command: (interpret_identifier)
+    command: (cmd_identifier)
     args: (arged_command command: (cmd_identifier)
             args: (arg (arg_identifier))))
   (arged_command
-    command: (interpret_identifier)
+    command: (cmd_identifier)
     args: (arged_command command: (cmd_identifier)))
   (arged_command
-    command: (interpret_identifier)
+    command: (cmd_identifier)
     args: (arged_command command: (cmd_identifier)))
   (arged_command
-    command: (interpret_identifier)
+    command: (cmd_identifier)
     args: (arged_command command: (cmd_identifier)))
   (arged_command
+    command: (cmd_identifier)
     args: (interpret_arg))
   (arged_command
+    command: (cmd_identifier)
     args: (macro_content))
   (arged_command
+    command: (cmd_identifier)
     args: (arg (arg_identifier)))
   )
 
@@ -127,8 +130,8 @@ Last cmd
 ---
 
 (commands
-  (arged_command (last_command_identifier))
-  (arged_command (last_command_identifier)))
+  (arged_command (cmd_identifier))
+  (arged_command (cmd_identifier)))
 
 ===================
 Interpreter commands

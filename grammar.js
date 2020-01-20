@@ -166,16 +166,16 @@ module.exports = grammar({
 	    field('args', repeat($.arg)),
 	)),
 	_math_arged_command: $ => prec.left(1, seq(
-	    field('command', $.question_mark_identifier),
+	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
 	    field('args', repeat1($.arg)),
 	)),
 	_pointer_arged_command: $ => prec.left(1, seq(
-	    field('command', $.pointer_identifier),
+	    field('command', alias($.pointer_identifier, $.cmd_identifier)),
 	    field('args', $._eq_sep_args),
 	)),
 	_macro_arged_command: $ => prec.left(1, choice(
 	    seq(
-		field('command', $.macro_identifier),
+		field('command', alias($.macro_identifier, $.cmd_identifier)),
 		field('args', $.macro_content),
 		')',
 		optional(
@@ -187,7 +187,7 @@ module.exports = grammar({
 		),
 	    ),
 	    seq(
-		field('command', '(*'),
+		field('command', alias('(*', $.cmd_identifier)),
 	    ),
 	)),
 	_system_command: $ => prec.left(1, seq(
@@ -196,23 +196,23 @@ module.exports = grammar({
 	)),
 	_interpret_command: $ => prec.left(1, choice(
 	    seq(
-		field('command', $.interpret_identifier),
+		field('command', alias($._interpret_identifier, $.cmd_identifier)),
 		field('args', $._simple_command),
 	    ),
 	    seq(
-		field('command', '.-'),
+		field('command', alias('.-', $.cmd_identifier)),
 	    ),
 	    seq(
-		field('command', '.!'),
+		field('command', alias('.!', $.cmd_identifier)),
 		field('args', $.interpret_arg),
 	    ),
 	    seq(
-		field('command', '.('),
+		field('command', alias('.(', $.cmd_identifier)),
 		field('args', $.macro_content),
 		')',
 	    ),
 	    seq(
-		field('command', seq('./', optional(repeat(' ')))),
+		field('command', alias($._interpret_search_identifier, $.cmd_identifier)),
 		field('args', repeat1($.arg)),
 	    ),
 	    prec.right(1, seq(
@@ -220,16 +220,18 @@ module.exports = grammar({
 		field('command', '|.'),
 	    )),
 	)),
+	_interpret_search_identifier: $ => seq('./', optional(repeat(' '))),
 	_env_command: $ => seq(
-	    field('command', choice('%', $._env_identifier)),
+	    field('command', alias($._env_command_identifier, $.cmd_identifier)),
 	    field('args', optional($._eq_sep_args)),
 	),
+	_env_command_identifier: $ => choice('%', $._env_identifier),
 	_last_command: $ => seq(
-	    field('command', $.last_command_identifier),
+	    field('command', alias($.last_command_identifier, $.cmd_identifier)),
 	),
 
 	last_command_identifier: $ => choice('.', '...'),
-	interpret_identifier: $ => prec(1, choice(
+	_interpret_identifier: $ => prec(1, choice(
 	    '.',
 	    /\.[\.:\-*]*[ ]+/,
 	)),
@@ -238,9 +240,9 @@ module.exports = grammar({
 	system_arg: $ => $._any_command,
 	question_mark_identifier: $ => $._question_mark_identifier,
 	help_command: $ => prec.left(1, choice(
-	    $._question_mark_identifier,
+	    field('command', alias($._question_mark_identifier, $.cmd_identifier)),
 	    seq(
-		field('command', $._help_command),
+		field('command', alias($._help_command, $.cmd_identifier)),
 		field('args', repeat($.arg)),
 	    ),
 	)),

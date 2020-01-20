@@ -7,7 +7,7 @@ Temporary changes help
 ---
 
 (commands
-  (help_command))
+  (help_command (cmd_identifier)))
 
 ==============
 Temporary seek

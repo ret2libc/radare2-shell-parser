@@ -1142,8 +1142,13 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "SYMBOL",
-              "name": "question_mark_identifier"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "question_mark_identifier"
+              },
+              "named": true,
+              "value": "cmd_identifier"
             }
           },
           {
@@ -1170,8 +1175,13 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "SYMBOL",
-              "name": "pointer_identifier"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "pointer_identifier"
+              },
+              "named": true,
+              "value": "cmd_identifier"
             }
           },
           {
@@ -1198,8 +1208,13 @@
                 "type": "FIELD",
                 "name": "command",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "macro_identifier"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "macro_identifier"
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
                 }
               },
               {
@@ -1256,8 +1271,13 @@
                 "type": "FIELD",
                 "name": "command",
                 "content": {
-                  "type": "STRING",
-                  "value": "(*"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "(*"
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
                 }
               }
             ]
@@ -1311,8 +1331,13 @@
                 "type": "FIELD",
                 "name": "command",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "interpret_identifier"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_interpret_identifier"
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
                 }
               },
               {
@@ -1332,8 +1357,13 @@
                 "type": "FIELD",
                 "name": "command",
                 "content": {
-                  "type": "STRING",
-                  "value": ".-"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": ".-"
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
                 }
               }
             ]
@@ -1345,8 +1375,13 @@
                 "type": "FIELD",
                 "name": "command",
                 "content": {
-                  "type": "STRING",
-                  "value": ".!"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": ".!"
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
                 }
               },
               {
@@ -1366,8 +1401,13 @@
                 "type": "FIELD",
                 "name": "command",
                 "content": {
-                  "type": "STRING",
-                  "value": ".("
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": ".("
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
                 }
               },
               {
@@ -1391,28 +1431,13 @@
                 "type": "FIELD",
                 "name": "command",
                 "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "./"
-                    },
-                    {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "STRING",
-                            "value": " "
-                          }
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_interpret_search_identifier"
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
                 }
               },
               {
@@ -1456,6 +1481,30 @@
         ]
       }
     },
+    "_interpret_search_identifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "./"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "STRING",
+                "value": " "
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "_env_command": {
       "type": "SEQ",
       "members": [
@@ -1463,17 +1512,13 @@
           "type": "FIELD",
           "name": "command",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "%"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_env_identifier"
-              }
-            ]
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_env_command_identifier"
+            },
+            "named": true,
+            "value": "cmd_identifier"
           }
         },
         {
@@ -1494,6 +1539,19 @@
         }
       ]
     },
+    "_env_command_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "%"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_env_identifier"
+        }
+      ]
+    },
     "_last_command": {
       "type": "SEQ",
       "members": [
@@ -1501,8 +1559,13 @@
           "type": "FIELD",
           "name": "command",
           "content": {
-            "type": "SYMBOL",
-            "name": "last_command_identifier"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "last_command_identifier"
+            },
+            "named": true,
+            "value": "cmd_identifier"
           }
         }
       ]
@@ -1520,7 +1583,7 @@
         }
       ]
     },
-    "interpret_identifier": {
+    "_interpret_identifier": {
       "type": "PREC",
       "value": 1,
       "content": {
@@ -1560,8 +1623,17 @@
         "type": "CHOICE",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_question_mark_identifier"
+            "type": "FIELD",
+            "name": "command",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_question_mark_identifier"
+              },
+              "named": true,
+              "value": "cmd_identifier"
+            }
           },
           {
             "type": "SEQ",
@@ -1570,8 +1642,13 @@
                 "type": "FIELD",
                 "name": "command",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "_help_command"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_help_command"
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
                 }
               },
               {

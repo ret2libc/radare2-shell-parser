@@ -210,7 +210,7 @@
         ]
       },
       "command": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -222,19 +222,7 @@
             "named": false
           },
           {
-            "type": "(*",
-            "named": false
-          },
-          {
-            "type": ".!",
-            "named": false
-          },
-          {
-            "type": ".(",
-            "named": false
-          },
-          {
-            "type": ".-",
+            "type": ".",
             "named": false
           },
           {
@@ -243,26 +231,6 @@
           },
           {
             "type": "cmd_identifier",
-            "named": true
-          },
-          {
-            "type": "interpret_identifier",
-            "named": true
-          },
-          {
-            "type": "last_command_identifier",
-            "named": true
-          },
-          {
-            "type": "macro_identifier",
-            "named": true
-          },
-          {
-            "type": "pointer_identifier",
-            "named": true
-          },
-          {
-            "type": "question_mark_identifier",
             "named": true
           },
           {
@@ -286,6 +254,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "cmd_identifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "cmd_substitution_arg",
@@ -1041,8 +1014,13 @@
       },
       "command": {
         "multiple": false,
-        "required": false,
-        "types": []
+        "required": true,
+        "types": [
+          {
+            "type": "cmd_identifier",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -1358,11 +1336,6 @@
   },
   {
     "type": "interpret_arg",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "interpret_identifier",
     "named": true,
     "fields": {}
   },
@@ -3561,11 +3534,6 @@
     }
   },
   {
-    "type": "last_command_identifier",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "legacy_quoted_command",
     "named": true,
     "fields": {
@@ -3737,11 +3705,6 @@
   },
   {
     "type": "pipe_second_command",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "question_mark_identifier",
     "named": true,
     "fields": {}
   },
@@ -6493,10 +6456,6 @@
     "named": false
   },
   {
-    "type": "(*",
-    "named": false
-  },
-  {
     "type": ")",
     "named": false
   },
@@ -6506,18 +6465,6 @@
   },
   {
     "type": ".",
-    "named": false
-  },
-  {
-    "type": ".!",
-    "named": false
-  },
-  {
-    "type": ".(",
-    "named": false
-  },
-  {
-    "type": ".-",
     "named": false
   },
   {
@@ -6673,6 +6620,10 @@
     "named": false
   },
   {
+    "type": "cmd_identifier",
+    "named": true
+  },
+  {
     "type": "eq_sep_key",
     "named": true
   },
@@ -6702,14 +6653,6 @@
   },
   {
     "type": "macro_content",
-    "named": true
-  },
-  {
-    "type": "macro_identifier",
-    "named": true
-  },
-  {
-    "type": "pointer_identifier",
     "named": true
   },
   {
