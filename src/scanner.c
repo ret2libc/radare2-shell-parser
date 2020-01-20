@@ -24,7 +24,7 @@ void tree_sitter_r2cmd_external_scanner_deserialize(void *payload, const char *b
 }
 
 static bool is_special_start(const int32_t ch) {
-	return ch == '*' || ch == '(' || ch == '*' || ch == '@';
+	return ch == '*' || ch == '(' || ch == '*' || ch == '@' || ch == '|';
 }
 
 static bool is_start_of_command(const int32_t ch) {

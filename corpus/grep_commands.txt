@@ -1,0 +1,20 @@
+================
+Very simple grep
+================
+
+pd 10 ~ mov
+pd 10~mov
+
+---
+
+(commands
+  (grep_command
+    command: (arged_command
+    	       command: (cmd_identifier)
+	       args: (arg (arg_identifier)))
+    (grep_specifier))
+  (grep_command
+    command: (arged_command
+    	       command: (cmd_identifier)
+	       args: (arg (arg_identifier)))
+    (grep_specifier)))

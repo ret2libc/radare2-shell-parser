@@ -7,8 +7,9 @@ afl > /tmp/test.txt
 ---
 
 (commands
-  (out_redirect_command
+  (fd_redirect_command
     (arged_command (cmd_identifier))
+    (fdn_redirect_operator)
     (arg (arg_identifier))))
 
 
@@ -21,8 +22,9 @@ afl 2> /tmp/test.txt
 ---
 
 (commands
-  (err_redirect_command
+  (fd_redirect_command
     (arged_command (cmd_identifier))
+    (fdn_redirect_operator)
     (arg (arg_identifier))))
 
 
@@ -35,8 +37,9 @@ afl H> /tmp/test.txt
 ---
 
 (commands
-  (html_redirect_command
+  (fd_redirect_command
     (arged_command (cmd_identifier))
+    (html_redirect_operator)
     (arg (arg_identifier))))
 
 
@@ -49,9 +52,10 @@ afl >> /tmp/test.txt
 ---
 
 (commands
-   (out_append_redirect_command
+   (fd_redirect_command
     (arged_command (cmd_identifier))
-     (arg (arg_identifier))))
+    (fdn_append_operator)
+    (arg (arg_identifier))))
 
 
 ===============
@@ -63,6 +67,7 @@ afl 2>> /tmp/test.txt
 ---
 
 (commands
-   (err_append_redirect_command
-    (arged_command (cmd_identifier))
-     (arg (arg_identifier))))
+   (fd_redirect_command
+     (arged_command (cmd_identifier))
+   (fdn_append_operator)
+   (arg (arg_identifier))))

@@ -124,10 +124,12 @@ afl?
 =?
 /v?
 /v4?
+|?
 
 ---
 
 (commands
+  (help_command)
   (help_command)
   (help_command)
   (help_command)

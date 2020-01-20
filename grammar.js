@@ -38,11 +38,7 @@ module.exports = grammar({
 
 	_command: $ => choice(
 	    $.legacy_quoted_command,
-	    $.out_redirect_command,
-	    $.err_redirect_command,
-	    $.html_redirect_command,
-	    $.out_append_redirect_command,
-	    $.err_append_redirect_command,
+	    $.fd_redirect_command,
 	    $.help_command,
 	    $._simple_command,
 	    $.interpreter_command,
@@ -228,15 +224,13 @@ module.exports = grammar({
 	),
 	_last_command: $ => seq(
 	    field('command', $.last_command_identifier),
-	    field('args', seq()),
 	),
 
-	last_command_identifier: $ => choice($._point_interpret_identifier, '...'),
-	interpret_identifier: $ => choice(
-	    $._point_interpret_identifier,
+	last_command_identifier: $ => choice('.', '...'),
+	interpret_identifier: $ => prec(1, choice(
+	    '.',
 	    /\.[\.:\-*]*[ ]+/,
-	),
-	_point_interpret_identifier: $ => '.',
+	)),
 	interpret_arg: $ => $._any_command,
 	system_identifier: $ => /![\*!-=]*/,
 	system_arg: $ => $._any_command,
@@ -261,11 +255,21 @@ module.exports = grammar({
 	macro_identifier: $ => /\([-\*]?/,
 	macro_call_content: $ => /[^\r\n()]*/,
 
-	out_redirect_command: $ => prec.right(2, seq($._simple_command, choice('>', '1>'), $.arg)),
-	err_redirect_command: $ => prec.right(2, seq($._simple_command, '2>', $.arg)),
-	html_redirect_command: $ => prec.right(2, seq($._simple_command, 'H>', $.arg)),
-	out_append_redirect_command: $ => prec.right(2, seq($._simple_command, choice('>>', '1>>'), $.arg)),
-	err_append_redirect_command: $ => prec.right(2, seq($._simple_command, '2>>', $.arg)),
+	fd_redirect_command: $ => prec.right(2, seq(
+	    field('command', $._simple_command),
+	    field('fdn_operator', $._fdn_operator),
+	    field('arg', $.arg),
+	)),
+	_fdn_operator: $ => choice(
+	    $.fdn_redirect_operator,
+	    $.fdn_append_operator,
+	    $.html_redirect_operator,
+	    $.html_append_operator,
+	),
+	fdn_redirect_operator: $ => seq(optional($.number), '>'),
+	fdn_append_operator: $ => seq(optional($.number), '>>'),
+	html_redirect_operator: $ => 'H>',
+	html_append_operator: $ => 'H>>',
 
 	arg: $ => choice(
 	    $.arg_identifier,
@@ -284,7 +288,7 @@ module.exports = grammar({
 	    /[^\r\n~#@|"'>;$()` ]+/,
 	    /\$[^\r\n~#@|"'>;(` ]*/,
 	),
-	number: $ => /[1-9]+[0-9]*/,
+	number: $ => /[0-9]+[0-9]*/,
 	quoted_arg: $ => choice(
 	    seq(
 		'"',

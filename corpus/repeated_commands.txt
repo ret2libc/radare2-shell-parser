@@ -37,11 +37,12 @@ Repeat with redirection
 ---
 
 (commands
-  (out_redirect_command
+  (fd_redirect_command
     (repeat_command
       (number)
       (arged_command (cmd_identifier)
 	(arg (arg_identifier))))
+    (fdn_redirect_operator)
     (arg (arg_identifier))))
 
 
