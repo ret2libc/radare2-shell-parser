@@ -10,8 +10,6 @@ module.exports = grammar({
     externals: $ => [
 	$.cmd_identifier,
 	$._help_command,
-	$._question_mark_identifier,
-	$._env_identifier,
 	$.file_descriptor,
 	$.repeat_number,
     ],
@@ -196,11 +194,12 @@ module.exports = grammar({
 	)),
 	_interpret_command: $ => prec.left(1, choice(
 	    seq(
-		field('command', alias($._interpret_identifier, $.cmd_identifier)),
+		field('command', alias('.', $.cmd_identifier)),
 		field('args', $._simple_command),
 	    ),
 	    seq(
-		field('command', alias('.-', $.cmd_identifier)),
+		field('command', alias($._interpret_identifier, $.cmd_identifier)),
+		field('args', repeat($.arg)),
 	    ),
 	    seq(
 		field('command', alias('.!', $.cmd_identifier)),
@@ -225,22 +224,22 @@ module.exports = grammar({
 	    field('command', alias($._env_command_identifier, $.cmd_identifier)),
 	    field('args', optional($._eq_sep_args)),
 	),
-	_env_command_identifier: $ => choice('%', $._env_identifier),
+	_env_command_identifier: $ => choice('%', 'env'),
 	_last_command: $ => seq(
 	    field('command', alias($.last_command_identifier, $.cmd_identifier)),
 	),
 
 	last_command_identifier: $ => choice('.', '...'),
 	_interpret_identifier: $ => prec(1, choice(
-	    '.',
-	    /\.[\.:\-*]*[ ]+/,
+	    /\.[\.:\-*]+[ ]*/,
+	    /\.[ ]+/,
 	)),
 	interpret_arg: $ => $._any_command,
 	system_identifier: $ => /![\*!-=]*/,
 	system_arg: $ => $._any_command,
-	question_mark_identifier: $ => $._question_mark_identifier,
+	question_mark_identifier: $ => '?',
 	help_command: $ => prec.left(1, choice(
-	    field('command', alias($._question_mark_identifier, $.cmd_identifier)),
+	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
 	    seq(
 		field('command', alias($._help_command, $.cmd_identifier)),
 		field('args', repeat($.arg)),

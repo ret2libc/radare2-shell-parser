@@ -101,13 +101,13 @@ Interpret r2 commands
             args: (arg (arg_identifier))))
   (arged_command
     command: (cmd_identifier)
-    args: (arged_command command: (cmd_identifier)))
+    args: (arg (arg_identifier)))
   (arged_command
     command: (cmd_identifier)
-    args: (arged_command command: (cmd_identifier)))
+    args: (arg (arg_identifier)))
   (arged_command
     command: (cmd_identifier)
-    args: (arged_command command: (cmd_identifier)))
+    args: (arg (arg_identifier)))
   (arged_command
     command: (cmd_identifier)
     args: (interpret_arg))

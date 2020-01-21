@@ -1333,8 +1333,8 @@
                 "content": {
                   "type": "ALIAS",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "_interpret_identifier"
+                    "type": "STRING",
+                    "value": "."
                   },
                   "named": true,
                   "value": "cmd_identifier"
@@ -1359,11 +1359,22 @@
                 "content": {
                   "type": "ALIAS",
                   "content": {
-                    "type": "STRING",
-                    "value": ".-"
+                    "type": "SYMBOL",
+                    "name": "_interpret_identifier"
                   },
                   "named": true,
                   "value": "cmd_identifier"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "args",
+                "content": {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "arg"
+                  }
                 }
               }
             ]
@@ -1547,8 +1558,8 @@
           "value": "%"
         },
         {
-          "type": "SYMBOL",
-          "name": "_env_identifier"
+          "type": "STRING",
+          "value": "env"
         }
       ]
     },
@@ -1590,12 +1601,12 @@
         "type": "CHOICE",
         "members": [
           {
-            "type": "STRING",
-            "value": "."
+            "type": "PATTERN",
+            "value": "\\.[\\.:\\-*]+[ ]*"
           },
           {
             "type": "PATTERN",
-            "value": "\\.[\\.:\\-*]*[ ]+"
+            "value": "\\.[ ]+"
           }
         ]
       }
@@ -1613,8 +1624,8 @@
       "name": "_any_command"
     },
     "question_mark_identifier": {
-      "type": "SYMBOL",
-      "name": "_question_mark_identifier"
+      "type": "STRING",
+      "value": "?"
     },
     "help_command": {
       "type": "PREC_LEFT",
@@ -1629,7 +1640,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "_question_mark_identifier"
+                "name": "question_mark_identifier"
               },
               "named": true,
               "value": "cmd_identifier"
@@ -2053,14 +2064,6 @@
     {
       "type": "SYMBOL",
       "name": "_help_command"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_question_mark_identifier"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_env_identifier"
     },
     {
       "type": "SYMBOL",

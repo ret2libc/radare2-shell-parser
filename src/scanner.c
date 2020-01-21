@@ -5,8 +5,6 @@
 enum TokenType {
 	CMD_IDENTIFIER,
 	HELP_COMMAND,
-	QUESTION_MARK_IDENTIFIER,
-	ENV_IDENTIFIER,
 	FILE_DESCRIPTOR,
 	REPEAT_NUMBER,
 };
@@ -26,7 +24,7 @@ void tree_sitter_r2cmd_external_scanner_deserialize(void *payload, const char *b
 }
 
 static bool is_special_start(const int32_t ch) {
-	return ch == '*' || ch == '(' || ch == '*' || ch == '@' || ch == '|';
+	return ch == '*' || ch == '(' || ch == '*' || ch == '@' || ch == '|' || ch == '.';
 }
 
 static bool is_start_of_command(const int32_t ch) {
@@ -71,21 +69,31 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
 	if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] || valid_symbols[REPEAT_NUMBER]) {
 		bool one_char_cmd = true;
+		bool is_env_identifier = true;
 		char last_char, first_char;
+		const char *env_identifier = "env";
+		int i_env = 0;
+
 		if (!is_start_of_command (lexer->lookahead)) {
 			return scan_number (lexer, valid_symbols);
 		}
+		is_env_identifier &= lexer->lookahead == env_identifier[i_env++];
 		first_char = last_char = lexer->lookahead;
 		lexer->advance (lexer, false);
 		while (is_mid_command (lexer->lookahead)) {
 			last_char = lexer->lookahead;
+			is_env_identifier &= i_env < strlen (env_identifier) && lexer->lookahead == env_identifier[i_env++];
 			lexer->advance (lexer, false);
 			one_char_cmd = false;
 		}
+		is_env_identifier &= i_env == strlen (env_identifier);
 		if (last_char == '?') {
-			lexer->result_symbol = one_char_cmd? QUESTION_MARK_IDENTIFIER: HELP_COMMAND;
+			if (one_char_cmd) {
+				return false;
+			}
+			lexer->result_symbol = HELP_COMMAND;
 		} else {
-			if (is_special_start (first_char)) {
+			if (is_special_start (first_char) || is_env_identifier) {
 				return false;
 			}
 			lexer->result_symbol = CMD_IDENTIFIER;
