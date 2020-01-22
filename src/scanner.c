@@ -33,10 +33,10 @@ static bool is_start_of_command(const int32_t ch) {
 		ch == '=' || ch == '/' || is_special_start (ch);
 }
 
-static bool is_mid_command(const int32_t ch) {
+static bool is_mid_command(const int32_t ch, bool is_at_command) {
 	return isalnum(ch) ||  ch == '$' || ch == '?' || ch == '.' || ch == '!' ||
 		ch == ':' || ch == '+' || ch == '=' || ch == '/' || ch == '*' ||
-		ch == '-' || ch == ',' || ch == '@';
+		ch == '-' || ch == ',' || (is_at_command && ch == '@');
 }
 
 static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
@@ -71,7 +71,7 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 	if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] || valid_symbols[REPEAT_NUMBER]) {
 		bool one_char_cmd = true;
 		bool is_env_identifier = true;
-		bool contains_at = false;
+		bool is_at_command = false;
 		char last_char, first_char;
 		const char *env_identifier = "env";
 		int i_env = 0;
@@ -84,11 +84,10 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		}
 		is_env_identifier &= lexer->lookahead == env_identifier[i_env++];
 		first_char = last_char = lexer->lookahead;
-		contains_at |= first_char == '@';
+		is_at_command = first_char == '@';
 		lexer->advance (lexer, false);
-		while (is_mid_command (lexer->lookahead)) {
+		while (is_mid_command (lexer->lookahead, is_at_command)) {
 			last_char = lexer->lookahead;
-			contains_at |= last_char == '@';
 			is_env_identifier &= i_env < strlen (env_identifier) && lexer->lookahead == env_identifier[i_env++];
 			lexer->advance (lexer, false);
 			one_char_cmd = false;
@@ -100,7 +99,7 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 			}
 			lexer->result_symbol = HELP_COMMAND;
 		} else {
-			if (is_special_start (first_char) || is_env_identifier || contains_at) {
+			if (is_special_start (first_char) || is_env_identifier || is_at_command) {
 				return false;
 			}
 			lexer->result_symbol = CMD_IDENTIFIER;
