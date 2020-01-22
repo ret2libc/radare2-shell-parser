@@ -45,6 +45,8 @@ Macro commands
 (foo x y, p8 $0 @ $1)
 (-foo)
 (foo x y, p8 $0 @ $1)(10 0x10)
+(
+(*
 
 ---
 
@@ -55,7 +57,9 @@ Macro commands
     (macro_content))
   (arged_command (cmd_identifier)
     (macro_content)
-    (macro_call_content)))
+    (macro_call_content))
+  (arged_command (cmd_identifier))
+  (arged_command (cmd_identifier)))
 
 
 ===============

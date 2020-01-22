@@ -115,6 +115,7 @@ module.exports = grammar({
 	pipe_command: $ => seq($._simple_command, '|', $.pipe_second_command),
 	pipe_second_command: $ => $._any_command,
 
+	// iter commands
 	iter_flags_command: $ => prec.right(1, seq($._simple_command, '@@', $.arg)),
 	iter_dbta_command: $ => prec.right(1, seq($._simple_command, choice('@@dbt', '@@dbta'))),
 	iter_dbtb_command: $ => prec.right(1, seq($._simple_command, '@@dbtb')),
@@ -130,6 +131,7 @@ module.exports = grammar({
 	iter_step_command: $ => prec.right(1, seq($._simple_command, '@@s:', $.arg, $.arg, $.arg)),
 	iter_interpret_command: $ => prec.right(1, seq($._simple_command, '@@c:', $._simple_command)),
 
+	// tmp changes commands
 	tmp_seek_command: $ => prec.right(1, seq($._simple_command, '@', $.arg)),
 	tmp_blksz_command: $ => prec.right(1, seq($._simple_command, '@!', $.arg)),
 	tmp_fromto_command: $ => prec.right(1, seq($._simple_command, '@(', $.arg, $.arg)),
@@ -148,6 +150,14 @@ module.exports = grammar({
 
 	interpreter_command: $ => /#![A-Za-z0-9]*( [^\r\n;]*)?/,
 
+	// basic commands
+	help_command: $ => prec.left(1, choice(
+	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
+	    seq(
+		field('command', alias($._help_command, $.cmd_identifier)),
+		field('args', repeat($.arg)),
+	    ),
+	)),
 	arged_command: $ => choice(
 	    $._simple_arged_command,
 	    $._math_arged_command,
@@ -171,10 +181,10 @@ module.exports = grammar({
 	    field('command', alias($.pointer_identifier, $.cmd_identifier)),
 	    field('args', $._eq_sep_args),
 	)),
-	_macro_arged_command: $ => prec.left(1, choice(
-	    seq(
-		field('command', alias($.macro_identifier, $.cmd_identifier)),
-		field('args', $.macro_content),
+	_macro_arged_command: $ => prec.left(1, seq(
+	    field('command', alias($.macro_identifier, $.cmd_identifier)),
+	    optional(field('args', $.macro_content)),
+	    optional(seq(
 		')',
 		optional(
 		    seq(
@@ -183,10 +193,7 @@ module.exports = grammar({
 			')',
 		    )
 		),
-	    ),
-	    seq(
-		field('command', alias('(*', $.cmd_identifier)),
-	    ),
+	    )),
 	)),
 	_system_command: $ => prec.left(1, seq(
 	    field('command', $.system_identifier),
@@ -238,13 +245,7 @@ module.exports = grammar({
 	system_identifier: $ => /![\*!-=]*/,
 	system_arg: $ => $._any_command,
 	question_mark_identifier: $ => '?',
-	help_command: $ => prec.left(1, choice(
-	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
-	    seq(
-		field('command', alias($._help_command, $.cmd_identifier)),
-		field('args', repeat($.arg)),
-	    ),
-	)),
+
 	repeat_command: $ => prec.right(1, seq($.repeat_number, $._simple_command)),
 
 	pointer_identifier: $ => '*',

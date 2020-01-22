@@ -1,6 +1,7 @@
 #include <tree_sitter/parser.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <string.h>
 
 enum TokenType {
 	CMD_IDENTIFIER,
@@ -76,6 +77,9 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 
 		if (!is_start_of_command (lexer->lookahead)) {
 			return scan_number (lexer, valid_symbols);
+		}
+		if (!valid_symbols[CMD_IDENTIFIER] && !valid_symbols[HELP_COMMAND]) {
+			return false;
 		}
 		is_env_identifier &= lexer->lookahead == env_identifier[i_env++];
 		first_char = last_char = lexer->lookahead;

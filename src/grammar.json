@@ -1067,6 +1067,57 @@
       "type": "PATTERN",
       "value": "#![A-Za-z0-9]*( [^\\r\\n;]*)?"
     },
+    "help_command": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "command",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "question_mark_identifier"
+              },
+              "named": true,
+              "value": "cmd_identifier"
+            }
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "command",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_help_command"
+                  },
+                  "named": true,
+                  "value": "cmd_identifier"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "args",
+                "content": {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "arg"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
     "arged_command": {
       "type": "CHOICE",
       "members": [
@@ -1199,24 +1250,24 @@
       "type": "PREC_LEFT",
       "value": 1,
       "content": {
-        "type": "CHOICE",
+        "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "command",
-                "content": {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "macro_identifier"
-                  },
-                  "named": true,
-                  "value": "cmd_identifier"
-                }
+            "type": "FIELD",
+            "name": "command",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "macro_identifier"
               },
+              "named": true,
+              "value": "cmd_identifier"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
               {
                 "type": "FIELD",
                 "name": "args",
@@ -1226,59 +1277,57 @@
                 }
               },
               {
-                "type": "STRING",
-                "value": ")"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "("
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "macro_call_content"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "STRING",
-                        "value": ")"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
+                "type": "BLANK"
               }
             ]
           },
           {
-            "type": "SEQ",
+            "type": "CHOICE",
             "members": [
               {
-                "type": "FIELD",
-                "name": "command",
-                "content": {
-                  "type": "ALIAS",
-                  "content": {
+                "type": "SEQ",
+                "members": [
+                  {
                     "type": "STRING",
-                    "value": "(*"
+                    "value": ")"
                   },
-                  "named": true,
-                  "value": "cmd_identifier"
-                }
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "("
+                          },
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "macro_call_content"
+                              },
+                              {
+                                "type": "BLANK"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ")"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
               }
             ]
           }
@@ -1626,57 +1675,6 @@
     "question_mark_identifier": {
       "type": "STRING",
       "value": "?"
-    },
-    "help_command": {
-      "type": "PREC_LEFT",
-      "value": 1,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "command",
-            "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "question_mark_identifier"
-              },
-              "named": true,
-              "value": "cmd_identifier"
-            }
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "command",
-                "content": {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_help_command"
-                  },
-                  "named": true,
-                  "value": "cmd_identifier"
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "args",
-                "content": {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "arg"
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
     },
     "repeat_command": {
       "type": "PREC_RIGHT",
