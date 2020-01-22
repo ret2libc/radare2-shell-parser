@@ -8,6 +8,7 @@ enum TokenType {
 	HELP_COMMAND,
 	FILE_DESCRIPTOR,
 	REPEAT_NUMBER,
+	INTERPRETER_IDENTIFIER,
 };
 
 void *tree_sitter_r2cmd_external_scanner_create() {
@@ -25,12 +26,13 @@ void tree_sitter_r2cmd_external_scanner_deserialize(void *payload, const char *b
 }
 
 static bool is_special_start(const int32_t ch) {
-	return ch == '*' || ch == '(' || ch == '*' || ch == '@' || ch == '|' || ch == '.';
+	return ch == '*' || ch == '(' || ch == '*' || ch == '@' || ch == '|' ||
+		ch == '.' || ch == '|';
 }
 
 static bool is_start_of_command(const int32_t ch) {
 	return isalpha (ch) || ch == '$' || ch == '?' || ch == ':' || ch == '+' ||
-		ch == '=' || ch == '/' || is_special_start (ch);
+		ch == '=' || ch == '/' || ch == '_' || ch == '#' || is_special_start (ch);
 }
 
 static bool is_mid_command(const int32_t ch, bool is_at_command) {
@@ -68,31 +70,38 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 }
 
 bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-	if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] || valid_symbols[REPEAT_NUMBER]) {
+	if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] ||
+	    valid_symbols[REPEAT_NUMBER] || valid_symbols[INTERPRETER_IDENTIFIER]) {
 		bool one_char_cmd = true;
 		bool is_env_identifier = true;
 		bool is_at_command = false;
+		bool is_int_identifier = valid_symbols[INTERPRETER_IDENTIFIER];
 		char last_char, first_char;
 		const char *env_identifier = "env";
-		int i_env = 0;
+		const char *int_identifier = "#!";
+		int i_env = 0, i_int = 0;
 
 		if (!is_start_of_command (lexer->lookahead)) {
 			return scan_number (lexer, valid_symbols);
 		}
-		if (!valid_symbols[CMD_IDENTIFIER] && !valid_symbols[HELP_COMMAND]) {
+		if (!valid_symbols[CMD_IDENTIFIER] && !valid_symbols[HELP_COMMAND] &&
+		    !valid_symbols[INTERPRETER_IDENTIFIER]) {
 			return false;
 		}
 		is_env_identifier &= lexer->lookahead == env_identifier[i_env++];
+		is_int_identifier &= lexer->lookahead == int_identifier[i_int++];
 		first_char = last_char = lexer->lookahead;
 		is_at_command = first_char == '@';
 		lexer->advance (lexer, false);
 		while (is_mid_command (lexer->lookahead, is_at_command)) {
 			last_char = lexer->lookahead;
-			is_env_identifier &= i_env < strlen (env_identifier) && lexer->lookahead == env_identifier[i_env++];
 			lexer->advance (lexer, false);
 			one_char_cmd = false;
+			is_env_identifier &= i_env < strlen (env_identifier) && last_char == env_identifier[i_env++];
+			is_int_identifier &= i_int >= strlen (int_identifier) || last_char == int_identifier[i_int++];
 		}
 		is_env_identifier &= i_env == strlen (env_identifier);
+		is_int_identifier &= i_int >= strlen (int_identifier);
 		if (last_char == '?') {
 			if (one_char_cmd) {
 				return false;
@@ -102,7 +111,13 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 			if (is_special_start (first_char) || is_env_identifier || is_at_command) {
 				return false;
 			}
-			lexer->result_symbol = CMD_IDENTIFIER;
+			if (is_int_identifier && valid_symbols[INTERPRETER_IDENTIFIER]) {
+				lexer->result_symbol = INTERPRETER_IDENTIFIER;
+			} else if (first_char != '#' && valid_symbols[CMD_IDENTIFIER]) {
+				lexer->result_symbol = CMD_IDENTIFIER;
+			} else {
+				return false;
+			}
 		}
 		return true;
 	} else if (valid_symbols[FILE_DESCRIPTOR]) {

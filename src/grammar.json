@@ -119,15 +119,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "help_command"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_simple_command"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "interpreter_command"
         }
       ]
     },
@@ -155,6 +147,10 @@
     "_simple_command": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "help_command"
+        },
         {
           "type": "SYMBOL",
           "name": "repeat_command"
@@ -348,8 +344,12 @@
           "value": "~"
         },
         {
-          "type": "SYMBOL",
-          "name": "grep_specifier"
+          "type": "FIELD",
+          "name": "specifier",
+          "content": {
+            "type": "SYMBOL",
+            "name": "grep_specifier"
+          }
         }
       ]
     },
@@ -426,8 +426,8 @@
       ]
     },
     "pipe_second_command": {
-      "type": "SYMBOL",
-      "name": "_any_command"
+      "type": "PATTERN",
+      "value": "[^|\\r\\n;]+"
     },
     "iter_flags_command": {
       "type": "PREC_RIGHT",
@@ -1067,9 +1067,38 @@
         ]
       }
     },
-    "interpreter_command": {
-      "type": "PATTERN",
-      "value": "#![A-Za-z0-9]*( [^\\r\\n;]*)?"
+    "_interpreter_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "command",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "interpreter_identifier"
+              },
+              "named": true,
+              "value": "cmd_identifier"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "args",
+            "content": {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "arg"
+              }
+            }
+          }
+        ]
+      }
     },
     "help_command": {
       "type": "PREC_LEFT",
@@ -1152,6 +1181,10 @@
         {
           "type": "SYMBOL",
           "name": "_env_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_interpreter_command"
         }
       ]
     },
@@ -2070,6 +2103,10 @@
     {
       "type": "SYMBOL",
       "name": "repeat_number"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "interpreter_identifier"
     }
   ],
   "inline": [

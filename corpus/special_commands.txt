@@ -95,6 +95,7 @@ Interpret r2 commands
 .!rabin2 -ri $FILE
 .(foo 1 2 3)
 ./ ELF
+pd 10 |.
 
 ---
 
@@ -121,6 +122,9 @@ Interpret r2 commands
   (arged_command
     command: (cmd_identifier)
     args: (arg (arg_identifier)))
+  (arged_command
+    args: (arged_command command: (cmd_identifier)
+            args: (arg (arg_identifier))))
   )
 
 
@@ -144,10 +148,13 @@ Interpreter commands
 #!
 #!python arg0
 #!rust
+#!?
 
 ---
 
 (commands
-  (interpreter_command)
-  (interpreter_command)
-  (interpreter_command))
+  (arged_command (cmd_identifier))
+  (arged_command (cmd_identifier)
+    (arg (arg_identifier)))
+  (arged_command (cmd_identifier))
+  (help_command (cmd_identifier)))

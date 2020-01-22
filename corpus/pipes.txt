@@ -51,6 +51,22 @@ p8 10 | grep 10
       (arg (arg_identifier)))
     (pipe_second_command)))
 
+===========
+Double pipe
+===========
+
+pd 10 | cat | grep mov
+
+---
+
+(commands
+  (pipe_command
+    (pipe_command
+      (arged_command (cmd_identifier)
+        (arg (arg_identifier)))
+      (pipe_second_command))
+    (pipe_second_command)))
+
 ===================================
 Pipe to another command with no arg
 ===================================

@@ -60,6 +60,10 @@
             "named": true
           },
           {
+            "type": "help_command",
+            "named": true
+          },
+          {
             "type": "html_disable_command",
             "named": true
           },
@@ -297,10 +301,6 @@
           "named": true
         },
         {
-          "type": "interpreter_command",
-          "named": true
-        },
-        {
           "type": "iter_bbs_command",
           "named": true
         },
@@ -477,10 +477,6 @@
         },
         {
           "type": "html_enable_command",
-          "named": true
-        },
-        {
-          "type": "interpreter_command",
           "named": true
         },
         {
@@ -673,6 +669,10 @@
             "named": true
           },
           {
+            "type": "help_command",
+            "named": true
+          },
+          {
             "type": "html_disable_command",
             "named": true
           },
@@ -813,17 +813,17 @@
             "named": true
           }
         ]
+      },
+      "specifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "grep_specifier",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "grep_specifier",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -866,6 +866,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -1025,6 +1029,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -1192,6 +1200,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -1348,6 +1360,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -1510,6 +1526,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -1666,6 +1686,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -1832,6 +1856,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -1992,6 +2020,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -2158,6 +2190,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -2317,6 +2353,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -2473,6 +2513,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -2639,6 +2683,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -2802,6 +2850,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -2958,6 +3010,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -3124,6 +3180,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -3280,6 +3340,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -3469,6 +3533,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -3616,11 +3684,6 @@
     }
   },
   {
-    "type": "pipe_second_command",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "quoted_arg",
     "named": true,
     "fields": {
@@ -3655,6 +3718,10 @@
           },
           {
             "type": "grep_command",
+            "named": true
+          },
+          {
+            "type": "help_command",
             "named": true
           },
           {
@@ -3840,6 +3907,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -4000,6 +4071,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -4171,6 +4246,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -4331,6 +4410,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -4497,6 +4580,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -4653,6 +4740,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -4823,6 +4914,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -4983,6 +5078,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -5149,6 +5248,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -5309,6 +5412,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -5475,6 +5582,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -5635,6 +5746,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -5801,6 +5916,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -5961,6 +6080,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -6127,6 +6250,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -6290,6 +6417,10 @@
           "named": true
         },
         {
+          "type": "help_command",
+          "named": true
+        },
+        {
           "type": "html_disable_command",
           "named": true
         },
@@ -6450,6 +6581,10 @@
         },
         {
           "type": "grep_command",
+          "named": true
+        },
+        {
+          "type": "help_command",
           "named": true
         },
         {
@@ -6820,15 +6955,15 @@
     "named": true
   },
   {
-    "type": "interpreter_command",
-    "named": true
-  },
-  {
     "type": "macro_call_content",
     "named": true
   },
   {
     "type": "macro_content",
+    "named": true
+  },
+  {
+    "type": "pipe_second_command",
     "named": true
   },
   {

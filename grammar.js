@@ -12,6 +12,7 @@ module.exports = grammar({
 	$._help_command,
 	$.file_descriptor,
 	$.repeat_number,
+	$.interpreter_identifier,
     ],
 
     inline: $ => [
@@ -39,9 +40,7 @@ module.exports = grammar({
 	_command: $ => choice(
 	    $.legacy_quoted_command,
 	    $.redirect_command,
-	    $.help_command,
 	    $._simple_command,
-	    $.interpreter_command,
 	),
 
 	legacy_quoted_command: $ => seq(
@@ -51,6 +50,7 @@ module.exports = grammar({
 	),
 
 	_simple_command: $ => choice(
+	    $.help_command,
 	    $.repeat_command,
 	    $.arged_command,
 	    $._tmp_command,
@@ -105,7 +105,7 @@ module.exports = grammar({
 	grep_command: $ => seq(
 	    field('command', $._simple_command),
 	    '~',
-	    $.grep_specifier,
+	    field('specifier', $.grep_specifier),
 	),
 	// FIXME: improve parser for grep specifier
 	grep_specifier: $ => /[A-Za-z0-9 \&,$!+\^<?:{}\-\[\]]*/,
@@ -114,7 +114,7 @@ module.exports = grammar({
 	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),
 	scr_tts_command: $ => prec.right(1, seq($._simple_command, '|T')),
 	pipe_command: $ => seq($._simple_command, '|', $.pipe_second_command),
-	pipe_second_command: $ => $._any_command,
+	pipe_second_command: $ => /[^|\r\n;]+/,
 
 	// iter commands
 	iter_flags_command: $ => prec.right(1, seq($._simple_command, '@@', $.arg)),
@@ -149,7 +149,10 @@ module.exports = grammar({
 	tmp_string_command: $ => prec.right(1, seq($._simple_command, '@s:', $.arg)),
 	tmp_hex_command: $ => prec.right(1, seq($._simple_command, '@x:', $.arg)),
 
-	interpreter_command: $ => /#![A-Za-z0-9]*( [^\r\n;]*)?/,
+	_interpreter_command: $ => prec.right(1, seq(
+	    field('command', alias($.interpreter_identifier, $.cmd_identifier)),
+	    field('args', repeat($.arg)),
+	)),
 
 	// basic commands
 	help_command: $ => prec.left(1, choice(
@@ -167,6 +170,7 @@ module.exports = grammar({
 	    $._system_command,
 	    $._interpret_command,
 	    $._env_command,
+	    $._interpreter_command,
 	),
 
 	_simple_arged_command: $ => prec.left(1, seq(

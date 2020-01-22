@@ -12,9 +12,9 @@ pd 10~mov
     command: (arged_command
     	       command: (cmd_identifier)
 	       args: (arg (arg_identifier)))
-    (grep_specifier))
+    specifier: (grep_specifier))
   (grep_command
     command: (arged_command
     	       command: (cmd_identifier)
 	       args: (arg (arg_identifier)))
-    (grep_specifier)))
+    specifier: (grep_specifier)))
