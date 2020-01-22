@@ -134,8 +134,8 @@ Last cmd
 ---
 
 (commands
-  (arged_command (cmd_identifier))
-  (arged_command (cmd_identifier)))
+  (last_command (cmd_identifier))
+  (last_command (cmd_identifier)))
 
 ===================
 Interpreter commands

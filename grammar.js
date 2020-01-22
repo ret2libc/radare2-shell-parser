@@ -57,6 +57,7 @@ module.exports = grammar({
 	    $._iter_command,
 	    $._pipe_command,
 	    $.grep_command,
+	    $.last_command,
 	),
 
 	_tmp_command: $ => choice(
@@ -166,7 +167,6 @@ module.exports = grammar({
 	    $._system_command,
 	    $._interpret_command,
 	    $._env_command,
-	    $._last_command,
 	),
 
 	_simple_arged_command: $ => prec.left(1, seq(
@@ -232,7 +232,7 @@ module.exports = grammar({
 	    field('args', optional($._eq_sep_args)),
 	),
 	_env_command_identifier: $ => choice('%', 'env'),
-	_last_command: $ => seq(
+	last_command: $ => seq(
 	    field('command', alias($.last_command_identifier, $.cmd_identifier)),
 	),
 

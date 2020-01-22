@@ -178,6 +178,10 @@
         {
           "type": "SYMBOL",
           "name": "grep_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "last_command"
         }
       ]
     },
@@ -1148,10 +1152,6 @@
         {
           "type": "SYMBOL",
           "name": "_env_command"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_last_command"
         }
       ]
     },
@@ -1612,7 +1612,7 @@
         }
       ]
     },
-    "_last_command": {
+    "last_command": {
       "type": "SEQ",
       "members": [
         {
