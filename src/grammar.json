@@ -1893,7 +1893,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_arg_simple"
+          "name": "arg_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quoted_arg"
         },
         {
           "type": "SYMBOL",
@@ -1911,19 +1915,6 @@
           "name": "arg"
         }
       }
-    },
-    "_arg_simple": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "arg_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quoted_arg"
-        }
-      ]
     },
     "tmp_eval_arg": {
       "type": "PATTERN",
@@ -1953,8 +1944,11 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "PATTERN",
-              "value": "[^\\r\\n~#@|\"'>;$()` ]+"
+              "type": "REPEAT1",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\r\\n #@|\"'>;$()`~]"
+              }
             },
             {
               "type": "PATTERN",
@@ -1966,7 +1960,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "\\\\[\\r\\n~#@|\"'>;$()` ]"
+              "value": "\\\\[\\r\\n #@|\"'>;$()`~]"
             }
           ]
         }

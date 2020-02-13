@@ -1,3 +1,11 @@
+const SPECIAL_CHARACTERS = [
+    '\r', '\n', ' ',
+    '#', '@', '|',
+    '"', '\'', '>',
+    ';', '$', '(',
+    ')', '`', '~'
+];
+
 module.exports = grammar({
     name: 'r2cmd',
 
@@ -297,10 +305,10 @@ module.exports = grammar({
 
 	arg_identifier: $ => token(repeat1(
 	    choice(
-		/[^\r\n~#@|"'>;$()` ]+/,
+		repeat1(noneOf(...SPECIAL_CHARACTERS)),
 		/\$[A-Za-z$?]+/,
 		/\${[\r\n $}]+}/,
-		/\\[\r\n~#@|"'>;$()` ]/,
+		escape(...SPECIAL_CHARACTERS),
 	    )
 	)),
 	quoted_arg: $ => choice(
@@ -340,3 +348,13 @@ module.exports = grammar({
 	cmd_delimiter_singleline: $ => choice(';'),
     }
 });
+
+function noneOf(...characters) {
+    const negatedString = characters.map(c => c == '\\' ? '\\\\' : c).join('')
+    return new RegExp('[^' + negatedString + ']')
+}
+
+function escape(...characters) {
+    const s = characters.map(c => c == '\\' ? '\\\\' : c).join('')
+    return new RegExp('\\\\[' + s + ']')
+}
