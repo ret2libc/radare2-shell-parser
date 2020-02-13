@@ -21,11 +21,11 @@ p8 10 @ flag
 (commands
   (tmp_seek_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier)))
   (tmp_seek_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier))))
 
 
@@ -40,7 +40,7 @@ p8 10 @! 30
 (commands
   (tmp_blksz_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier))))
 
 
@@ -55,7 +55,7 @@ Temporary from/to
 (commands
   (tmp_fromto_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier))
     (arg (arg_identifier))))
 
@@ -71,7 +71,7 @@ pd 2 @a:x86
 (commands
   (tmp_arch_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier))))
 
 =================
@@ -85,7 +85,7 @@ pd 2 @b:16
 (commands
   (tmp_bits_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier))))
 
 =================
@@ -99,7 +99,7 @@ pd 2 @B:3
 (commands
   (tmp_nthi_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier))))
 
 =================
@@ -114,11 +114,11 @@ pd 2 @e:asm.arch=x86,scr.utf8=true
 (commands
   (tmp_eval_command
     (arged_command command: (cmd_identifier)
-      args: (arg (arg_identifier)))
+      args: (args (arg (arg_identifier))))
     (tmp_eval_arg))
   (tmp_eval_command
     (arged_command command: (cmd_identifier)
-      args: (arg (arg_identifier)))
+      args: (args (arg (arg_identifier))))
     (tmp_eval_arg)
     (tmp_eval_arg)))
 
@@ -146,7 +146,7 @@ pd 2 @i:4
 (commands
   (tmp_reli_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier))))
 
 =================
@@ -243,7 +243,7 @@ p8 4 @ 0xdead @a:x86 > /tmp/out.txt
     (tmp_arch_command
       (tmp_seek_command
         (arged_command (cmd_identifier)
-	  (arg (arg_identifier)))
+	  (args (arg (arg_identifier))))
 	(arg (arg_identifier)))
       (arg (arg_identifier)))
     (fdn_redirect_operator)

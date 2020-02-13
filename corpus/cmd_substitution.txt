@@ -8,10 +8,10 @@ Command substitution used as simple arg $(
 
 (commands
   (arged_command command: (cmd_identifier)
-    args: (arg
-            (cmd_substitution_arg
+    args: (args
+            (arg (cmd_substitution_arg
 	      (arged_command command: (cmd_identifier)
-	        args: (arg (arg_identifier)))))))
+	        args: (args (arg (arg_identifier)))))))))
 
 =======================================
 Command substitution with multiple commands
@@ -23,14 +23,14 @@ Command substitution with multiple commands
 
 (commands
   (arged_command command: (cmd_identifier)
-    args: (arg
-            (cmd_substitution_arg
+    args: (args
+            (arg (cmd_substitution_arg
 	      (arged_command command: (cmd_identifier)
-	        args: (arg (arg_identifier)))
+	        args: (args (arg (arg_identifier))))
 	      (tmp_seek_command
 	        (arged_command command: (cmd_identifier)
-	          args: (arg (arg_identifier)))
-		(arg (arg_identifier)))))))
+	          args: (args (arg (arg_identifier))))
+		(arg (arg_identifier))))))))
 
 
 
@@ -44,10 +44,10 @@ Command substitution used as simple arg `
 
 (commands
   (arged_command command: (cmd_identifier)
-    args: (arg
-            (cmd_substitution_arg
+    args: (args
+            (arg (cmd_substitution_arg
 	      (arged_command command: (cmd_identifier)
-	        args: (arg (arg_identifier)))))))
+	        args: (args (arg (arg_identifier)))))))))
 
 
 =======================================
@@ -60,8 +60,8 @@ Nested command substitution
 
 (commands
   (arged_command command: (cmd_identifier)
-    args: (arg (cmd_substitution_arg
+    args: (args (arg (cmd_substitution_arg
 	         (arged_command command: (cmd_identifier)
-	           args: (arg (cmd_substitution_arg
+	           args: (args (arg (cmd_substitution_arg
 		           (arged_command command: (cmd_identifier)
-			     args: (arg (arg_identifier))))))))))
+			     args: (args (arg (arg_identifier)))))))))))))

@@ -23,28 +23,31 @@
     }
   },
   {
-    "type": "arg_identifier",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "arged_command",
     "named": true,
     "fields": {
       "args": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
           {
             "type": "=",
             "named": false
           },
           {
-            "type": "arg",
+            "type": "arged_command",
             "named": true
           },
           {
-            "type": "arged_command",
+            "type": "args",
             "named": true
           },
           {
@@ -133,6 +136,10 @@
           },
           {
             "type": "last_command",
+            "named": true
+          },
+          {
+            "type": "macro_call_content",
             "named": true
           },
           {
@@ -251,13 +258,18 @@
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "args",
+    "named": true,
+    "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
-          "type": "macro_call_content",
+          "type": "arg",
           "named": true
         }
       ]
@@ -835,7 +847,7 @@
         "required": false,
         "types": [
           {
-            "type": "arg",
+            "type": "args",
             "named": true
           }
         ]
@@ -2671,11 +2683,11 @@
       "required": true,
       "types": [
         {
-          "type": "arg",
+          "type": "arged_command",
           "named": true
         },
         {
-          "type": "arged_command",
+          "type": "args",
           "named": true
         },
         {
@@ -3689,9 +3701,19 @@
     "fields": {
       "string": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": []
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "cmd_substitution_arg",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -6925,6 +6947,10 @@
   {
     "type": "`",
     "named": false
+  },
+  {
+    "type": "arg_identifier",
+    "named": true
   },
   {
     "type": "cmd_identifier",

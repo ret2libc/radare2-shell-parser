@@ -103,16 +103,16 @@ pd 10 |.
   (arged_command
     command: (cmd_identifier)
     args: (arged_command command: (cmd_identifier)
-            args: (arg (arg_identifier))))
+            args: (args (arg (arg_identifier)))))
   (arged_command
     command: (cmd_identifier)
-    args: (arg (arg_identifier)))
+    args: (args (arg (arg_identifier))))
   (arged_command
     command: (cmd_identifier)
-    args: (arg (arg_identifier)))
+    args: (args (arg (arg_identifier))))
   (arged_command
     command: (cmd_identifier)
-    args: (arg (arg_identifier)))
+    args: (args (arg (arg_identifier))))
   (arged_command
     command: (cmd_identifier)
     args: (interpret_arg))
@@ -121,10 +121,10 @@ pd 10 |.
     args: (macro_content))
   (arged_command
     command: (cmd_identifier)
-    args: (arg (arg_identifier)))
+    args: (args (arg (arg_identifier))))
   (arged_command
     args: (arged_command command: (cmd_identifier)
-            args: (arg (arg_identifier))))
+            args: (args (arg (arg_identifier)))))
   )
 
 
@@ -155,6 +155,6 @@ Interpreter commands
 (commands
   (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)
-    (arg (arg_identifier)))
+    (args (arg (arg_identifier))))
   (arged_command (cmd_identifier))
   (help_command (cmd_identifier)))

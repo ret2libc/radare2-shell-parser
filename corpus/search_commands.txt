@@ -8,7 +8,7 @@ Simple search
 
 (commands
   (arged_command (cmd_identifier)
-    (arg (arg_identifier))))
+    (args (arg (arg_identifier)))))
 
 
 ==============
@@ -22,9 +22,9 @@ Not matching
 
 (commands
   (arged_command (cmd_identifier)
-    (arg (arg_identifier)))
+    (args (arg (arg_identifier))))
   (arged_command (cmd_identifier)
-    (arg (arg_identifier))))
+    (args (arg (arg_identifier)))))
 
 
 =======
@@ -37,7 +37,7 @@ Reg exp
 
 (commands
   (arged_command (cmd_identifier)
-    (arg (arg_identifier))))
+    (args (arg (arg_identifier)))))
 
 
 ===================
@@ -50,4 +50,4 @@ Search with nibbles
 
 (commands
   (arged_command (cmd_identifier)
-    (arg (arg_identifier))))
+    (args (arg (arg_identifier)))))

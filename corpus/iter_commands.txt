@@ -9,7 +9,7 @@ p8 4 @@ sym.*
 (commands
   (iter_flags_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))
+      (args (arg (arg_identifier))))
     (arg (arg_identifier))))
 
 ========
@@ -26,16 +26,16 @@ p8 4 @@dbts
 (commands
   (iter_dbta_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier))))
+      (args (arg (arg_identifier)))))
   (iter_dbta_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier))))
+      (args (arg (arg_identifier)))))
   (iter_dbtb_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier))))
+      (args (arg (arg_identifier)))))
   (iter_dbts_command
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))))
+      (args (arg (arg_identifier))))))
 
 ===============
 Iter file lines
@@ -61,8 +61,7 @@ p8 @@=off1 off2
 (commands
   (iter_offsets_command
     (arged_command (cmd_identifier))
-    (arg (arg_identifier))
-    (arg (arg_identifier))))
+    (args (arg (arg_identifier)) (arg (arg_identifier)))))
 
 
 ===============
@@ -186,4 +185,4 @@ p8 @@c:/x 9090
   (iter_interpret_command
     (arged_command (cmd_identifier))
     (arged_command (cmd_identifier)
-      (arg (arg_identifier)))))
+      (args (arg (arg_identifier))))))

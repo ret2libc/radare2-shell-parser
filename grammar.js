@@ -116,13 +116,12 @@ module.exports = grammar({
 	pipe_command: $ => seq($._simple_command, '|', $.pipe_second_command),
 	pipe_second_command: $ => /[^|\r\n;]+/,
 
-	// iter commands
 	iter_flags_command: $ => prec.right(1, seq($._simple_command, '@@', $.arg)),
 	iter_dbta_command: $ => prec.right(1, seq($._simple_command, choice('@@dbt', '@@dbta'))),
 	iter_dbtb_command: $ => prec.right(1, seq($._simple_command, '@@dbtb')),
 	iter_dbts_command: $ => prec.right(1, seq($._simple_command, '@@dbts')),
 	iter_file_lines_command: $ => prec.right(1, seq($._simple_command, '@@.', $.arg)),
-	iter_offsets_command: $ => prec.right(1, seq($._simple_command, '@@=', repeat1($.arg))),
+	iter_offsets_command: $ => prec.right(1, seq($._simple_command, '@@=', $.args)),
 	iter_sdbquery_command: $ => prec.right(1, seq($._simple_command, '@@k', $.arg)),
 	iter_threads_command: $ => prec.right(1, seq($._simple_command, '@@t')),
 	iter_bbs_command: $ => prec.right(1, seq($._simple_command, '@@b')),
@@ -151,7 +150,7 @@ module.exports = grammar({
 
 	_interpreter_command: $ => prec.right(1, seq(
 	    field('command', alias($.interpreter_identifier, $.cmd_identifier)),
-	    field('args', repeat($.arg)),
+	    field('args', optional($.args)),
 	)),
 
 	// basic commands
@@ -159,7 +158,7 @@ module.exports = grammar({
 	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
 	    seq(
 		field('command', alias($._help_command, $.cmd_identifier)),
-		field('args', repeat($.arg)),
+		field('args', optional($.args)),
 	    ),
 	)),
 	arged_command: $ => choice(
@@ -175,11 +174,11 @@ module.exports = grammar({
 
 	_simple_arged_command: $ => prec.left(1, seq(
 	    field('command', $.cmd_identifier),
-	    field('args', repeat($.arg)),
+	    field('args', optional($.args)),
 	)),
 	_math_arged_command: $ => prec.left(1, seq(
 	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
-	    field('args', repeat1($.arg)),
+	    field('args', $.args),
 	)),
 	_pointer_arged_command: $ => prec.left(1, seq(
 	    field('command', alias($.pointer_identifier, $.cmd_identifier)),
@@ -187,16 +186,18 @@ module.exports = grammar({
 	)),
 	_macro_arged_command: $ => prec.left(1, seq(
 	    field('command', alias($.macro_identifier, $.cmd_identifier)),
-	    optional(field('args', $.macro_content)),
-	    optional(seq(
-		')',
-		optional(
-		    seq(
-			'(',
-			optional($.macro_call_content),
-			')',
-		    )
-		),
+	    field('args', seq(
+		optional($.macro_content),
+		optional(seq(
+		    ')',
+		    optional(
+			seq(
+			    '(',
+			    optional($.macro_call_content),
+			    ')',
+			)
+		    ),
+		)),
 	    )),
 	)),
 	_system_command: $ => prec.left(1, seq(
@@ -210,7 +211,7 @@ module.exports = grammar({
 	    ),
 	    seq(
 		field('command', alias($._interpret_identifier, $.cmd_identifier)),
-		field('args', repeat($.arg)),
+		field('args', optional($.args)),
 	    ),
 	    seq(
 		field('command', alias('.!', $.cmd_identifier)),
@@ -223,7 +224,7 @@ module.exports = grammar({
 	    ),
 	    seq(
 		field('command', alias($._interpret_search_identifier, $.cmd_identifier)),
-		field('args', repeat1($.arg)),
+		field('args', $.args),
 	    ),
 	    prec.right(1, seq(
 		field('args', $._simple_command),
@@ -284,22 +285,33 @@ module.exports = grammar({
 	    $.quoted_arg,
 	    $.cmd_substitution_arg,
 	),
+	args: $ => prec.left(repeat1($.arg)),
+	// TODO: this should accept a quoted_arg and a cmd_substitution_arg as well
 	tmp_eval_arg: $ => /[^\r\n#@|>,; ]+/,
 
+	// TODO: these should accept a quoted_arg and a cmd_substitution_arg as well
 	eq_sep_key: $ => /[^\r\n#@|>=; ]+/,
-	// TODO: this should accept a quoted_arg and a cmd_substitution_arg as well
 	eq_sep_val: $ => /[^\r\n#@|>; ]+/,
 	macro_content: $ => /[^\r\n)]+/,
 	_any_command: $ => /[^\r\n;]+/,
 
-	arg_identifier: $ => choice(
-	    /[^\r\n~#@|"'>;$()` ]+/,
-	    /\$[^\r\n~#@|"'>;(` ]*/,
-	),
+	arg_identifier: $ => token(repeat1(
+	    choice(
+		/[^\r\n~#@|"'>;$()` ]+/,
+		/\$[A-Za-z$?]+/,
+		/\${[\r\n $}]+}/,
+		/\\[\r\n~#@|"'>;$()` ]/,
+	    )
+	)),
 	quoted_arg: $ => choice(
 	    seq(
 		'"',
-		field('string', /[^\\"\n]+/),
+		repeat(choice(
+		    /[^\\"\n$`]+/,
+		    /\$[^("]?/,
+		    /\\[\\"\n$`]?/,
+		    $.cmd_substitution_arg,
+		)),
 		'"',
 	    ),
 	    seq(
