@@ -116,7 +116,8 @@ module.exports = grammar({
 	    field('specifier', $.grep_specifier),
 	),
 	// FIXME: improve parser for grep specifier
-	grep_specifier: $ => /[A-Za-z0-9 \.\&,$!+\^<?:{}\-\[\]]*/,
+	// grep_specifier also includes ~ because r2 does not support nested grep commands yet
+	grep_specifier: $ => /[A-Za-z0-9 \.\&,$!+\^<?:{}\-_\[\]()~]*/,
 
 	html_disable_command: $ => prec.right(1, seq($._simple_command, '|')),
 	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),
@@ -290,7 +291,8 @@ module.exports = grammar({
 
 	arg: $ => choice(
 	    $.arg_identifier,
-	    $.quoted_arg,
+	    $.double_quoted_arg,
+	    $.single_quoted_arg,
 	    $.cmd_substitution_arg,
 	),
 	args: $ => prec.left(repeat1($.arg)),
@@ -301,32 +303,33 @@ module.exports = grammar({
 	eq_sep_key: $ => /[^\r\n#@|>=; ]+/,
 	eq_sep_val: $ => /[^\r\n#@|>; ]+/,
 	macro_content: $ => /[^\r\n)]+/,
-	_any_command: $ => /[^\r\n;]+/,
+	_any_command: $ => /[^\r\n;~]+/,
 
 	arg_identifier: $ => token(repeat1(
 	    choice(
 		repeat1(noneOf(...SPECIAL_CHARACTERS)),
-		/\$[A-Za-z$?]+/,
+		/\$[^({]/,
 		/\${[\r\n $}]+}/,
 		escape(...SPECIAL_CHARACTERS),
 	    )
 	)),
-	quoted_arg: $ => choice(
-	    seq(
-		'"',
-		repeat(choice(
-		    /[^\\"\n$`]+/,
-		    /\$[^("]?/,
-		    /\\[\\"\n$`]?/,
-		    $.cmd_substitution_arg,
-		)),
-		'"',
-	    ),
-	    seq(
-		'\'',
-		field('string', /[^\\'\n]+/),
-		'\'',
-	    ),
+	double_quoted_arg: $ => seq(
+	    '"',
+	    repeat(choice(
+		/[^\\"\n$`]+/,
+		/\$[^("]?/,
+		/\\[\\"\n$`]?/,
+		$.cmd_substitution_arg,
+	    )),
+	    '"',
+	),
+	single_quoted_arg: $ => seq(
+	    '\'',
+	    repeat(choice(
+		/[^\\'\n]+/,
+		/\\[\\'\n]?/,
+	    )),
+	    '\'',
 	),
 	cmd_substitution_arg: $ => choice(
 	    seq('$(', $._commands_singleline, ')'),

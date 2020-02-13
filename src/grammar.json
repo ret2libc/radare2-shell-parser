@@ -355,7 +355,7 @@
     },
     "grep_specifier": {
       "type": "PATTERN",
-      "value": "[A-Za-z0-9 \\.\\&,$!+\\^<?:{}\\-\\[\\]]*"
+      "value": "[A-Za-z0-9 \\.\\&,$!+\\^<?:{}\\-_\\[\\]()~]*"
     },
     "html_disable_command": {
       "type": "PREC_RIGHT",
@@ -1897,7 +1897,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "quoted_arg"
+          "name": "double_quoted_arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single_quoted_arg"
         },
         {
           "type": "SYMBOL",
@@ -1934,7 +1938,7 @@
     },
     "_any_command": {
       "type": "PATTERN",
-      "value": "[^\\r\\n;]+"
+      "value": "[^\\r\\n;~]+"
     },
     "arg_identifier": {
       "type": "TOKEN",
@@ -1952,7 +1956,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "\\$[A-Za-z$?]+"
+              "value": "\\$[^({]"
             },
             {
               "type": "PATTERN",
@@ -1966,66 +1970,69 @@
         }
       }
     },
-    "quoted_arg": {
-      "type": "CHOICE",
+    "double_quoted_arg": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\""
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[^\\\\\"\\n$`]+"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "\\$[^(\"]?"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "\\\\[\\\\\"\\n$`]?"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "cmd_substitution_arg"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "STRING",
-              "value": "\""
-            }
-          ]
+          "type": "STRING",
+          "value": "\""
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "'"
-            },
-            {
-              "type": "FIELD",
-              "name": "string",
-              "content": {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^\\\\\"\\n$`]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\$[^(\"]?"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\\\[\\\\\"\\n$`]?"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "cmd_substitution_arg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "single_quoted_arg": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "'"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
                 "type": "PATTERN",
                 "value": "[^\\\\'\\n]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\\\[\\\\'\\n]?"
               }
-            },
-            {
-              "type": "STRING",
-              "value": "'"
-            }
-          ]
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "'"
         }
       ]
     },

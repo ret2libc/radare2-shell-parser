@@ -8,7 +8,7 @@ Echo with (double) quoted args
 
 (commands
   (arged_command command: (cmd_identifier)
-    args: (args (arg (quoted_arg)))))
+    args: (args (arg (double_quoted_arg)))))
 
 ==============================
 Echo with (single) quoted args
@@ -20,7 +20,7 @@ Echo with (single) quoted args
 
 (commands
   (arged_command command: (cmd_identifier)
-    args: (args (arg (quoted_arg)))))
+    args: (args (arg (single_quoted_arg)))))
 
 
 ===========================
@@ -46,8 +46,8 @@ Double quoted arg with cmd substitution
 (commands
   (arged_command command: (cmd_identifier)
     args: (args
-             (arg (quoted_arg
+             (arg (double_quoted_arg
 	       (cmd_substitution_arg
 	         (arged_command command: (cmd_identifier)
 		   args: (args
-		            (arg (quoted_arg))))))))))
+		            (arg (double_quoted_arg))))))))))

@@ -16,7 +16,11 @@
           "named": true
         },
         {
-          "type": "quoted_arg",
+          "type": "double_quoted_arg",
+          "named": true
+        },
+        {
+          "type": "single_quoted_arg",
           "named": true
         }
       ]
@@ -629,6 +633,21 @@
         },
         {
           "type": "tmp_string_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "double_quoted_arg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "cmd_substitution_arg",
           "named": true
         }
       ]
@@ -3696,27 +3715,6 @@
     }
   },
   {
-    "type": "quoted_arg",
-    "named": true,
-    "fields": {
-      "string": {
-        "multiple": false,
-        "required": false,
-        "types": []
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "cmd_substitution_arg",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "redirect_command",
     "named": true,
     "fields": {
@@ -4241,6 +4239,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "single_quoted_arg",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "system_arg",
