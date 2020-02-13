@@ -116,7 +116,7 @@ module.exports = grammar({
 	    field('specifier', $.grep_specifier),
 	),
 	// FIXME: improve parser for grep specifier
-	grep_specifier: $ => /[A-Za-z0-9 \&,$!+\^<?:{}\-\[\]]*/,
+	grep_specifier: $ => /[A-Za-z0-9 \.\&,$!+\^<?:{}\-\[\]]*/,
 
 	html_disable_command: $ => prec.right(1, seq($._simple_command, '|')),
 	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),

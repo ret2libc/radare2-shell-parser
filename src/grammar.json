@@ -355,7 +355,7 @@
     },
     "grep_specifier": {
       "type": "PATTERN",
-      "value": "[A-Za-z0-9 \\&,$!+\\^<?:{}\\-\\[\\]]*"
+      "value": "[A-Za-z0-9 \\.\\&,$!+\\^<?:{}\\-\\[\\]]*"
     },
     "html_disable_command": {
       "type": "PREC_RIGHT",

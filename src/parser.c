@@ -1721,7 +1721,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '!' ||
           lookahead == '$' ||
           lookahead == '&' ||
-          ('+' <= lookahead && lookahead <= '-') ||
+          ('+' <= lookahead && lookahead <= '.') ||
           ('0' <= lookahead && lookahead <= ':') ||
           lookahead == '<' ||
           lookahead == '?' ||
@@ -1737,7 +1737,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '!' ||
           lookahead == '$' ||
           lookahead == '&' ||
-          ('+' <= lookahead && lookahead <= '-') ||
+          ('+' <= lookahead && lookahead <= '.') ||
           ('0' <= lookahead && lookahead <= ':') ||
           lookahead == '<' ||
           lookahead == '?' ||
@@ -3006,7 +3006,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '!' ||
           lookahead == '$' ||
           lookahead == '&' ||
-          ('+' <= lookahead && lookahead <= '-') ||
+          ('+' <= lookahead && lookahead <= '.') ||
           ('0' <= lookahead && lookahead <= ':') ||
           lookahead == '<' ||
           lookahead == '?' ||
