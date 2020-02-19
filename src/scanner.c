@@ -9,6 +9,7 @@ enum TokenType {
 	FILE_DESCRIPTOR,
 	REPEAT_NUMBER,
 	INTERPRETER_IDENTIFIER,
+	EQ_SEP_CONCAT,
 };
 
 void *tree_sitter_r2cmd_external_scanner_create() {
@@ -46,6 +47,11 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 		return false;
 	}
 
+	// skip spaces at the beginning
+	while (isspace (lexer->lookahead)) {
+		lexer->advance (lexer, true);
+	}
+
 	if (!isdigit (lexer->lookahead)) {
 		return false;
 	}
@@ -70,6 +76,16 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 }
 
 bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+	/* printf("lookahead (%d) = '%c'\n", lexer->get_column (lexer), lexer->lookahead); */
+	/* printf("EQ_SEP_CONCAT = %d, CMD_IDENTIFIER = %d, REPEAT = %d, FILE_DESC = %d\n", */
+	/*        valid_symbols[EQ_SEP_CONCAT], */
+	/*        valid_symbols[CMD_IDENTIFIER], */
+	/*        valid_symbols[REPEAT_NUMBER], */
+	/* 	valid_symbols[FILE_DESCRIPTOR]); */
+	if (valid_symbols[EQ_SEP_CONCAT] && !isspace(lexer->lookahead) && lexer->lookahead != '=' && lexer->lookahead != '\0') {
+		lexer->result_symbol = EQ_SEP_CONCAT;
+		return true;
+	}
 	if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] ||
 	    valid_symbols[REPEAT_NUMBER] || valid_symbols[INTERPRETER_IDENTIFIER]) {
 		bool one_char_cmd = true;
@@ -80,6 +96,10 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		const char *env_identifier = "env";
 		const char *int_identifier = "#!";
 		int i_env = 0, i_int = 0;
+
+		while (isspace (lexer->lookahead)) {
+			lexer->advance (lexer, true);
+		}
 
 		if (!is_start_of_command (lexer->lookahead)) {
 			return scan_number (lexer, valid_symbols);
@@ -120,7 +140,8 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 			}
 		}
 		return true;
-	} else if (valid_symbols[FILE_DESCRIPTOR]) {
+	}
+	if (valid_symbols[FILE_DESCRIPTOR]) {
 		return scan_number (lexer, valid_symbols);
 	}
 	return false;

@@ -16,14 +16,14 @@ pd 10\@test\>name
 Use newlines in echo
 ====================
 
-?e Hello\nWorld
+?e "Hello\nWorld"
 
 ---
 
 (commands
   (arged_command
     command: (cmd_identifier)
-    args: (args (arg (arg_identifier)))))
+    args: (args (arg (double_quoted_arg)))))
 
 
 ===========

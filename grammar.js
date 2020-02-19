@@ -3,16 +3,17 @@ const SPECIAL_CHARACTERS = [
     '#', '@', '|',
     '"', '\'', '>',
     ';', '$', '(',
-    ')', '`', '~'
+    ')', '`', '~', '\\'
 ];
+
+const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
 
 module.exports = grammar({
     name: 'r2cmd',
 
     extras: $ => [
 	$._comment,
-	'\t',
-	' ',
+	/[ \t]*/,
     ],
 
     externals: $ => [
@@ -21,6 +22,7 @@ module.exports = grammar({
 	$.file_descriptor,
 	$.repeat_number,
 	$.interpreter_identifier,
+	$._eq_sep_concat,
     ],
 
     inline: $ => [
@@ -46,7 +48,6 @@ module.exports = grammar({
 	)),
 
 	_command: $ => choice(
-	    $.legacy_quoted_command,
 	    $.redirect_command,
 	    $._simple_command,
 	),
@@ -66,6 +67,7 @@ module.exports = grammar({
 	    $._pipe_command,
 	    $.grep_command,
 	    $.last_command,
+	    $.legacy_quoted_command,
 	),
 
 	_tmp_command: $ => choice(
@@ -191,7 +193,7 @@ module.exports = grammar({
 	)),
 	_pointer_arged_command: $ => prec.left(1, seq(
 	    field('command', alias($.pointer_identifier, $.cmd_identifier)),
-	    field('args', $._eq_sep_args),
+	    field('args', alias($.eq_sep_args, $.args)),
 	)),
 	_macro_arged_command: $ => prec.left(1, seq(
 	    field('command', alias($.macro_identifier, $.cmd_identifier)),
@@ -211,7 +213,7 @@ module.exports = grammar({
 	)),
 	_system_command: $ => prec.left(1, seq(
 	    field('command', $.system_identifier),
-	    optional(field('args', $.system_arg)),
+	    optional(field('args', alias($.args, $.system_args))),
 	)),
 	_interpret_command: $ => prec.left(1, choice(
 	    seq(
@@ -240,11 +242,11 @@ module.exports = grammar({
 		field('command', '|.'),
 	    )),
 	)),
-	_interpret_search_identifier: $ => seq('./', optional(repeat(' '))),
-	_env_command: $ => seq(
+	_interpret_search_identifier: $ => seq('./'),
+	_env_command: $ => prec.left(seq(
 	    field('command', alias($._env_command_identifier, $.cmd_identifier)),
-	    field('args', optional($._eq_sep_args)),
-	),
+	    field('args', optional(alias($.eq_sep_args, $.args))),
+	)),
 	_env_command_identifier: $ => choice('%', 'env'),
 	last_command: $ => seq(
 	    field('command', alias($.last_command_identifier, $.cmd_identifier)),
@@ -257,17 +259,19 @@ module.exports = grammar({
 	)),
 	interpret_arg: $ => $._any_command,
 	system_identifier: $ => /![\*!-=]*/,
-	system_arg: $ => $._any_command,
 	question_mark_identifier: $ => '?',
 
-	repeat_command: $ => prec.right(1, seq($.repeat_number, $._simple_command)),
+	repeat_command: $ => prec.right(1, seq(
+	    field('arg', $.repeat_number),
+	    field('command', $._simple_command),
+	)),
 
 	pointer_identifier: $ => '*',
-	_eq_sep_args: $ => seq(
-	    $.eq_sep_key,
+	eq_sep_args: $ => seq(
+	    alias($.eq_sep_key, $.args),
 	    optional(seq(
-		'=',
-		$.eq_sep_val,
+		alias('=', $.arg_identifier),
+		alias($.eq_sep_val, $.args)
 	    )),
 	),
 	macro_identifier: $ => /\([-\*]?/,
@@ -299,17 +303,42 @@ module.exports = grammar({
 	// TODO: this should accept a quoted_arg and a cmd_substitution_arg as well
 	tmp_eval_arg: $ => /[^\r\n#@|>,; ]+/,
 
-	// TODO: these should accept a quoted_arg and a cmd_substitution_arg as well
-	eq_sep_key: $ => /[^\r\n#@|>=; ]+/,
-	eq_sep_val: $ => /[^\r\n#@|>; ]+/,
+	_eq_sep_key_single: $ => choice(
+	    alias ($._eq_sep_key_identifier, $.arg_identifier),
+	    $.double_quoted_arg,
+	    $.single_quoted_arg,
+	    $.cmd_substitution_arg,
+	),
+	eq_sep_key: $ => prec.left(seq(
+	    alias($._eq_sep_key_single, $.arg),
+	    repeat(seq(
+		$._eq_sep_concat,
+		alias($._eq_sep_key_single, $.arg),
+	    )),
+	)),
+	_eq_sep_key_identifier: $ => token(repeat1(
+	    choice(
+		repeat1(noneOf(...SPECIAL_CHARACTERS_EQUAL)),
+		/\$[^({]/,
+		/\${[^\r\n $}]+}/,
+		escape(...SPECIAL_CHARACTERS_EQUAL),
+	    )
+	)),
+	eq_sep_val: $ => prec.left(seq(
+	    $.arg,
+	    repeat(seq(
+		$._eq_sep_concat,
+		$.arg,
+	    )),
+	)),
 	macro_content: $ => /[^\r\n)]+/,
-	_any_command: $ => /[^\r\n;~]+/,
+	_any_command: $ => /[^\r\n;~|]+/,
 
 	arg_identifier: $ => token(repeat1(
 	    choice(
 		repeat1(noneOf(...SPECIAL_CHARACTERS)),
 		/\$[^({]/,
-		/\${[\r\n $}]+}/,
+		/\${[^\r\n $}]+}/,
 		escape(...SPECIAL_CHARACTERS),
 	    )
 	)),

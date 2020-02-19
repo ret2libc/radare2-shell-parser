@@ -10,13 +10,18 @@ Pointer type commands
 
 (commands
   (arged_command (cmd_identifier)
-    (eq_sep_key))
+    (args
+      (args (arg (arg_identifier)))))
   (arged_command (cmd_identifier)
-    (eq_sep_key)
-    (eq_sep_val))
+    (args
+      (args (arg (arg_identifier)))
+      (arg_identifier)
+      (args (arg (arg_identifier)))))
   (arged_command (cmd_identifier)
-    (eq_sep_key)
-    (eq_sep_val)))
+    (args
+      (args (arg (arg_identifier)))
+      (arg_identifier)
+      (args (arg (arg_identifier))))))
 
 
 ==============================
@@ -32,10 +37,13 @@ Environment variable command
 (commands
   (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)
-    (eq_sep_key))
+    (args
+      (args (arg (arg_identifier)))))
   (arged_command (cmd_identifier)
-    (eq_sep_key)
-    (eq_sep_val)))
+    (args
+      (args (arg (arg_identifier)))
+      (arg_identifier)
+      (args (arg (arg_identifier))))))
 
 
 ===============
@@ -77,10 +85,10 @@ System commands
 (commands
   (arged_command (system_identifier))
   (arged_command (system_identifier)
-    (system_arg))
+    (system_args (arg (arg_identifier))))
   (arged_command (system_identifier))
   (arged_command (system_identifier)
-    (system_arg))
+    (system_args (arg (arg_identifier))))
   (arged_command (system_identifier)))
 
 
@@ -158,3 +166,26 @@ Interpreter commands
     (args (arg (arg_identifier))))
   (arged_command (cmd_identifier))
   (help_command (cmd_identifier)))
+
+
+=======================================
+Pointer type commands with substitution
+=======================================
+
+*entr$(?e y0)=$(?v $$)
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+    (args
+      (args
+        (arg (arg_identifier))
+	(arg (cmd_substitution_arg
+	        (arged_command (cmd_identifier)
+		  (args (arg (arg_identifier)))))))
+      (arg_identifier)
+      (args
+        (arg (cmd_substitution_arg
+	        (arged_command (cmd_identifier)
+		  (args (arg (arg_identifier))))))))))

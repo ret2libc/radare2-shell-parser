@@ -2,13 +2,13 @@
 Simple search
 =============
 
-/ foo\x00
+/ "foo\x00"
 
 ---
 
 (commands
   (arged_command (cmd_identifier)
-    (args (arg (arg_identifier)))))
+    (args (arg (double_quoted_arg)))))
 
 
 ==============
