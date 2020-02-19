@@ -1407,13 +1407,8 @@
                 "type": "FIELD",
                 "name": "args",
                 "content": {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "args"
-                  },
-                  "named": true,
-                  "value": "system_args"
+                  "type": "SYMBOL",
+                  "name": "args"
                 }
               },
               {
@@ -1911,7 +1906,7 @@
       "type": "STRING",
       "value": "H>>"
     },
-    "arg": {
+    "_arg": {
       "type": "CHOICE",
       "members": [
         {
@@ -1929,6 +1924,19 @@
         {
           "type": "SYMBOL",
           "name": "cmd_substitution_arg"
+        }
+      ]
+    },
+    "arg": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "concatenation"
         }
       ]
     },
@@ -2218,6 +2226,35 @@
         }
       ]
     },
+    "concatenation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_arg"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "PREC",
+            "value": -1,
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_concat"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_arg"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
     "_comment": {
       "type": "TOKEN",
       "content": {
@@ -2313,6 +2350,10 @@
     {
       "type": "SYMBOL",
       "name": "_eq_sep_concat"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_concat"
     }
   ],
   "inline": [

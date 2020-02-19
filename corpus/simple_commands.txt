@@ -151,3 +151,23 @@ afl?
   (help_command (cmd_identifier))
   (help_command (cmd_identifier))
   (help_command (cmd_identifier)))
+
+
+===============================
+Command with concatenation args
+===============================
+
+?e Hello" World"'!' And All
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+    (args
+      (arg
+	(concatenation
+	  (arg_identifier)
+	  (double_quoted_arg)
+	  (single_quoted_arg)))
+      (arg (arg_identifier))
+      (arg (arg_identifier)))))

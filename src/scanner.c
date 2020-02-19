@@ -10,6 +10,7 @@ enum TokenType {
 	REPEAT_NUMBER,
 	INTERPRETER_IDENTIFIER,
 	EQ_SEP_CONCAT,
+	CONCAT,
 };
 
 void *tree_sitter_r2cmd_external_scanner_create() {
@@ -86,7 +87,23 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		lexer->result_symbol = EQ_SEP_CONCAT;
 		return true;
 	}
-	if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] ||
+	if (valid_symbols[CONCAT] &&
+		lexer->lookahead != '\0' &&
+		!isspace(lexer->lookahead) &&
+		lexer->lookahead != '#' &&
+		lexer->lookahead != '@' &&
+		lexer->lookahead != '|' &&
+		lexer->lookahead != '>' &&
+		lexer->lookahead != ';' &&
+		lexer->lookahead != '(' &&
+		lexer->lookahead != ')' &&
+		lexer->lookahead != '`' &&
+		lexer->lookahead != '~' &&
+		lexer->lookahead != '\\') {
+		lexer->result_symbol = CONCAT;
+		return true;
+	}
+        if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] ||
 	    valid_symbols[REPEAT_NUMBER] || valid_symbols[INTERPRETER_IDENTIFIER]) {
 		bool one_char_cmd = true;
 		bool is_env_identifier = true;

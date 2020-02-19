@@ -23,6 +23,7 @@ module.exports = grammar({
 	$.repeat_number,
 	$.interpreter_identifier,
 	$._eq_sep_concat,
+	$._concat,
     ],
 
     inline: $ => [
@@ -213,7 +214,7 @@ module.exports = grammar({
 	)),
 	_system_command: $ => prec.left(1, seq(
 	    field('command', $.system_identifier),
-	    optional(field('args', alias($.args, $.system_args))),
+	    optional(field('args', $.args)),
 	)),
 	_interpret_command: $ => prec.left(1, choice(
 	    seq(
@@ -293,11 +294,15 @@ module.exports = grammar({
 	html_redirect_operator: $ => 'H>',
 	html_append_operator: $ => 'H>>',
 
-	arg: $ => choice(
+	_arg: $ => choice(
 	    $.arg_identifier,
 	    $.double_quoted_arg,
 	    $.single_quoted_arg,
 	    $.cmd_substitution_arg,
+	),
+	arg: $ => choice(
+	    $._arg,
+	    $.concatenation,
 	),
 	args: $ => prec.left(repeat1($.arg)),
 	// TODO: this should accept a quoted_arg and a cmd_substitution_arg as well
@@ -364,7 +369,13 @@ module.exports = grammar({
 	    seq('$(', $._commands_singleline, ')'),
 	    prec(1, seq('`', $._commands_singleline, '`')),
 	),
-
+	concatenation: $ => seq(
+	    $._arg,
+	    repeat1(prec(-1, seq(
+		$._concat,
+		$._arg,
+	    ))),
+	),
 
 	_comment: $ => token(choice(
 	    '#',

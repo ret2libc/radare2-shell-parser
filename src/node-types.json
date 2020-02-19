@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "double_quoted_arg",
           "named": true
         },
@@ -152,10 +156,6 @@
           },
           {
             "type": "scr_tts_command",
-            "named": true
-          },
-          {
-            "type": "system_args",
             "named": true
           },
           {
@@ -621,6 +621,33 @@
         },
         {
           "type": "tmp_string_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "concatenation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arg_identifier",
+          "named": true
+        },
+        {
+          "type": "cmd_substitution_arg",
+          "named": true
+        },
+        {
+          "type": "double_quoted_arg",
+          "named": true
+        },
+        {
+          "type": "single_quoted_arg",
           "named": true
         }
       ]
@@ -4323,21 +4350,6 @@
     "type": "single_quoted_arg",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "system_args",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "arg",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "tmp_arch_command",

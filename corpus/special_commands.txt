@@ -85,10 +85,10 @@ System commands
 (commands
   (arged_command (system_identifier))
   (arged_command (system_identifier)
-    (system_args (arg (arg_identifier))))
+    (args (arg (arg_identifier))))
   (arged_command (system_identifier))
   (arged_command (system_identifier)
-    (system_args (arg (arg_identifier))))
+    (args (arg (arg_identifier))))
   (arged_command (system_identifier)))
 
 
