@@ -799,6 +799,10 @@
           {
             "type": "SYMBOL",
             "name": "arg"
+          },
+          {
+            "type": "STRING",
+            "value": ")"
           }
         ]
       }
@@ -882,23 +886,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "tmp_eval_arg"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ","
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "tmp_eval_arg"
-                }
-              ]
-            }
+            "name": "tmp_eval_args"
           }
         ]
       }
@@ -1937,9 +1925,37 @@
         }
       }
     },
+    "tmp_eval_args": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "tmp_eval_arg"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "tmp_eval_arg"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "tmp_eval_arg": {
-      "type": "PATTERN",
-      "value": "[^\\r\\n#@|>,; ]+"
+      "type": "REPEAT1",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\\s#@|\"'>;$()`~\\\\,]"
+      }
     },
     "_eq_sep_key_single": {
       "type": "CHOICE",

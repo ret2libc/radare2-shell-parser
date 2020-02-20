@@ -4859,6 +4859,26 @@
     }
   },
   {
+    "type": "tmp_eval_arg",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "tmp_eval_args",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "tmp_eval_arg",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "tmp_eval_command",
     "named": true,
     "fields": {},
@@ -4975,7 +4995,7 @@
           "named": true
         },
         {
-          "type": "tmp_eval_arg",
+          "type": "tmp_eval_args",
           "named": true
         },
         {
@@ -7136,10 +7156,6 @@
   },
   {
     "type": "system_identifier",
-    "named": true
-  },
-  {
-    "type": "tmp_eval_arg",
     "named": true
   },
   {

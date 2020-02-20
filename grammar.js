@@ -7,6 +7,7 @@ const SPECIAL_CHARACTERS = [
 ];
 
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
+const SPECIAL_CHARACTERS_COMMA = SPECIAL_CHARACTERS.concat([',']);
 
 module.exports = grammar({
     name: 'r2cmd',
@@ -146,11 +147,11 @@ module.exports = grammar({
 	// tmp changes commands
 	tmp_seek_command: $ => prec.right(1, seq($._simple_command, '@', $.arg)),
 	tmp_blksz_command: $ => prec.right(1, seq($._simple_command, '@!', $.arg)),
-	tmp_fromto_command: $ => prec.right(1, seq($._simple_command, '@(', $.arg, $.arg)),
+	tmp_fromto_command: $ => prec.right(1, seq($._simple_command, '@(', $.arg, $.arg, ')')),
 	tmp_arch_command: $ => prec.right(1, seq($._simple_command, '@a:', $.arg)),
 	tmp_bits_command: $ => prec.right(1, seq($._simple_command, '@b:', $.arg)),
 	tmp_nthi_command: $ => prec.right(1, seq($._simple_command, '@B:', $.arg)),
-	tmp_eval_command: $ => prec.right(1, seq($._simple_command, '@e:', $.tmp_eval_arg, repeat(seq(',', $.tmp_eval_arg)))),
+	tmp_eval_command: $ => prec.right(1, seq($._simple_command, '@e:', $.tmp_eval_args)),
 	tmp_fs_command: $ => prec.right(1, seq($._simple_command, '@F:', $.arg)),
 	tmp_reli_command: $ => prec.right(1, seq($._simple_command, '@i:', $.arg)),
 	tmp_kuery_command: $ => prec.right(1, seq($._simple_command, '@k:', $.arg)),
@@ -302,7 +303,8 @@ module.exports = grammar({
 	),
 	args: $ => prec.left(repeat1($.arg)),
 	// TODO: this should accept a quoted_arg and a cmd_substitution_arg as well
-	tmp_eval_arg: $ => /[^\r\n#@|>,; ]+/,
+	tmp_eval_args: $ => seq($.tmp_eval_arg, repeat(seq(',', $.tmp_eval_arg))),
+	tmp_eval_arg: $ => repeat1(noneOf(...SPECIAL_CHARACTERS_COMMA)),
 
 	_eq_sep_key_single: $ => choice(
 	    alias ($._eq_sep_key_identifier, $.arg_identifier),
