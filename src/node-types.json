@@ -3622,13 +3622,7 @@
   {
     "type": "legacy_quoted_command",
     "named": true,
-    "fields": {
-      "string": {
-        "multiple": false,
-        "required": true,
-        "types": []
-      }
-    }
+    "fields": {}
   },
   {
     "type": "pipe_command",

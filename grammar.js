@@ -55,7 +55,7 @@ module.exports = grammar({
 
 	legacy_quoted_command: $ => seq(
 	    '"',
-	    field('string', /[^\\"\n]+/),
+	    field('string', token(prec(-1, /([^"`\\]|\\(.|\n))+/))),
 	    '"',
 	),
 
@@ -120,7 +120,7 @@ module.exports = grammar({
 	),
 	// FIXME: improve parser for grep specifier
 	// grep_specifier also includes ~ because r2 does not support nested grep commands yet
-	grep_specifier: $ => /[A-Za-z0-9 \.\&,$!+\^<?:{}\-_\[\]()~]*/,
+	grep_specifier: $ => /[A-Za-z0-9 =\.\&,$!+\^<?:{}\-_\[\]()~]*/,
 
 	html_disable_command: $ => prec.right(1, seq($._simple_command, '|')),
 	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),
@@ -200,16 +200,13 @@ module.exports = grammar({
 	    field('command', alias($.macro_identifier, $.cmd_identifier)),
 	    field('args', seq(
 		optional($.macro_content),
-		optional(seq(
-		    ')',
-		    optional(
-			seq(
-			    '(',
-			    optional($.macro_call_content),
-			    ')',
-			)
-		    ),
-		)),
+		optional(
+		    seq(
+			'(',
+			optional($.macro_call_content),
+			')',
+		    )
+		),
 	    )),
 	)),
 	_system_command: $ => prec.left(1, seq(
@@ -232,7 +229,6 @@ module.exports = grammar({
 	    seq(
 		field('command', alias('.(', $.cmd_identifier)),
 		field('args', $.macro_content),
-		')',
 	    ),
 	    seq(
 		field('command', alias($._interpret_search_identifier, $.cmd_identifier)),
@@ -336,7 +332,7 @@ module.exports = grammar({
 		$.arg,
 	    )),
 	)),
-	macro_content: $ => /[^\r\n)]+/,
+	macro_content: $ => /[^\r\n)]+\)/,
 	_any_command: $ => /[^\r\n;~|]+/,
 
 	arg_identifier: $ => token(repeat1(
@@ -344,7 +340,7 @@ module.exports = grammar({
 		repeat1(noneOf(...SPECIAL_CHARACTERS)),
 		/\$[^({]/,
 		/\${[^\r\n $}]+}/,
-		escape(...SPECIAL_CHARACTERS),
+		/\\./,
 	    )
 	)),
 	double_quoted_arg: $ => seq(
@@ -395,9 +391,4 @@ module.exports = grammar({
 function noneOf(...characters) {
     const negatedString = characters.map(c => c == '\\' ? '\\\\' : c).join('')
     return new RegExp('[^' + negatedString + ']')
-}
-
-function escape(...characters) {
-    const s = characters.map(c => c == '\\' ? '\\\\' : c).join('')
-    return new RegExp('\\\\[' + s + ']')
 }
