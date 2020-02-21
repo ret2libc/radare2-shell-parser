@@ -56,7 +56,7 @@ module.exports = grammar({
 
 	legacy_quoted_command: $ => seq(
 	    '"',
-	    field('string', token(prec(-1, /([^"`\\]|\\(.|\n))+/))),
+	    field('string', token(prec(-1, /([^"\\]|\\(.|\n))+/))),
 	    '"',
 	),
 
