@@ -225,20 +225,8 @@
         "required": true,
         "types": [
           {
-            "type": "%",
-            "named": false
-          },
-          {
-            "type": "./",
-            "named": false
-          },
-          {
             "type": "cmd_identifier",
             "named": true
-          },
-          {
-            "type": "env",
-            "named": false
           },
           {
             "type": "system_identifier",
@@ -263,6 +251,14 @@
         {
           "type": "arg",
           "named": true
+        },
+        {
+          "type": "arg_identifier",
+          "named": true
+        },
+        {
+          "type": "args",
+          "named": true
         }
       ]
     }
@@ -282,10 +278,6 @@
       "types": [
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_delimiter_singleline",
           "named": true
         },
         {
@@ -457,14 +449,6 @@
       "types": [
         {
           "type": "arged_command",
-          "named": true
-        },
-        {
-          "type": "cmd_delimiter",
-          "named": true
-        },
-        {
-          "type": "cmd_delimiter_singleline",
           "named": true
         },
         {
@@ -3622,7 +3606,13 @@
   {
     "type": "legacy_quoted_command",
     "named": true,
-    "fields": {}
+    "fields": {
+      "string": {
+        "multiple": false,
+        "required": false,
+        "types": []
+      }
+    }
   },
   {
     "type": "pipe_command",
@@ -7123,12 +7113,12 @@
     "named": true
   },
   {
-    "type": "cmd_identifier",
-    "named": true
-  },
-  {
     "type": "env",
     "named": false
+  },
+  {
+    "type": "file_descriptor",
+    "named": true
   },
   {
     "type": "grep_specifier",
@@ -7152,6 +7142,10 @@
   },
   {
     "type": "pipe_second_command",
+    "named": true
+  },
+  {
+    "type": "repeat_number",
     "named": true
   },
   {
