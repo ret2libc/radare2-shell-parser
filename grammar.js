@@ -121,7 +121,7 @@ module.exports = grammar({
 	),
 	// FIXME: improve parser for grep specifier
 	// grep_specifier also includes ~ because r2 does not support nested grep commands yet
-	grep_specifier: $ => /[A-Za-z0-9 =\.\&,$!+\^<?:{}\-_\[\]()~]*/,
+	grep_specifier: $ => /[A-Za-z0-9 *=\.\&,$!+\^<?:{}\-_\[\]()~]*/,
 
 	html_disable_command: $ => prec.right(1, seq($._simple_command, '|')),
 	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),
