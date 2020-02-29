@@ -131,10 +131,14 @@ afl?
 @@?
 @@@?
 ~?
+?*
+p?*
 
 ---
 
 (commands
+  (help_command (cmd_identifier))
+  (help_command (cmd_identifier))
   (help_command (cmd_identifier))
   (help_command (cmd_identifier))
   (help_command (cmd_identifier))

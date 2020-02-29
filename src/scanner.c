@@ -109,11 +109,11 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 	}
         if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] ||
 	    valid_symbols[REPEAT_NUMBER] || valid_symbols[INTERPRETER_IDENTIFIER]) {
-		bool one_char_cmd = true;
+		int id_len = 0;
 		bool is_env_identifier = true;
 		bool is_at_command = false;
 		bool is_int_identifier = valid_symbols[INTERPRETER_IDENTIFIER];
-		char last_char, first_char;
+		char last_char, first_char, before_last_char;
 		const char *env_identifier = "env";
 		const char *int_identifier = "#!";
 		int i_env = 0, i_int = 0;
@@ -131,20 +131,22 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		}
 		is_env_identifier &= lexer->lookahead == env_identifier[i_env++];
 		is_int_identifier &= lexer->lookahead == int_identifier[i_int++];
-		first_char = last_char = lexer->lookahead;
+		first_char = last_char = before_last_char = lexer->lookahead;
 		is_at_command = first_char == '@';
+		id_len++;
 		lexer->advance (lexer, false);
 		while (is_mid_command (lexer->lookahead, is_at_command)) {
+			before_last_char = last_char;
 			last_char = lexer->lookahead;
 			lexer->advance (lexer, false);
-			one_char_cmd = false;
+			id_len++;
 			is_env_identifier &= i_env < strlen (env_identifier) && last_char == env_identifier[i_env++];
 			is_int_identifier &= i_int >= strlen (int_identifier) || last_char == int_identifier[i_int++];
 		}
 		is_env_identifier &= i_env == strlen (env_identifier);
 		is_int_identifier &= i_int >= strlen (int_identifier);
-		if (last_char == '?') {
-			if (one_char_cmd) {
+		if (last_char == '?' || (id_len >= 2 && before_last_char == '?' && last_char == '*')) {
+			if (id_len == 1) {
 				return false;
 			}
 			lexer->result_symbol = HELP_COMMAND;
