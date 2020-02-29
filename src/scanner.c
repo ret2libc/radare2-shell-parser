@@ -56,7 +56,11 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 	if (!isdigit (lexer->lookahead)) {
 		return false;
 	}
+	bool first_zero = lexer->lookahead == '0';
 	lexer->advance (lexer, false);
+	if (first_zero && valid_symbols[REPEAT_NUMBER] && (lexer->lookahead == 'x' || lexer->lookahead == 'b')) {
+		return false;
+	}
 	for (;;) {
 		if (isdigit (lexer->lookahead)) {
 			lexer->advance (lexer, false);

@@ -147,6 +147,10 @@
             "named": true
           },
           {
+            "type": "number_command",
+            "named": true
+          },
+          {
             "type": "pipe_command",
             "named": true
           },
@@ -361,6 +365,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -529,6 +537,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -775,6 +787,10 @@
             "named": true
           },
           {
+            "type": "number_command",
+            "named": true
+          },
+          {
             "type": "pipe_command",
             "named": true
           },
@@ -979,6 +995,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -1143,6 +1163,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -1318,6 +1342,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -1482,6 +1510,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -1652,6 +1684,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -1816,6 +1852,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -1990,6 +2030,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -2158,6 +2202,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -2332,6 +2380,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -2499,6 +2551,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -2663,6 +2719,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -2837,6 +2897,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -3008,6 +3072,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -3172,6 +3240,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -3346,6 +3418,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -3510,6 +3586,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -3707,6 +3787,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -3885,6 +3969,10 @@
           },
           {
             "type": "legacy_quoted_command",
+            "named": true
+          },
+          {
+            "type": "number_command",
             "named": true
           },
           {
@@ -4088,6 +4176,10 @@
             "named": true
           },
           {
+            "type": "number_command",
+            "named": true
+          },
+          {
             "type": "pipe_command",
             "named": true
           },
@@ -4253,6 +4345,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -4432,6 +4528,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -4603,6 +4703,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -4771,6 +4875,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -4961,6 +5069,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -5136,6 +5248,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -5304,6 +5420,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -5478,6 +5598,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -5646,6 +5770,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -5820,6 +5948,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -5988,6 +6120,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -6162,6 +6298,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -6330,6 +6470,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -6504,6 +6648,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -6675,6 +6823,10 @@
           "named": true
         },
         {
+          "type": "number_command",
+          "named": true
+        },
+        {
           "type": "pipe_command",
           "named": true
         },
@@ -6843,6 +6995,10 @@
         },
         {
           "type": "legacy_quoted_command",
+          "named": true
+        },
+        {
+          "type": "number_command",
           "named": true
         },
         {
@@ -7138,6 +7294,10 @@
   },
   {
     "type": "macro_content",
+    "named": true
+  },
+  {
+    "type": "number_command",
     "named": true
   },
   {

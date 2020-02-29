@@ -64,6 +64,7 @@ module.exports = grammar({
 	    $.help_command,
 	    $.repeat_command,
 	    $.arged_command,
+	    $.number_command,
 	    $._tmp_command,
 	    $._iter_command,
 	    $._pipe_command,
@@ -167,6 +168,7 @@ module.exports = grammar({
 	)),
 
 	// basic commands
+	number_command: $ => /(0x[0-9A-Fa-f]+|[0-9]+|0b[0-1]+)/,
 	help_command: $ => prec.left(1, choice(
 	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
 	    seq(
