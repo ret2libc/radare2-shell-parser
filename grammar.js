@@ -121,7 +121,7 @@ module.exports = grammar({
 	),
 	// FIXME: improve parser for grep specifier
 	// grep_specifier also includes ~ because r2 does not support nested grep commands yet
-	grep_specifier: $ => /[A-Za-z0-9 *=\.\&,$!+\^<?:{}\-_\[\]()~]*/,
+	grep_specifier: $ => /[^\n\r;`]*/,
 
 	html_disable_command: $ => prec.right(1, seq($._simple_command, '|')),
 	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),
@@ -134,7 +134,7 @@ module.exports = grammar({
 	iter_dbtb_command: $ => prec.right(1, seq($._simple_command, '@@dbtb')),
 	iter_dbts_command: $ => prec.right(1, seq($._simple_command, '@@dbts')),
 	iter_file_lines_command: $ => prec.right(1, seq($._simple_command, '@@.', $.arg)),
-	iter_offsets_command: $ => prec.right(1, seq($._simple_command, '@@=', $.args)),
+	iter_offsets_command: $ => prec.right(1, seq($._simple_command, '@@=', optional($.args))),
 	iter_sdbquery_command: $ => prec.right(1, seq($._simple_command, '@@k', $.arg)),
 	iter_threads_command: $ => prec.right(1, seq($._simple_command, '@@t')),
 	iter_bbs_command: $ => prec.right(1, seq($._simple_command, '@@b')),
@@ -367,13 +367,13 @@ module.exports = grammar({
 	    seq('$(', $._commands_singleline, ')'),
 	    prec(1, seq('`', $._commands_singleline, '`')),
 	),
-	concatenation: $ => seq(
+	concatenation: $ => prec(-1, seq(
 	    $._arg,
 	    repeat1(prec(-1, seq(
 		$._concat,
 		$._arg,
 	    ))),
-	),
+	)),
 
 	_comment: $ => token(choice(
 	    '#',

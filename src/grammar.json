@@ -362,7 +362,7 @@
     },
     "grep_specifier": {
       "type": "PATTERN",
-      "value": "[A-Za-z0-9 *=\\.\\&,$!+\\^<?:{}\\-_\\[\\]()~]*"
+      "value": "[^\\n\\r;`]*"
     },
     "html_disable_command": {
       "type": "PREC_RIGHT",
@@ -553,8 +553,16 @@
             "value": "@@="
           },
           {
-            "type": "SYMBOL",
-            "name": "args"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "args"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
@@ -2229,33 +2237,37 @@
       ]
     },
     "concatenation": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_arg"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "PREC",
-            "value": -1,
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_arg"
+          },
+          {
+            "type": "REPEAT1",
             "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_concat"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_arg"
-                }
-              ]
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_concat"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_arg"
+                  }
+                ]
+              }
             }
           }
-        }
-      ]
+        ]
+      }
     },
     "_comment": {
       "type": "TOKEN",
