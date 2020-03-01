@@ -7,7 +7,6 @@ enum TokenType {
 	CMD_IDENTIFIER,
 	HELP_COMMAND,
 	FILE_DESCRIPTOR,
-	REPEAT_NUMBER,
 	INTERPRETER_IDENTIFIER,
 	EQ_SEP_CONCAT,
 	CONCAT,
@@ -44,7 +43,7 @@ static bool is_mid_command(const int32_t ch, bool is_at_command) {
 }
 
 static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
-	if (!valid_symbols[FILE_DESCRIPTOR] && !valid_symbols[REPEAT_NUMBER]) {
+	if (!valid_symbols[FILE_DESCRIPTOR]) {
 		return false;
 	}
 
@@ -56,31 +55,25 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 	if (!isdigit (lexer->lookahead)) {
 		return false;
 	}
-	bool first_zero = lexer->lookahead == '0';
 	lexer->advance (lexer, false);
-	if (first_zero && valid_symbols[REPEAT_NUMBER] && (lexer->lookahead == 'x' || lexer->lookahead == 'b')) {
-		return false;
-	}
 	for (;;) {
 		if (isdigit (lexer->lookahead)) {
 			lexer->advance (lexer, false);
-		} else if (valid_symbols[FILE_DESCRIPTOR] && lexer->lookahead != '>') {
+		} else if (lexer->lookahead != '>') {
 			return false;
 		} else {
 			break;
 		}
 	}
-	if (valid_symbols[FILE_DESCRIPTOR] && lexer->lookahead == '>') {
+	if (lexer->lookahead == '>') {
 		lexer->result_symbol = FILE_DESCRIPTOR;
-		return true;
-	} else if (valid_symbols[REPEAT_NUMBER]) {
-		lexer->result_symbol = REPEAT_NUMBER;
 		return true;
 	}
 	return false;
 }
 
 bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+	// FIXME: /* in the shell should become a multiline comment
 	/* printf("lookahead (%d) = '%c'\n", lexer->get_column (lexer), lexer->lookahead); */
 	/* printf("EQ_SEP_CONCAT = %d, CMD_IDENTIFIER = %d, REPEAT = %d, FILE_DESC = %d\n", */
 	/*        valid_symbols[EQ_SEP_CONCAT], */
@@ -108,30 +101,28 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		return true;
 	}
         if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] ||
-	    valid_symbols[REPEAT_NUMBER] || valid_symbols[INTERPRETER_IDENTIFIER]) {
+	    valid_symbols[INTERPRETER_IDENTIFIER]) {
 		int id_len = 0;
 		bool is_env_identifier = true;
+		bool is_comment = false;
 		bool is_at_command = false;
 		bool is_int_identifier = valid_symbols[INTERPRETER_IDENTIFIER];
 		char last_char, first_char, before_last_char;
 		const char *env_identifier = "env";
-		const char *int_identifier = "#!";
-		int i_env = 0, i_int = 0;
+		const char *comm_identifier = "/*";
+		int i_env = 0, i_comm = 0;
 
 		while (isspace (lexer->lookahead)) {
 			lexer->advance (lexer, true);
 		}
 
 		if (!is_start_of_command (lexer->lookahead)) {
-			return scan_number (lexer, valid_symbols);
-		}
-		if (!valid_symbols[CMD_IDENTIFIER] && !valid_symbols[HELP_COMMAND] &&
-		    !valid_symbols[INTERPRETER_IDENTIFIER]) {
 			return false;
 		}
-		is_env_identifier &= lexer->lookahead == env_identifier[i_env++];
-		is_int_identifier &= lexer->lookahead == int_identifier[i_int++];
 		first_char = last_char = before_last_char = lexer->lookahead;
+                is_env_identifier &= first_char == env_identifier[i_env++];
+                is_int_identifier &= first_char == '#';
+                is_comment = first_char == comm_identifier[i_comm++];
 		is_at_command = first_char == '@';
 		id_len++;
 		lexer->advance (lexer, false);
@@ -141,10 +132,14 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 			lexer->advance (lexer, false);
 			id_len++;
 			is_env_identifier &= i_env < strlen (env_identifier) && last_char == env_identifier[i_env++];
-			is_int_identifier &= i_int >= strlen (int_identifier) || last_char == int_identifier[i_int++];
-		}
+                        is_comment &= i_comm < strlen(comm_identifier) && last_char == comm_identifier[i_comm++];
+                }
 		is_env_identifier &= i_env == strlen (env_identifier);
-		is_int_identifier &= i_int >= strlen (int_identifier);
+		is_comment &= i_comm == strlen (comm_identifier);
+		is_int_identifier &= id_len > 1;
+		if (is_comment) {
+			return false;
+		}
 		if (last_char == '?' || (id_len >= 2 && before_last_char == '?' && last_char == '*')) {
 			if (id_len == 1) {
 				return false;

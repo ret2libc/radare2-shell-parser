@@ -60,12 +60,13 @@ Macro commands
 
 (commands
   (arged_command (cmd_identifier)
-    (macro_content))
+    (macro_args (macro_content)))
   (arged_command (cmd_identifier)
-    (macro_content))
+    (macro_args (macro_content)))
   (arged_command (cmd_identifier)
-    (macro_content)
-    (macro_call_content))
+    (macro_args
+      (macro_content)
+      (macro_call_content)))
   (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)))
 

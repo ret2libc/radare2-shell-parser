@@ -68,10 +68,10 @@ afl
 
 
 ==================================
-Comment with #! in the middle line
+Comment with # in the middle line
 ==================================
 
-p8 4 #!something
+p8 4 # something
 
 ---
 

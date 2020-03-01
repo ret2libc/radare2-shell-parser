@@ -193,5 +193,5 @@ Number command
   (number_command)
   (number_command)
   (number_command) (ERROR)
-  (ERROR (repeat_number))
+  (number_command)
   (number_command) (ERROR))

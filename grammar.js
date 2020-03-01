@@ -2,7 +2,7 @@ const SPECIAL_CHARACTERS = [
     '\\s',
     '#', '@', '|',
     '"', '\'', '>',
-    ';', '$', '(',
+    ';', '$', '(', '/',
     ')', '`', '~', '\\'
 ];
 
@@ -21,7 +21,6 @@ module.exports = grammar({
 	$.cmd_identifier,
 	$._help_command,
 	$.file_descriptor,
-	$.repeat_number,
 	$.interpreter_identifier,
 	$._eq_sep_concat,
 	$._concat,
@@ -168,7 +167,11 @@ module.exports = grammar({
 	)),
 
 	// basic commands
-	number_command: $ => /(0x[0-9A-Fa-f]+|[0-9]+|0b[0-1]+)/,
+	number_command: $ => choice(
+	    $._dec_number,
+	    '0',
+	    /(0x[0-9A-Fa-f]+|0b[0-1]+)/,
+	),
 	help_command: $ => prec.left(1, choice(
 	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
 	    seq(
@@ -201,16 +204,7 @@ module.exports = grammar({
 	)),
 	_macro_arged_command: $ => prec.left(1, seq(
 	    field('command', alias($.macro_identifier, $.cmd_identifier)),
-	    field('args', seq(
-		optional($.macro_content),
-		optional(
-		    seq(
-			'(',
-			optional($.macro_call_content),
-			')',
-		    )
-		),
-	    )),
+	    field('args', optional($.macro_args)),
 	)),
 	_system_command: $ => prec.left(1, seq(
 	    field('command', $.system_identifier),
@@ -262,7 +256,7 @@ module.exports = grammar({
 	question_mark_identifier: $ => '?',
 
 	repeat_command: $ => prec.right(1, seq(
-	    field('arg', $.repeat_number),
+	    field('arg', alias($._dec_number, $.number)),
 	    field('command', $._simple_command),
 	)),
 
@@ -275,7 +269,15 @@ module.exports = grammar({
 	    )),
 	),
 	macro_identifier: $ => /\([-\*]?/,
-	macro_call_content: $ => /[^\r\n()]*/,
+	macro_call_content: $ => seq('(', /[^\r\n()]*/, ')'),
+	macro_args: $ => seq(
+	    $.macro_content,
+	    optional(
+		seq(
+		    optional($.macro_call_content),
+		)
+	    ),
+	),
 
 	redirect_command: $ => prec.right(2, seq(
 	    field('command', $._simple_command),
@@ -345,6 +347,7 @@ module.exports = grammar({
 		/\$[^({]/,
 		/\${[^\r\n $}]+}/,
 		/\\./,
+		/\/[^\*]/,
 	    )
 	)),
 	double_quoted_arg: $ => seq(
@@ -377,9 +380,10 @@ module.exports = grammar({
 	    ))),
 	)),
 
+	_dec_number: $ => choice(/[1-9][0-9]*/, /[0-9][0-9]+/),
 	_comment: $ => token(choice(
-	    '#',
-	    /#[^\r\n]*/,
+	    '# ',
+	    /# [^\r\n]*/,
 	    seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/')
 	)),
 

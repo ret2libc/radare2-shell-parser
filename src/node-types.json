@@ -35,17 +35,9 @@
     "named": true,
     "fields": {
       "args": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
           {
             "type": "arged_command",
             "named": true
@@ -139,7 +131,7 @@
             "named": true
           },
           {
-            "type": "macro_call_content",
+            "type": "macro_args",
             "named": true
           },
           {
@@ -3695,6 +3687,40 @@
     }
   },
   {
+    "type": "macro_args",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "macro_call_content",
+          "named": true
+        },
+        {
+          "type": "macro_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "macro_call_content",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "number",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "number_command",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "pipe_command",
     "named": true,
     "fields": {},
@@ -4082,7 +4108,7 @@
         "required": true,
         "types": [
           {
-            "type": "repeat_number",
+            "type": "number",
             "named": true
           }
         ]
@@ -7125,6 +7151,10 @@
     "named": false
   },
   {
+    "type": "0",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -7289,23 +7319,11 @@
     "named": true
   },
   {
-    "type": "macro_call_content",
-    "named": true
-  },
-  {
     "type": "macro_content",
     "named": true
   },
   {
-    "type": "number_command",
-    "named": true
-  },
-  {
     "type": "pipe_second_command",
-    "named": true
-  },
-  {
-    "type": "repeat_number",
     "named": true
   },
   {
