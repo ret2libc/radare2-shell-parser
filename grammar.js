@@ -3,7 +3,7 @@ const SPECIAL_CHARACTERS = [
     '#', '@', '|',
     '"', '\'', '>',
     ';', '$', '(', '/',
-    ')', '`', '~', '\\'
+    ')', '`', '~', '\\', ','
 ];
 
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
@@ -225,7 +225,7 @@ module.exports = grammar({
 	    ),
 	    seq(
 		field('command', alias('.(', $.cmd_identifier)),
-		field('args', $.macro_content),
+		field('args', $.macro_call_content),
 	    ),
 	    seq(
 		field('command', alias($._interpret_search_identifier, $.cmd_identifier)),
@@ -269,12 +269,22 @@ module.exports = grammar({
 	    )),
 	),
 	macro_identifier: $ => /\([-\*]?/,
-	macro_call_content: $ => seq('(', /[^\r\n()]*/, ')'),
+	macro_call_content: $ => seq(/[^\r\n()]*/, ')'),
+	macro_call_full_content: $ => seq('(', $.macro_call_content),
+	macro_content: $ => seq(
+	    /[^\r\n),]+/,
+	    optional(seq(
+		',',
+		$._command,
+		repeat(seq(',', $._command)),
+	    )),
+	    ')',
+	),
 	macro_args: $ => seq(
 	    $.macro_content,
 	    optional(
 		seq(
-		    optional($.macro_call_content),
+		    optional($.macro_call_full_content),
 		)
 	    ),
 	),
@@ -300,6 +310,7 @@ module.exports = grammar({
 	    $.double_quoted_arg,
 	    $.single_quoted_arg,
 	    $.cmd_substitution_arg,
+	    ',',
 	),
 	arg: $ => choice(
 	    $._arg,
@@ -307,7 +318,7 @@ module.exports = grammar({
 	),
 	args: $ => prec.left(repeat1($.arg)),
 	// TODO: this should accept a quoted_arg and a cmd_substitution_arg as well
-	tmp_eval_args: $ => seq($.tmp_eval_arg, repeat(seq(',', $.tmp_eval_arg))),
+	tmp_eval_args: $ => prec.left(seq($.tmp_eval_arg, repeat(seq(',', $.tmp_eval_arg)))),
 	tmp_eval_arg: $ => repeat1(noneOf(...SPECIAL_CHARACTERS_COMMA)),
 
 	_eq_sep_key_single: $ => choice(
@@ -338,17 +349,19 @@ module.exports = grammar({
 		$.arg,
 	    )),
 	)),
-	macro_content: $ => /[^\r\n)]+\)/,
 	_any_command: $ => /[^\r\n;~|]+/,
 
-	arg_identifier: $ => token(repeat1(
-	    choice(
-		repeat1(noneOf(...SPECIAL_CHARACTERS)),
-		/\$[^({]/,
-		/\${[^\r\n $}]+}/,
-		/\\./,
-		/\/[^\*]/,
-	    )
+	arg_identifier: $ => prec(1, choice(
+	    token(repeat1(
+		choice(
+		    repeat1(noneOf(...SPECIAL_CHARACTERS)),
+		    /\$[^({]/,
+		    /\${[^\r\n $}]+}/,
+		    /\\./,
+		    /\/[^\*]/,
+		)
+	    )),
+	    ',',
 	)),
 	double_quoted_arg: $ => seq(
 	    '"',

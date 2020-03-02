@@ -96,6 +96,7 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		lexer->lookahead != ')' &&
 		lexer->lookahead != '`' &&
 		lexer->lookahead != '~' &&
+		lexer->lookahead != ',' &&
 		lexer->lookahead != '\\') {
 		lexer->result_symbol = CONCAT;
 		return true;

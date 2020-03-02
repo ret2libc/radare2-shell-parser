@@ -50,9 +50,10 @@ Environment variable command
 Macro commands
 ===============
 
-(foo x y, p8 $0 @ $1)
+(_foo x y, p8 $0 @ $1)
 (-foo)
 (foo x y, p8 $0 @ $1)(10 0x10)
+(pdstr bits, s $0, .(pdenc guess), .(pdenc utf$0le), .(pdenc utf$0be))
 (
 (*
 
@@ -60,13 +61,33 @@ Macro commands
 
 (commands
   (arged_command (cmd_identifier)
-    (macro_args (macro_content)))
+    (macro_args
+      (macro_content
+        (tmp_seek_command
+	  (arged_command (cmd_identifier)
+	    (args (arg (arg_identifier))))
+	      (arg (arg_identifier))))))
   (arged_command (cmd_identifier)
     (macro_args (macro_content)))
   (arged_command (cmd_identifier)
     (macro_args
-      (macro_content)
-      (macro_call_content)))
+      (macro_content
+        (tmp_seek_command
+	  (arged_command (cmd_identifier)
+	    (args (arg (arg_identifier))))
+	  (arg (arg_identifier))))
+      (macro_call_full_content (macro_call_content))))
+  (arged_command (cmd_identifier)
+    (macro_args
+      (macro_content
+        (arged_command (cmd_identifier)
+	  (args (arg (arg_identifier))))
+	(arged_command (cmd_identifier)
+	  (macro_call_content))
+	(arged_command (cmd_identifier)
+	  (macro_call_content))
+	(arged_command (cmd_identifier)
+	  (macro_call_content)))))
   (arged_command (cmd_identifier))
   (arged_command (cmd_identifier)))
 
@@ -127,7 +148,7 @@ pd 10 |.
     args: (interpret_arg))
   (arged_command
     command: (cmd_identifier)
-    args: (macro_content))
+    args: (macro_call_content))
   (arged_command
     command: (cmd_identifier)
     args: (args (arg (arg_identifier))))
