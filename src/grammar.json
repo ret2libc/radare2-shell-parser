@@ -315,6 +315,10 @@
         {
           "type": "SYMBOL",
           "name": "iter_interpret_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "iter_hit_command"
         }
       ]
     },
@@ -756,6 +760,36 @@
           {
             "type": "SYMBOL",
             "name": "_simple_command"
+          }
+        ]
+      }
+    },
+    "iter_hit_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_concat"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_search_command"
+            },
+            "named": true,
+            "value": "arged_command"
           }
         ]
       }
@@ -1243,6 +1277,44 @@
             "content": {
               "type": "SYMBOL",
               "name": "cmd_identifier"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "args",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "args"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "_search_command": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "command",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "\\/[A-Za-z0-9+!\\/*]*"
+              },
+              "named": true,
+              "value": "cmd_identifier"
             }
           },
           {
@@ -2117,7 +2189,7 @@
       "type": "REPEAT1",
       "content": {
         "type": "PATTERN",
-        "value": "[^\\s#@|\"'>;$(/)`~\\\\,,]"
+        "value": "[^\\s@|\"'>;$()`~\\\\,,]"
       }
     },
     "_eq_sep_key_single": {
@@ -2196,7 +2268,7 @@
               "type": "REPEAT1",
               "content": {
                 "type": "PATTERN",
-                "value": "[^\\s#@|\"'>;$(/)`~\\\\,=]"
+                "value": "[^\\s@|\"'>;$()`~\\\\,=]"
               }
             },
             {
@@ -2259,7 +2331,7 @@
               "type": "REPEAT1",
               "content": {
                 "type": "PATTERN",
-                "value": "[^\\s#@|\"'>;$(/)`~\\\\,]"
+                "value": "[^\\s@|\"'>;$()`~\\\\,]"
               }
             },
             {

@@ -1,8 +1,8 @@
 const SPECIAL_CHARACTERS = [
     '\\s',
-    '#', '@', '|',
+    '@', '|',
     '"', '\'', '>',
-    ';', '$', '(', '/',
+    ';', '$', '(',
     ')', '`', '~', '\\', ','
 ];
 
@@ -107,6 +107,7 @@ module.exports = grammar({
 	    $.iter_functions_command,
 	    $.iter_step_command,
 	    $.iter_interpret_command,
+	    $.iter_hit_command,
 	),
 
 	_pipe_command: $ => choice(
@@ -154,6 +155,12 @@ module.exports = grammar({
 	iter_functions_command: $ => prec.right(1, seq($._simple_command, '@@f', optional(seq(':', $.arg)))),
 	iter_step_command: $ => prec.right(1, seq($._simple_command, '@@s:', $.arg, $.arg, $.arg)),
 	iter_interpret_command: $ => prec.right(1, seq($._simple_command, '@@c:', $._simple_command)),
+	iter_hit_command: $ => prec.right(1, seq(
+	    $._simple_command,
+	    '@@',
+	    $._concat,
+	    alias($._search_command, $.arged_command)
+	)),
 
 	// tmp changes commands
 	tmp_seek_command: $ => prec.right(1, seq($._simple_command, '@', $.arg)),
@@ -203,6 +210,10 @@ module.exports = grammar({
 
 	_simple_arged_command: $ => prec.left(1, seq(
 	    field('command', $.cmd_identifier),
+	    field('args', optional($.args)),
+	)),
+	_search_command: $ => prec.left(1, seq(
+	    field('command', alias(/\/[A-Za-z0-9+!\/*]*/, $.cmd_identifier)),
 	    field('args', optional($.args)),
 	)),
 	_math_arged_command: $ => prec.left(1, seq(
