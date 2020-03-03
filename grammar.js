@@ -125,9 +125,18 @@ module.exports = grammar({
 	// grep_specifier also includes ~ because r2 does not support nested grep commands yet
 	grep_specifier: $ => /[^\n\r;`]*/,
 
-	html_disable_command: $ => prec.right(1, seq($._simple_command, '|')),
-	html_enable_command: $ => prec.right(1, seq($._simple_command, '|H')),
-	scr_tts_command: $ => prec.right(1, seq($._simple_command, '|T')),
+	html_disable_command: $ => prec.right(1, seq(
+	    field('command', $._simple_command),
+	    '|'
+	)),
+	html_enable_command: $ => prec.right(1, seq(
+	    field('command', $._simple_command),
+	    '|H'
+	)),
+	scr_tts_command: $ => prec.right(1, seq(
+	    field('command', $._simple_command),
+	    '|T'
+	)),
 	pipe_command: $ => seq($._simple_command, '|', $.pipe_second_command),
 	pipe_second_command: $ => /[^|\r\n;]+/,
 
