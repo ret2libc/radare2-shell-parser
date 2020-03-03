@@ -10,20 +10,36 @@ enum TokenType {
 	INTERPRETER_IDENTIFIER,
 	EQ_SEP_CONCAT,
 	CONCAT,
+	MACRO_BEGIN,
+	MACRO_END,
+};
+
+struct r2_scanner {
+	int macro_depth;
 };
 
 void *tree_sitter_r2cmd_external_scanner_create() {
-	return NULL;
+	struct r2_scanner *scan = malloc (sizeof (struct r2_scanner));
+	scan->macro_depth = 0;
+	return scan;
 }
 
 void tree_sitter_r2cmd_external_scanner_destroy(void *payload) {
+	free (payload);
 }
 
 unsigned tree_sitter_r2cmd_external_scanner_serialize(void *payload, char *buffer) {
-	return 0;
+	struct r2_scanner *scan = (struct r2_scanner *)payload;
+	*(int *)buffer = scan->macro_depth;
+	return sizeof (struct r2_scanner);
 }
 
 void tree_sitter_r2cmd_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+	if (length != sizeof (struct r2_scanner)) {
+		return;
+	}
+	struct r2_scanner *scan = (struct r2_scanner *)payload;
+	scan->macro_depth = *(int *)buffer;
 }
 
 static bool is_special_start(const int32_t ch) {
@@ -40,6 +56,20 @@ static bool is_mid_command(const int32_t ch, bool is_at_command) {
 	return isalnum(ch) ||  ch == '$' || ch == '?' || ch == '.' || ch == '!' ||
 		ch == ':' || ch == '+' || ch == '=' || ch == '/' || ch == '*' ||
 		ch == '-' || ch == ',' || (is_at_command && ch == '@');
+}
+
+static bool is_macro_begin(const int32_t ch) {
+	return ch != '\0' && ch != '#' && ch != '|' && ch != '>' &&
+		ch != ';' && ch != '(' && ch != ')' && ch != '`' &&
+		ch != '~' && ch != '@' && ch != '\\' && !isspace(ch);
+}
+
+static bool is_concat(const int32_t ch, struct r2_scanner *scan) {
+	return ch != '\0' && !isspace(ch) && ch != '#' && ch != '@' &&
+		ch != '|' && ch != '>' && ch != ';' && ch != '(' &&
+		ch != ')' && ch != '`' && ch != '~' &&
+		(scan->macro_depth <= 0 || ch != ',') &&
+		ch != '\\';
 }
 
 static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
@@ -73,31 +103,24 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 }
 
 bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+	struct r2_scanner *scan = (struct r2_scanner *)payload;
 	// FIXME: /* in the shell should become a multiline comment
-	/* printf("lookahead (%d) = '%c'\n", lexer->get_column (lexer), lexer->lookahead); */
-	/* printf("EQ_SEP_CONCAT = %d, CMD_IDENTIFIER = %d, REPEAT = %d, FILE_DESC = %d\n", */
-	/*        valid_symbols[EQ_SEP_CONCAT], */
-	/*        valid_symbols[CMD_IDENTIFIER], */
-	/*        valid_symbols[REPEAT_NUMBER], */
-	/* 	valid_symbols[FILE_DESCRIPTOR]); */
+	if (valid_symbols[MACRO_BEGIN] && is_macro_begin (lexer->lookahead)) {
+		lexer->result_symbol = MACRO_BEGIN;
+		scan->macro_depth++;
+		return true;
+	}
+	if (valid_symbols[MACRO_END] && lexer->lookahead == ')' && scan->macro_depth > 0) {
+		lexer->advance (lexer, false);
+		lexer->result_symbol = MACRO_END;
+                scan->macro_depth--;
+                return true;
+	}
 	if (valid_symbols[EQ_SEP_CONCAT] && !isspace(lexer->lookahead) && lexer->lookahead != '=' && lexer->lookahead != '\0') {
 		lexer->result_symbol = EQ_SEP_CONCAT;
 		return true;
 	}
-	if (valid_symbols[CONCAT] &&
-		lexer->lookahead != '\0' &&
-		!isspace(lexer->lookahead) &&
-		lexer->lookahead != '#' &&
-		lexer->lookahead != '@' &&
-		lexer->lookahead != '|' &&
-		lexer->lookahead != '>' &&
-		lexer->lookahead != ';' &&
-		lexer->lookahead != '(' &&
-		lexer->lookahead != ')' &&
-		lexer->lookahead != '`' &&
-		lexer->lookahead != '~' &&
-		lexer->lookahead != ',' &&
-		lexer->lookahead != '\\') {
+	if (valid_symbols[CONCAT] && is_concat (lexer->lookahead, scan)) {
 		lexer->result_symbol = CONCAT;
 		return true;
 	}

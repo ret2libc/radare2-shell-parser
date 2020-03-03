@@ -5,7 +5,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "arg_identifier",
@@ -29,11 +29,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "arg_identifier",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "arged_command",
@@ -625,7 +620,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "arg_identifier",
@@ -3713,7 +3708,17 @@
   {
     "type": "macro_call_content",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "args",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "macro_call_full_content",
@@ -3733,13 +3738,28 @@
   {
     "type": "macro_content",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arg",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "arged_command",
+          "named": true
+        },
+        {
+          "type": "args",
           "named": true
         },
         {
@@ -7488,6 +7508,10 @@
   {
     "type": "`",
     "named": false
+  },
+  {
+    "type": "arg_identifier",
+    "named": true
   },
   {
     "type": "env",

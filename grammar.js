@@ -24,6 +24,8 @@ module.exports = grammar({
 	$.interpreter_identifier,
 	$._eq_sep_concat,
 	$._concat,
+	$._macro_begin,
+	$._macro_end,
     ],
 
     inline: $ => [
@@ -269,17 +271,22 @@ module.exports = grammar({
 	    )),
 	),
 	macro_identifier: $ => /\([-\*]?/,
-	macro_call_content: $ => seq(/[^\r\n()]*/, ')'),
+	macro_call_content: $ => prec.left(seq(
+	    optional($.args),
+	    ')',
+	)),
 	macro_call_full_content: $ => seq('(', $.macro_call_content),
-	macro_content: $ => seq(
-	    /[^\r\n),]+/,
+	macro_content: $ => prec(1, seq(
+	    $._macro_begin,
+	    field('name', $.arg),
+	    optional($.args),
 	    optional(seq(
 		',',
 		$._command,
 		repeat(seq(',', $._command)),
 	    )),
-	    ')',
-	),
+	    $._macro_end,
+	)),
 	macro_args: $ => seq(
 	    $.macro_content,
 	    optional(
@@ -310,7 +317,7 @@ module.exports = grammar({
 	    $.double_quoted_arg,
 	    $.single_quoted_arg,
 	    $.cmd_substitution_arg,
-	    ',',
+	    alias(',', $.arg_identifier),
 	),
 	arg: $ => choice(
 	    $._arg,
@@ -351,17 +358,14 @@ module.exports = grammar({
 	)),
 	_any_command: $ => /[^\r\n;~|]+/,
 
-	arg_identifier: $ => prec(1, choice(
-	    token(repeat1(
-		choice(
-		    repeat1(noneOf(...SPECIAL_CHARACTERS)),
-		    /\$[^({]/,
-		    /\${[^\r\n $}]+}/,
-		    /\\./,
-		    /\/[^\*]/,
-		)
-	    )),
-	    ',',
+	arg_identifier: $ => token(repeat1(
+	    choice(
+		repeat1(noneOf(...SPECIAL_CHARACTERS)),
+		/\$[^({]/,
+		/\${[^\r\n $}]+}/,
+		/\\./,
+		/\/[^\*]/,
+	    )
 	)),
 	double_quoted_arg: $ => seq(
 	    '"',
