@@ -2189,7 +2189,7 @@
       "type": "REPEAT1",
       "content": {
         "type": "PATTERN",
-        "value": "[^\\s@|\"'>;$()`~\\\\,,]"
+        "value": "[^\\s@|#\"'>;$()`~\\\\,,]"
       }
     },
     "_eq_sep_key_single": {
@@ -2268,7 +2268,7 @@
               "type": "REPEAT1",
               "content": {
                 "type": "PATTERN",
-                "value": "[^\\s@|\"'>;$()`~\\\\,=]"
+                "value": "[^\\s@|#\"'>;$()`~\\\\,=]"
               }
             },
             {
@@ -2323,35 +2323,77 @@
     "arg_identifier": {
       "type": "TOKEN",
       "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "REPEAT1",
-              "content": {
-                "type": "PATTERN",
-                "value": "[^\\s@|\"'>;$()`~\\\\,]"
-              }
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\$[^({]"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\${[^\\r\\n $}]+}"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\\\."
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\/[^\\*]"
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "REPEAT1",
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[^\\s@|#\"'>;$()`~\\\\,]"
+                      }
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\$[^({]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\${[^\\r\\n $}]+}"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\\\."
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\/[^\\*]"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "#"
+                }
+              ]
             }
-          ]
-        }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "REPEAT1",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[^\\s@|#\"'>;$()`~\\\\,]"
+                }
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\$[^({]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\${[^\\r\\n $}]+}"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\\\."
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\/[^\\*]"
+              }
+            ]
+          }
+        ]
       }
     },
     "double_quoted_arg": {
@@ -2572,6 +2614,10 @@
   "extras": [
     {
       "type": "SYMBOL",
+      "name": "_comment_ext"
+    },
+    {
+      "type": "SYMBOL",
       "name": "_comment"
     },
     {
@@ -2612,6 +2658,10 @@
     {
       "type": "SYMBOL",
       "name": "_macro_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_comment_ext"
     }
   ],
   "inline": [

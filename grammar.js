@@ -1,6 +1,6 @@
 const SPECIAL_CHARACTERS = [
     '\\s',
-    '@', '|',
+    '@', '|', '#',
     '"', '\'', '>',
     ';', '$', '(',
     ')', '`', '~', '\\', ','
@@ -9,10 +9,19 @@ const SPECIAL_CHARACTERS = [
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
 const SPECIAL_CHARACTERS_COMMA = SPECIAL_CHARACTERS.concat([',']);
 
+const ARG_IDENTIFIER_BASE = choice(
+    repeat1(noneOf(...SPECIAL_CHARACTERS)),
+    /\$[^({]/,
+    /\${[^\r\n $}]+}/,
+    /\\./,
+    /\/[^\*]/,
+);
+
 module.exports = grammar({
     name: 'r2cmd',
 
     extras: $ => [
+	$._comment_ext,
 	$._comment,
 	/[ \t]*/,
     ],
@@ -26,6 +35,7 @@ module.exports = grammar({
 	$._concat,
 	$._macro_begin,
 	$._macro_end,
+	$._comment_ext,
     ],
 
     inline: $ => [
@@ -378,14 +388,12 @@ module.exports = grammar({
 	)),
 	_any_command: $ => /[^\r\n;~|]+/,
 
-	arg_identifier: $ => token(repeat1(
-	    choice(
-		repeat1(noneOf(...SPECIAL_CHARACTERS)),
-		/\$[^({]/,
-		/\${[^\r\n $}]+}/,
-		/\\./,
-		/\/[^\*]/,
-	    )
+	arg_identifier: $ => token(seq(
+	    repeat(choice(
+		ARG_IDENTIFIER_BASE,
+		'#',
+	    )),
+	    ARG_IDENTIFIER_BASE,
 	)),
 	double_quoted_arg: $ => seq(
 	    '"',

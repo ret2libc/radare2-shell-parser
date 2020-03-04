@@ -15,6 +15,8 @@ Begin with comment
 ==================
 
 # this is just a comment
+#    ~?
+# boh
 
 ---
 
@@ -27,11 +29,14 @@ Multiple commands multiple comments
 
 afl # first comment
 p8 10 # second comment
+p8 10# third comment
 
 ---
 
 (commands
   (arged_command (cmd_identifier))
+  (arged_command (cmd_identifier)
+    (args (arg (arg_identifier))))
   (arged_command (cmd_identifier)
     (args (arg (arg_identifier)))))
 

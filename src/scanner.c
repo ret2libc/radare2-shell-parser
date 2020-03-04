@@ -12,6 +12,7 @@ enum TokenType {
 	CONCAT,
 	MACRO_BEGIN,
 	MACRO_END,
+	COMMENT_EXT,
 };
 
 struct r2_scanner {
@@ -177,6 +178,12 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 				lexer->result_symbol = INTERPRETER_IDENTIFIER;
 			} else if (first_char != '#' && valid_symbols[CMD_IDENTIFIER]) {
 				lexer->result_symbol = CMD_IDENTIFIER;
+			} else if (first_char == '#' && isspace(lexer->lookahead)) {
+				while (lexer->lookahead != '\0' && lexer->lookahead != '\r' && lexer->lookahead != '\n') {
+					lexer->advance(lexer, true);
+				}
+				lexer->result_symbol = COMMENT_EXT;
+                                return true;
 			} else {
 				return false;
 			}
