@@ -370,7 +370,7 @@
     },
     "grep_specifier": {
       "type": "PATTERN",
-      "value": "[^\\n\\r;`]*"
+      "value": "[^\\n\\r;@>|`]*"
     },
     "html_disable_command": {
       "type": "PREC_RIGHT",

@@ -2195,7 +2195,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\n' &&
           lookahead != '\r' &&
           lookahead != ';' &&
-          lookahead != '`') ADVANCE(86);
+          lookahead != '>' &&
+          lookahead != '@' &&
+          lookahead != '`' &&
+          lookahead != '|') ADVANCE(86);
       END_STATE();
     case 81:
       ACCEPT_TOKEN(sym_grep_specifier);
@@ -2207,7 +2210,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\n' &&
           lookahead != '\r' &&
           lookahead != ';' &&
-          lookahead != '`') ADVANCE(86);
+          lookahead != '>' &&
+          lookahead != '@' &&
+          lookahead != '`' &&
+          lookahead != '|') ADVANCE(86);
       END_STATE();
     case 82:
       ACCEPT_TOKEN(sym_grep_specifier);
@@ -2216,7 +2222,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\n' &&
           lookahead != '\r' &&
           lookahead != ';' &&
-          lookahead != '`') ADVANCE(86);
+          lookahead != '>' &&
+          lookahead != '@' &&
+          lookahead != '`' &&
+          lookahead != '|') ADVANCE(86);
       END_STATE();
     case 83:
       ACCEPT_TOKEN(sym_grep_specifier);
@@ -2225,7 +2234,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ';' ||
-          lookahead == '`') ADVANCE(27);
+          lookahead == '>' ||
+          lookahead == '@' ||
+          lookahead == '`' ||
+          lookahead == '|') ADVANCE(27);
       if (lookahead != 0) ADVANCE(84);
       END_STATE();
     case 84:
@@ -2234,13 +2246,19 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ';' ||
-          lookahead == '`') ADVANCE(27);
+          lookahead == '>' ||
+          lookahead == '@' ||
+          lookahead == '`' ||
+          lookahead == '|') ADVANCE(27);
       if (lookahead != 0) ADVANCE(84);
       END_STATE();
     case 85:
       ACCEPT_TOKEN(sym_grep_specifier);
       if (lookahead == ';' ||
-          lookahead == '`') ADVANCE(309);
+          lookahead == '>' ||
+          lookahead == '@' ||
+          lookahead == '`' ||
+          lookahead == '|') ADVANCE(309);
       if (lookahead != 0 &&
           lookahead != '\n' &&
           lookahead != '\r') ADVANCE(85);
@@ -2251,7 +2269,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\n' &&
           lookahead != '\r' &&
           lookahead != ';' &&
-          lookahead != '`') ADVANCE(86);
+          lookahead != '>' &&
+          lookahead != '@' &&
+          lookahead != '`' &&
+          lookahead != '|') ADVANCE(86);
       END_STATE();
     case 87:
       ACCEPT_TOKEN(anon_sym_PIPE);
