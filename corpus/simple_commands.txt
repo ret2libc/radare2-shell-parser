@@ -133,10 +133,12 @@ afl?
 ~?
 ?*
 p?*
+&?
 
 ---
 
 (commands
+  (help_command (cmd_identifier))
   (help_command (cmd_identifier))
   (help_command (cmd_identifier))
   (help_command (cmd_identifier))
@@ -195,3 +197,26 @@ Number command
   (number_command) (ERROR)
   (number_command)
   (number_command) (ERROR))
+
+
+=============
+Tasks command
+=============
+
+& ?e Hello
+& ?e Hello
+&& 1
+&=
+
+---
+
+(commands
+  (task_command (cmd_identifier)
+    (arged_command (cmd_identifier)
+      (args (arg (arg_identifier)))))
+  (task_command (cmd_identifier)
+    (arged_command (cmd_identifier)
+      (args (arg (arg_identifier)))))
+  (task_command (cmd_identifier)
+    (args (arg (arg_identifier))))
+  (task_command (cmd_identifier)))

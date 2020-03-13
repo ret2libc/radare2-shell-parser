@@ -7,70 +7,48 @@ enum TokenType {
 	CMD_IDENTIFIER,
 	HELP_COMMAND,
 	FILE_DESCRIPTOR,
-	INTERPRETER_IDENTIFIER,
 	EQ_SEP_CONCAT,
 	CONCAT,
-	MACRO_BEGIN,
-	MACRO_END,
-	COMMENT_EXT,
-};
-
-struct r2_scanner {
-	int macro_depth;
 };
 
 void *tree_sitter_r2cmd_external_scanner_create() {
-	struct r2_scanner *scan = malloc (sizeof (struct r2_scanner));
-	scan->macro_depth = 0;
-	return scan;
+	return NULL;
 }
 
 void tree_sitter_r2cmd_external_scanner_destroy(void *payload) {
-	free (payload);
 }
 
 unsigned tree_sitter_r2cmd_external_scanner_serialize(void *payload, char *buffer) {
-	struct r2_scanner *scan = (struct r2_scanner *)payload;
-	*(int *)buffer = scan->macro_depth;
-	return sizeof (struct r2_scanner);
+	return 0;
 }
 
 void tree_sitter_r2cmd_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
-	if (length != sizeof (struct r2_scanner)) {
-		return;
-	}
-	struct r2_scanner *scan = (struct r2_scanner *)payload;
-	scan->macro_depth = *(int *)buffer;
 }
 
 static bool is_special_start(const int32_t ch) {
 	return ch == '*' || ch == '(' || ch == '*' || ch == '@' || ch == '|' ||
-		ch == '.' || ch == '|' || ch == '%' || ch == '~';
+		ch == '.' || ch == '|' || ch == '%' || ch == '~' || ch == '&';
 }
 
 static bool is_start_of_command(const int32_t ch) {
 	return isalpha (ch) || ch == '$' || ch == '?' || ch == ':' || ch == '+' ||
-		ch == '=' || ch == '/' || ch == '_' || ch == '#' || is_special_start (ch);
+		ch == '=' || ch == '/' || ch == '_' || is_special_start (ch);
 }
 
 static bool is_mid_command(const int32_t ch, bool is_at_command) {
 	return isalnum(ch) ||  ch == '$' || ch == '?' || ch == '.' || ch == '!' ||
 		ch == ':' || ch == '+' || ch == '=' || ch == '/' || ch == '*' ||
-		ch == '-' || ch == ',' || (is_at_command && ch == '@');
-}
-
-static bool is_macro_begin(const int32_t ch) {
-	return ch != '\0' && ch != '#' && ch != '|' && ch != '>' &&
-		ch != ';' && ch != '(' && ch != ')' && ch != '`' &&
-		ch != '~' && ch != '@' && ch != '\\' && !isspace(ch);
+		ch == '-' || ch == ',' || ch == '&' || (is_at_command && ch == '@');
 }
 
 static bool is_concat(const int32_t ch, struct r2_scanner *scan) {
 	return ch != '\0' && !isspace(ch) && ch != '#' && ch != '@' &&
 		ch != '|' && ch != '>' && ch != ';' && ch != '(' &&
-		ch != ')' && ch != '`' && ch != '~' &&
-		(scan->macro_depth <= 0 || ch != ',') &&
-		ch != '\\';
+		ch != ')' && ch != '`' && ch != '~' && ch != '\\';
+}
+
+static bool is_recursive_help(int id_len, const int32_t before_last_ch, const int32_t last_ch) {
+	return id_len >= 2 && before_last_ch == '?' && last_ch == '*';
 }
 
 static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
@@ -106,17 +84,6 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
 	struct r2_scanner *scan = (struct r2_scanner *)payload;
 	// FIXME: /* in the shell should become a multiline comment
-	if (valid_symbols[MACRO_BEGIN] && is_macro_begin (lexer->lookahead)) {
-		lexer->result_symbol = MACRO_BEGIN;
-		scan->macro_depth++;
-		return true;
-	}
-	if (valid_symbols[MACRO_END] && lexer->lookahead == ')' && scan->macro_depth > 0) {
-		lexer->advance (lexer, false);
-		lexer->result_symbol = MACRO_END;
-                scan->macro_depth--;
-                return true;
-	}
 	if (valid_symbols[EQ_SEP_CONCAT] && !isspace(lexer->lookahead) && lexer->lookahead != '=' && lexer->lookahead != '\0') {
 		lexer->result_symbol = EQ_SEP_CONCAT;
 		return true;
@@ -125,13 +92,11 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		lexer->result_symbol = CONCAT;
 		return true;
 	}
-        if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND] ||
-	    valid_symbols[INTERPRETER_IDENTIFIER]) {
+        if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND]) {
 		int id_len = 0;
 		bool is_env_identifier = true;
 		bool is_comment = false;
 		bool is_at_command = false;
-		bool is_int_identifier = valid_symbols[INTERPRETER_IDENTIFIER];
 		char last_char, first_char, before_last_char;
 		const char *env_identifier = "env";
 		const char *comm_identifier = "/*";
@@ -145,8 +110,10 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 			return false;
 		}
 		first_char = last_char = before_last_char = lexer->lookahead;
+		if (first_char == '#') {
+			return false;
+		}
                 is_env_identifier &= first_char == env_identifier[i_env++];
-                is_int_identifier &= first_char == '#';
                 is_comment = first_char == comm_identifier[i_comm++];
 		is_at_command = first_char == '@';
 		id_len++;
@@ -161,32 +128,19 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
                 }
 		is_env_identifier &= i_env == strlen (env_identifier);
 		is_comment &= i_comm == strlen (comm_identifier);
-		is_int_identifier &= id_len > 1;
 		if (is_comment) {
 			return false;
 		}
-		if (last_char == '?' || (id_len >= 2 && before_last_char == '?' && last_char == '*')) {
+		if (last_char == '?' || is_recursive_help(id_len, before_last_char, last_char)) {
 			if (id_len == 1) {
 				return false;
 			}
 			lexer->result_symbol = HELP_COMMAND;
 		} else {
-			if (is_special_start (first_char) || is_env_identifier || is_at_command) {
+			if (is_special_start (first_char) || is_env_identifier || is_at_command || !valid_symbols[CMD_IDENTIFIER]) {
 				return false;
 			}
-			if (is_int_identifier && valid_symbols[INTERPRETER_IDENTIFIER]) {
-				lexer->result_symbol = INTERPRETER_IDENTIFIER;
-			} else if (first_char != '#' && valid_symbols[CMD_IDENTIFIER]) {
-				lexer->result_symbol = CMD_IDENTIFIER;
-			} else if (first_char == '#' && isspace(lexer->lookahead)) {
-				while (lexer->lookahead != '\0' && lexer->lookahead != '\r' && lexer->lookahead != '\n') {
-					lexer->advance(lexer, true);
-				}
-				lexer->result_symbol = COMMENT_EXT;
-                                return true;
-			} else {
-				return false;
-			}
+			lexer->result_symbol = CMD_IDENTIFIER;
 		}
 		return true;
 	}

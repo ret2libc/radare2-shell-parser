@@ -2,8 +2,9 @@ const SPECIAL_CHARACTERS = [
     '\\s',
     '@', '|', '#',
     '"', '\'', '>',
-    ';', '$', '(',
-    ')', '`', '~', '\\', ','
+    ';', '$', '`',
+    '~', '\\', ',',
+    '(', ')',
 ];
 
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
@@ -11,7 +12,10 @@ const SPECIAL_CHARACTERS_COMMA = SPECIAL_CHARACTERS.concat([',']);
 
 const ARG_IDENTIFIER_BASE = choice(
     repeat1(noneOf(...SPECIAL_CHARACTERS)),
-    /\$[^({]/,
+    '$$$',
+    '$$',
+    '$',
+    /\$[^({)]/,
     /\${[^\r\n $}]+}/,
     /\\./,
     /\/[^\*]/,
@@ -21,7 +25,6 @@ module.exports = grammar({
     name: 'r2cmd',
 
     extras: $ => [
-	$._comment_ext,
 	$._comment,
 	/[ \t]*/,
     ],
@@ -30,12 +33,8 @@ module.exports = grammar({
 	$.cmd_identifier,
 	$._help_command,
 	$.file_descriptor,
-	$.interpreter_identifier,
 	$._eq_sep_concat,
 	$._concat,
-	$._macro_begin,
-	$._macro_end,
-	$._comment_ext,
     ],
 
     inline: $ => [
@@ -76,6 +75,7 @@ module.exports = grammar({
 	    $.repeat_command,
 	    $.arged_command,
 	    $.number_command,
+	    $.task_command,
 	    $._tmp_command,
 	    $._iter_command,
 	    $._pipe_command,
@@ -134,7 +134,14 @@ module.exports = grammar({
 	),
 	// FIXME: improve parser for grep specifier
 	// grep_specifier also includes ~ because r2 does not support nested grep commands yet
-	grep_specifier: $ => /[^\n\r;@>|`]*/,
+	grep_specifier: $ => token(seq(
+	    repeat1(
+		choice(
+		    /[^\n\r;@>|`()]*/,
+		    /\\./,
+		)
+	    )
+	)),
 
 	html_disable_command: $ => prec.right(1, seq(
 	    field('command', $._simple_command),
@@ -190,11 +197,21 @@ module.exports = grammar({
 	tmp_hex_command: $ => prec.right(1, seq($._simple_command, '@x:', $.arg)),
 
 	_interpreter_command: $ => prec.right(1, seq(
-	    field('command', alias($.interpreter_identifier, $.cmd_identifier)),
+	    field('command', alias('#!', $.cmd_identifier)),
 	    field('args', optional($.args)),
 	)),
 
 	// basic commands
+	task_command: $ => prec.left(1, choice(
+	    seq(
+		field('command', alias(choice('&', '&t'), $.cmd_identifier)),
+		field('args', $._simple_command),
+	    ),
+	    seq(
+		field('command', alias(/&[A-Za-z=\-+*&0-9]*/, $.cmd_identifier)),
+		field('args', optional($.args)),
+	    ),
+	)),
 	number_command: $ => choice(
 	    $._dec_number,
 	    '0',
@@ -203,7 +220,7 @@ module.exports = grammar({
 	help_command: $ => prec.left(1, choice(
 	    field('command', alias($.question_mark_identifier, $.cmd_identifier)),
 	    seq(
-		field('command', alias($._help_command, $.cmd_identifier)),
+		field('command', alias(choice($._help_command, '#?', '#!?'), $.cmd_identifier)),
 		field('args', optional($.args)),
 	    ),
 	)),
@@ -287,7 +304,7 @@ module.exports = grammar({
 	system_identifier: $ => /![\*!-=]*/,
 	question_mark_identifier: $ => '?',
 
-	repeat_command: $ => prec.right(1, seq(
+	repeat_command: $ => prec.left(1, seq(
 	    field('arg', alias($._dec_number, $.number)),
 	    field('command', $._simple_command),
 	)),
@@ -307,15 +324,14 @@ module.exports = grammar({
 	)),
 	macro_call_full_content: $ => seq('(', $.macro_call_content),
 	macro_content: $ => prec(1, seq(
-	    $._macro_begin,
 	    field('name', $.arg),
 	    optional($.args),
 	    optional(seq(
-		',',
+		';',
 		$._command,
-		repeat(seq(',', $._command)),
+		repeat(seq(';', $._command)),
 	    )),
-	    $._macro_end,
+	    ')',
 	)),
 	macro_args: $ => seq(
 	    $.macro_content,
@@ -389,11 +405,9 @@ module.exports = grammar({
 	_any_command: $ => /[^\r\n;~|]+/,
 
 	arg_identifier: $ => token(seq(
-	    repeat(choice(
+	    repeat1(
 		ARG_IDENTIFIER_BASE,
-		'#',
-	    )),
-	    ARG_IDENTIFIER_BASE,
+	    ),
 	)),
 	double_quoted_arg: $ => seq(
 	    '"',
@@ -427,8 +441,8 @@ module.exports = grammar({
 
 	_dec_number: $ => choice(/[1-9][0-9]*/, /[0-9][0-9]+/),
 	_comment: $ => token(choice(
-	    '# ',
-	    /# [^\r\n]*/,
+	    '#',
+	    /#[^!][^\r\n]*/,
 	    seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/')
 	)),
 
