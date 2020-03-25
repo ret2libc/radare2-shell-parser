@@ -41,7 +41,7 @@ static bool is_mid_command(const int32_t ch, bool is_at_command) {
 		ch == '-' || ch == ',' || ch == '&' || (is_at_command && ch == '@');
 }
 
-static bool is_concat(const int32_t ch, struct r2_scanner *scan) {
+static bool is_concat(const int32_t ch) {
 	return ch != '\0' && !isspace(ch) && ch != '#' && ch != '@' &&
 		ch != '|' && ch != '>' && ch != ';' && ch != '(' &&
 		ch != ')' && ch != '`' && ch != '~' && ch != '\\';
@@ -82,13 +82,12 @@ static bool scan_number(TSLexer *lexer, const bool *valid_symbols) {
 }
 
 bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-	struct r2_scanner *scan = (struct r2_scanner *)payload;
 	// FIXME: /* in the shell should become a multiline comment
 	if (valid_symbols[EQ_SEP_CONCAT] && !isspace(lexer->lookahead) && lexer->lookahead != '=' && lexer->lookahead != '\0') {
 		lexer->result_symbol = EQ_SEP_CONCAT;
 		return true;
 	}
-	if (valid_symbols[CONCAT] && is_concat (lexer->lookahead, scan)) {
+	if (valid_symbols[CONCAT] && is_concat (lexer->lookahead)) {
 		lexer->result_symbol = CONCAT;
 		return true;
 	}
