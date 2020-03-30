@@ -872,19 +872,29 @@
           },
           {
             "type": "STRING",
-            "value": "@("
+            "value": "@{"
           },
           {
-            "type": "SYMBOL",
-            "name": "arg"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "arg_brace"
+            },
+            "named": true,
+            "value": "arg"
           },
           {
-            "type": "SYMBOL",
-            "name": "arg"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "arg_brace"
+            },
+            "named": true,
+            "value": "arg"
           },
           {
             "type": "STRING",
-            "value": ")"
+            "value": "}"
           }
         ]
       }
@@ -2243,6 +2253,41 @@
         }
       ]
     },
+    "_arg_brace": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "arg_identifier_brace"
+          },
+          "named": true,
+          "value": "arg_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "double_quoted_arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single_quoted_arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "cmd_substitution_arg"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": ","
+          },
+          "named": true,
+          "value": "arg_identifier"
+        }
+      ]
+    },
     "arg": {
       "type": "CHOICE",
       "members": [
@@ -2253,6 +2298,24 @@
         {
           "type": "SYMBOL",
           "name": "concatenation"
+        }
+      ]
+    },
+    "arg_brace": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_arg_brace"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "concatenation_brace"
+          },
+          "named": true,
+          "value": "concatenation"
         }
       ]
     },
@@ -2482,6 +2545,57 @@
         ]
       }
     },
+    "arg_identifier_brace": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[^\\s@|#\"'>;$`~\\\\,(){}]"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "$$$"
+                },
+                {
+                  "type": "STRING",
+                  "value": "$$"
+                },
+                {
+                  "type": "STRING",
+                  "value": "$"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\$[^({)]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\${[^\\r\\n $}]+}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\\\."
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\/[^\\*]"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "double_quoted_arg": {
       "type": "SEQ",
       "members": [
@@ -2624,6 +2738,39 @@
         ]
       }
     },
+    "concatenation_brace": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_arg_brace"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_concat_brace"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_arg_brace"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
     "_dec_number": {
       "type": "CHOICE",
       "members": [
@@ -2728,6 +2875,10 @@
     {
       "type": "SYMBOL",
       "name": "_concat"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_concat_brace"
     }
   ],
   "inline": [

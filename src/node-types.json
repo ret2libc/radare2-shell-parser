@@ -8090,10 +8090,6 @@
     "named": false
   },
   {
-    "type": "@(",
-    "named": false
-  },
-  {
     "type": "@@",
     "named": false
   },
@@ -8202,6 +8198,10 @@
     "named": false
   },
   {
+    "type": "@{",
+    "named": false
+  },
+  {
     "type": "`",
     "named": false
   },
@@ -8251,6 +8251,10 @@
   },
   {
     "type": "|T",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   },
   {

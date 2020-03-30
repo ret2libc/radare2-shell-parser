@@ -9,9 +9,20 @@ const SPECIAL_CHARACTERS = [
 
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
 const SPECIAL_CHARACTERS_COMMA = SPECIAL_CHARACTERS.concat([',']);
+const SPECIAL_CHARACTERS_BRACE = SPECIAL_CHARACTERS.concat(['{', '}']);
 
 const ARG_IDENTIFIER_BASE = choice(
     repeat1(noneOf(...SPECIAL_CHARACTERS)),
+    '$$$',
+    '$$',
+    '$',
+    /\$[^({)]/,
+    /\${[^\r\n $}]+}/,
+    /\\./,
+    /\/[^\*]/,
+);
+const ARG_IDENTIFIER_BRACE = choice(
+    repeat1(noneOf(...SPECIAL_CHARACTERS_BRACE)),
     '$$$',
     '$$',
     '$',
@@ -35,6 +46,7 @@ module.exports = grammar({
 	$.file_descriptor,
 	$._eq_sep_concat,
 	$._concat,
+	$._concat_brace,
     ],
 
     inline: $ => [
@@ -182,7 +194,14 @@ module.exports = grammar({
 	// tmp changes commands
 	tmp_seek_command: $ => prec.right(1, seq($._simple_command, '@', $.arg)),
 	tmp_blksz_command: $ => prec.right(1, seq($._simple_command, '@!', $.arg)),
-	tmp_fromto_command: $ => prec.right(1, seq($._simple_command, '@(', $.arg, $.arg, ')')),
+	// NOTE: need to use special arg_brace here because of https://github.com/radareorg/radare2/commit/c3dee9332c19f874ac2cc9294a9ffe17575d8141
+	tmp_fromto_command: $ => prec.right(1, seq(
+	    $._simple_command,
+	    '@{',
+	    alias($.arg_brace, $.arg),
+	    alias($.arg_brace, $.arg),
+	    '}'
+	)),
 	tmp_arch_command: $ => prec.right(1, seq($._simple_command, '@a:', $.arg)),
 	tmp_bits_command: $ => prec.right(1, seq($._simple_command, '@b:', $.arg)),
 	tmp_nthi_command: $ => prec.right(1, seq($._simple_command, '@B:', $.arg)),
@@ -365,9 +384,20 @@ module.exports = grammar({
 	    $.cmd_substitution_arg,
 	    alias(',', $.arg_identifier),
 	),
+	_arg_brace: $ => choice(
+	    alias($.arg_identifier_brace, $.arg_identifier),
+	    $.double_quoted_arg,
+	    $.single_quoted_arg,
+	    $.cmd_substitution_arg,
+	    alias(',', $.arg_identifier),
+	),
 	arg: $ => choice(
 	    $._arg,
 	    $.concatenation,
+	),
+	arg_brace: $ => choice(
+	    $._arg_brace,
+	    alias($.concatenation_brace, $.concatenation),
 	),
 	args: $ => prec.left(repeat1($.arg)),
 	// TODO: this should accept a quoted_arg and a cmd_substitution_arg as well
@@ -409,6 +439,11 @@ module.exports = grammar({
 		ARG_IDENTIFIER_BASE,
 	    ),
 	)),
+	arg_identifier_brace: $ => token(seq(
+	    repeat1(
+		ARG_IDENTIFIER_BRACE,
+	    ),
+	)),
 	double_quoted_arg: $ => seq(
 	    '"',
 	    repeat(choice(
@@ -436,6 +471,13 @@ module.exports = grammar({
 	    repeat1(prec(-1, seq(
 		$._concat,
 		$._arg,
+	    ))),
+	)),
+	concatenation_brace: $ => prec(-1, seq(
+	    $._arg_brace,
+	    repeat1(prec(-1, seq(
+		$._concat_brace,
+		$._arg_brace,
 	    ))),
 	)),
 
