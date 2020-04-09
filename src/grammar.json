@@ -180,6 +180,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_foreach_command"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_pipe_command"
         },
         {
@@ -323,6 +327,71 @@
         {
           "type": "SYMBOL",
           "name": "iter_hit_command"
+        }
+      ]
+    },
+    "_foreach_command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "foreach_addrsize_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_addrsize_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_bb_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_cmd_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_comment_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_import_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_register_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_symbol_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_string_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_section_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_iomap_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_dbgmap_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_flag_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_function_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_thread_command"
         }
       ]
     },
@@ -479,6 +548,312 @@
     "pipe_second_command": {
       "type": "PATTERN",
       "value": "[^|\\r\\n;]+"
+    },
+    "foreach_addrsize_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@="
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "arg"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "arg"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "foreach_bb_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@b"
+          }
+        ]
+      }
+    },
+    "foreach_cmd_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@c:"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          }
+        ]
+      }
+    },
+    "foreach_comment_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@C:"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "arg"
+          }
+        ]
+      }
+    },
+    "foreach_import_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@i"
+          }
+        ]
+      }
+    },
+    "foreach_register_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@r"
+          }
+        ]
+      }
+    },
+    "foreach_symbol_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@s"
+          }
+        ]
+      }
+    },
+    "foreach_string_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@st"
+          }
+        ]
+      }
+    },
+    "foreach_section_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@S"
+          }
+        ]
+      }
+    },
+    "foreach_iomap_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@m"
+          }
+        ]
+      }
+    },
+    "foreach_dbgmap_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@M"
+          }
+        ]
+      }
+    },
+    "foreach_flag_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_command"
+              },
+              {
+                "type": "STRING",
+                "value": "@@@f"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_command"
+              },
+              {
+                "type": "STRING",
+                "value": "@@@f:"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "arg"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "foreach_function_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_command"
+              },
+              {
+                "type": "STRING",
+                "value": "@@@F"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_command"
+              },
+              {
+                "type": "STRING",
+                "value": "@@@F:"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "arg"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "foreach_thread_command": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_command"
+          },
+          {
+            "type": "STRING",
+            "value": "@@@t"
+          }
+        ]
+      }
     },
     "iter_flags_command": {
       "type": "PREC_RIGHT",

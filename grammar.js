@@ -90,6 +90,7 @@ module.exports = grammar({
 	    $.task_command,
 	    $._tmp_command,
 	    $._iter_command,
+	    $._foreach_command,
 	    $._pipe_command,
 	    $.grep_command,
 	    $.last_command,
@@ -132,6 +133,24 @@ module.exports = grammar({
 	    $.iter_hit_command,
 	),
 
+	_foreach_command: $ => choice(
+	    $.foreach_addrsize_command,
+	    $.foreach_addrsize_command,
+	    $.foreach_bb_command,
+	    $.foreach_cmd_command,
+	    $.foreach_comment_command,
+	    $.foreach_import_command,
+	    $.foreach_register_command,
+	    $.foreach_symbol_command,
+	    $.foreach_string_command,
+	    $.foreach_section_command,
+	    $.foreach_iomap_command,
+	    $.foreach_dbgmap_command,
+	    $.foreach_flag_command,
+	    $.foreach_function_command,
+	    $.foreach_thread_command,
+	),
+
 	_pipe_command: $ => choice(
 	    $.html_disable_command,
 	    $.html_enable_command,
@@ -169,6 +188,31 @@ module.exports = grammar({
 	)),
 	pipe_command: $ => seq($._simple_command, '|', $.pipe_second_command),
 	pipe_second_command: $ => /[^|\r\n;]+/,
+
+	foreach_addrsize_command: $ => prec.right(1, seq($._simple_command, '@@@=', repeat1(seq($.arg, $.arg)))),
+	foreach_bb_command: $ => prec.right(1, seq($._simple_command, '@@@b')),
+	foreach_cmd_command: $ => prec.right(1, seq($._simple_command, '@@@c:', $._simple_command)),
+	foreach_comment_command: $ => prec.right(1, seq($._simple_command, '@@@C:', $.arg)),
+	foreach_import_command: $ => prec.right(1, seq($._simple_command, '@@@i')),
+	foreach_register_command: $ => prec.right(1, seq($._simple_command, '@@@r')),
+	foreach_symbol_command: $ => prec.right(1, seq($._simple_command, '@@@s')),
+	foreach_string_command: $ => prec.right(1, seq($._simple_command, '@@@st')),
+	foreach_section_command: $ => prec.right(1, seq($._simple_command, '@@@S')),
+	foreach_iomap_command: $ => prec.right(1, seq($._simple_command, '@@@m')),
+	foreach_dbgmap_command: $ => prec.right(1, seq($._simple_command, '@@@M')),
+	foreach_flag_command: $ => prec.right(1,
+	    choice(
+		seq($._simple_command, '@@@f'),
+		seq($._simple_command, '@@@f:', $.arg),
+	    ),
+	),
+	foreach_function_command: $ => prec.right(1,
+	    choice(
+		seq($._simple_command, '@@@F'),
+		seq($._simple_command, '@@@F:', $.arg)
+	    )
+	),
+	foreach_thread_command: $ => prec.right(1, seq($._simple_command, '@@@t')),
 
 	iter_flags_command: $ => prec.right(1, seq($._simple_command, '@@', $.arg)),
 	iter_dbta_command: $ => prec.right(1, seq($._simple_command, choice('@@dbt', '@@dbta'))),
