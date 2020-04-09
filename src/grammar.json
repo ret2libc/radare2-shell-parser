@@ -2164,30 +2164,38 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
+            "type": "FIELD",
+            "name": "command",
             "content": {
-              "type": "SYMBOL",
-              "name": "pf_identifier"
-            },
-            "named": true,
-            "value": "cmd_identifier"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "pf_identifier"
+              },
+              "named": true,
+              "value": "cmd_identifier"
+            }
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "pf_concatenation"
+            "type": "FIELD",
+            "name": "args",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "pf_concatenation"
+                  },
+                  "named": true,
+                  "value": "arg"
                 },
-                "named": true,
-                "value": "arg"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
           }
         ]
       }

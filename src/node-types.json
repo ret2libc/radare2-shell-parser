@@ -39,6 +39,10 @@
         "required": false,
         "types": [
           {
+            "type": "arg",
+            "named": true
+          },
+          {
             "type": "arged_command",
             "named": true
           },
@@ -282,7 +286,7 @@
       },
       "command": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "cmd_identifier",
@@ -298,20 +302,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "arg",
-          "named": true
-        },
-        {
-          "type": "cmd_identifier",
-          "named": true
-        }
-      ]
     }
   },
   {

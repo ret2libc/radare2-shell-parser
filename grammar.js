@@ -359,8 +359,8 @@ module.exports = grammar({
 	)),
 	_interpret_search_identifier: $ => seq('./'),
 	_pf_command: $ => prec.left(1, seq(
-	    alias($.pf_identifier, $.cmd_identifier),
-	    optional(alias($.pf_concatenation, $.arg)),
+	    field('command', alias($.pf_identifier, $.cmd_identifier)),
+	    field('args', optional(alias($.pf_concatenation, $.arg))),
 	)),
 	pf_identifier: $ => /pf[A-Za-z*]?[.]?/,
 	pf_arg_identifier: $ => token(seq(
