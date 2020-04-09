@@ -2525,7 +2525,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "\\$[^({)]"
+                  "value": "\\$[^({) ]"
                 },
                 {
                   "type": "PATTERN",
@@ -2576,7 +2576,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "\\$[^({)]"
+                  "value": "\\$[^({) ]"
                 },
                 {
                   "type": "PATTERN",
