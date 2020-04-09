@@ -1,0 +1,26 @@
+==================
+Simple pf commands
+==================
+
+pf 3xi foo bar
+pf [10]z[3]i[10]Zb
+pf.foo rr (eax)reg1 (eip)reg2
+pf obj=xxdz prev next size name
+
+---
+
+(commands
+  (arged_command (cmd_identifier) (arg (arg_identifier)))
+  (arged_command (cmd_identifier) (arg (arg_identifier)))
+  (arged_command (cmd_identifier) (arg (arg_identifier)))
+  (arged_command (cmd_identifier) (arg (arg_identifier))))
+
+
+============
+pf. commands
+============
+
+pf.obj xxdz prev next size name
+
+(commands
+  (arged_command (cmd_identifier) (arg (arg_identifier))))

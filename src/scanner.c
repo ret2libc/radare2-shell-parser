@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define CMD_IDENTIFIER_MAX_LENGTH 32
+
 enum TokenType {
 	CMD_IDENTIFIER,
 	HELP_COMMAND,
@@ -26,6 +28,22 @@ unsigned tree_sitter_r2cmd_external_scanner_serialize(void *payload, char *buffe
 void tree_sitter_r2cmd_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
 }
 
+static bool is_pf_cmd(const char *s) {
+	return !strncmp (s, "pf", 2);
+}
+
+static bool is_env_cmd(const char *s) {
+	return !strncmp (s, "env", 3);
+}
+
+static bool is_at_cmd(const char *s) {
+	return s[0] == '@';
+}
+
+static bool is_comment(const char *s) {
+	return !strncmp (s, "/*", 2);
+}
+
 static bool is_special_start(const int32_t ch) {
 	return ch == '*' || ch == '(' || ch == '*' || ch == '@' || ch == '|' ||
 		ch == '.' || ch == '|' || ch == '%' || ch == '~' || ch == '&';
@@ -36,10 +54,10 @@ static bool is_start_of_command(const int32_t ch) {
 		ch == '=' || ch == '/' || ch == '_' || is_special_start (ch);
 }
 
-static bool is_mid_command(const int32_t ch, bool is_at_command) {
+static bool is_mid_command(const char *res, const int32_t ch) {
 	return isalnum(ch) ||  ch == '$' || ch == '?' || ch == '.' || ch == '!' ||
 		ch == ':' || ch == '+' || ch == '=' || ch == '/' || ch == '*' ||
-		ch == '-' || ch == ',' || ch == '&' || (is_at_command && ch == '@');
+		ch == '-' || ch == ',' || ch == '&' || (is_at_cmd (res) && ch == '@');
 }
 
 static bool is_concat(const int32_t ch) {
@@ -100,14 +118,8 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		return true;
 	}
         if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND]) {
-		int id_len = 0;
-		bool is_env_identifier = true;
-		bool is_comment = false;
-		bool is_at_command = false;
-		char last_char, first_char, before_last_char;
-		const char *env_identifier = "env";
-		const char *comm_identifier = "/*";
-		int i_env = 0, i_comm = 0;
+		char res[CMD_IDENTIFIER_MAX_LENGTH + 1];
+		int i_res = 0;
 
 		while (isspace (lexer->lookahead)) {
 			lexer->advance (lexer, true);
@@ -116,35 +128,26 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		if (!is_start_of_command (lexer->lookahead)) {
 			return false;
 		}
-		first_char = last_char = before_last_char = lexer->lookahead;
-		if (first_char == '#') {
+		res[i_res++] = lexer->lookahead;
+		if (res[0] == '#') {
 			return false;
 		}
-                is_env_identifier &= first_char == env_identifier[i_env++];
-                is_comment = first_char == comm_identifier[i_comm++];
-		is_at_command = first_char == '@';
-		id_len++;
 		lexer->advance (lexer, false);
-		while (is_mid_command (lexer->lookahead, is_at_command)) {
-			before_last_char = last_char;
-			last_char = lexer->lookahead;
+		while (i_res < CMD_IDENTIFIER_MAX_LENGTH && is_mid_command (res, lexer->lookahead)) {
+			res[i_res++] = lexer->lookahead;
 			lexer->advance (lexer, false);
-			id_len++;
-			is_env_identifier &= i_env < strlen (env_identifier) && last_char == env_identifier[i_env++];
-                        is_comment &= i_comm < strlen(comm_identifier) && last_char == comm_identifier[i_comm++];
                 }
-		is_env_identifier &= i_env == strlen (env_identifier);
-		is_comment &= i_comm == strlen (comm_identifier);
-		if (is_comment) {
+		res[i_res] = '\0';
+		if (is_comment (res)) {
 			return false;
 		}
-		if (last_char == '?' || is_recursive_help(id_len, before_last_char, last_char)) {
-			if (id_len == 1) {
+		if (res[i_res - 1] == '?' || (i_res >= 2 && is_recursive_help(i_res, res[i_res - 2], res[i_res - 1]))) {
+			if (i_res == 1) {
 				return false;
 			}
 			lexer->result_symbol = HELP_COMMAND;
 		} else {
-			if (is_special_start (first_char) || is_env_identifier || is_at_command || !valid_symbols[CMD_IDENTIFIER]) {
+			if (is_special_start (res[0]) || is_pf_cmd (res) || is_env_cmd (res) || is_at_cmd (res) || !valid_symbols[CMD_IDENTIFIER]) {
 				return false;
 			}
 			lexer->result_symbol = CMD_IDENTIFIER;

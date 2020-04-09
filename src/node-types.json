@@ -4,7 +4,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -282,7 +282,7 @@
       },
       "command": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "cmd_identifier",
@@ -298,6 +298,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "arg",
+          "named": true
+        },
+        {
+          "type": "cmd_identifier",
+          "named": true
+        }
+      ]
     }
   },
   {

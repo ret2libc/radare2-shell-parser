@@ -1762,6 +1762,10 @@
         {
           "type": "SYMBOL",
           "name": "_interpreter_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_pf_command"
         }
       ]
     },
@@ -2152,6 +2156,93 @@
           "value": "./"
         }
       ]
+    },
+    "_pf_command": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "pf_identifier"
+            },
+            "named": true,
+            "value": "cmd_identifier"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "pf_concatenation"
+                },
+                "named": true,
+                "value": "arg"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "pf_identifier": {
+      "type": "PATTERN",
+      "value": "pf[A-Za-z*]?[.]?"
+    },
+    "pf_arg_identifier": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^@|#'>`;~\\n\\r\\s]"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PATTERN",
+              "value": "[^@|#'>`;~\\n\\r]"
+            }
+          }
+        ]
+      }
+    },
+    "_pf_arg": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "pf_arg_identifier"
+          },
+          "named": true,
+          "value": "arg_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "cmd_substitution_arg"
+        }
+      ]
+    },
+    "pf_concatenation": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_pf_arg"
+        }
+      }
     },
     "_env_command": {
       "type": "PREC_LEFT",

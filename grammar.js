@@ -7,6 +7,14 @@ const SPECIAL_CHARACTERS = [
     '(', ')',
 ];
 
+const PF_SPECIAL_CHARACTERS = [
+    '@', '|', '#',
+    '\'', '>', '`',
+    ';', '~', '\n',
+    '\r',
+];
+const PF_SPECIAL_CHARACTERS_START = PF_SPECIAL_CHARACTERS.concat(['\\s']);
+
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
 const SPECIAL_CHARACTERS_COMMA = SPECIAL_CHARACTERS.concat([',']);
 const SPECIAL_CHARACTERS_BRACE = SPECIAL_CHARACTERS.concat(['{', '}']);
@@ -296,6 +304,7 @@ module.exports = grammar({
 	    $._interpret_command,
 	    $._env_command,
 	    $._interpreter_command,
+	    $._pf_command,
 	),
 
 	_simple_arged_command: $ => prec.left(1, seq(
@@ -349,6 +358,20 @@ module.exports = grammar({
 	    )),
 	)),
 	_interpret_search_identifier: $ => seq('./'),
+	_pf_command: $ => prec.left(1, seq(
+	    alias($.pf_identifier, $.cmd_identifier),
+	    optional(alias($.pf_concatenation, $.arg)),
+	)),
+	pf_identifier: $ => /pf[A-Za-z*]?[.]?/,
+	pf_arg_identifier: $ => token(seq(
+	    noneOf(...PF_SPECIAL_CHARACTERS_START),
+	    repeat(noneOf(...PF_SPECIAL_CHARACTERS)),
+	)),
+	_pf_arg: $ => choice(
+	    alias($.pf_arg_identifier, $.arg_identifier),
+	    $.cmd_substitution_arg,
+	),
+	pf_concatenation: $ => prec.left(1, repeat1($._pf_arg)),
 	_env_command: $ => prec.left(seq(
 	    field('command', alias($._env_command_identifier, $.cmd_identifier)),
 	    field('args', optional(alias($.eq_sep_args, $.args))),
