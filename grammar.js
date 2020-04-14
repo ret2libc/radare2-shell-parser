@@ -7,13 +7,14 @@ const SPECIAL_CHARACTERS = [
     '(', ')',
 ];
 
-const PF_SPECIAL_CHARACTERS = [
+const PF_DOT_SPECIAL_CHARACTERS = [
+    '\\s',
     '@', '|', '#',
-    '\'', '>', '`',
-    ';', '~', '\n',
-    '\r',
+    '"', '\'', '>',
+    ';', '$', '`',
+    '~', '\\', ',',
+    '(', ')', '.', '=',
 ];
-const PF_SPECIAL_CHARACTERS_NOSPACE = PF_SPECIAL_CHARACTERS.concat(['\\s']);
 
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
 const SPECIAL_CHARACTERS_COMMA = SPECIAL_CHARACTERS.concat([',']);
@@ -39,6 +40,16 @@ const ARG_IDENTIFIER_BRACE = choice(
     /\\./,
     /\/[^\*]/,
 );
+const PF_DOT_ARG_IDENTIFIER_BASE = choice(
+    repeat1(noneOf(...PF_DOT_SPECIAL_CHARACTERS)),
+    '$$$',
+    '$$',
+    '$',
+    /\$[^({) ]/,
+    /\${[^\r\n $}]+}/,
+    /\\./,
+    /\/[^\*]/,
+);
 
 module.exports = grammar({
     name: 'r2cmd',
@@ -55,6 +66,7 @@ module.exports = grammar({
 	$._eq_sep_concat,
 	$._concat,
 	$._concat_brace,
+	$._concat_pf_dot,
     ],
 
     inline: $ => [
@@ -103,6 +115,7 @@ module.exports = grammar({
 	    $.grep_command,
 	    $.last_command,
 	    $.legacy_quoted_command,
+	    $._pf_commands,
 	),
 
 	_tmp_command: $ => choice(
@@ -304,7 +317,7 @@ module.exports = grammar({
 	    $._interpret_command,
 	    $._env_command,
 	    $._interpreter_command,
-	    $._pf_command,
+	    $._pf_arged_command,
 	),
 
 	_simple_arged_command: $ => prec.left(1, seq(
@@ -358,23 +371,109 @@ module.exports = grammar({
 	    )),
 	)),
 	_interpret_search_identifier: $ => seq('./'),
-	_pf_command: $ => prec.left(1, seq(
-	    field('command', alias($.pf_identifier, $.cmd_identifier)),
-	    field('args', optional(alias($.pf_concatenation, $.arg))),
+	_pf_arged_command: $ => choice(
+	    seq(
+		field('command', alias($.pf_dot_cmd_identifier, $.cmd_identifier)),
+	    ),
+	    seq(
+		field('command', alias('pfo', $.cmd_identifier)),
+		field('args', $.args),
+	    ),
+	),
+	_pf_commands: $ => prec.left(1, choice(
+	    // pf fmt, pf* fmt_name|fmt, pfc fmt_name|fmt, pfd.fmt_name, pfj fmt_name|fmt, pfq fmt, pfs.struct_name, pfs format
+	    alias($.pf_cmd, $.arged_command),
+	    // pf.fmt_name.field_name, pf.fmt_name.field_name[i], pf.fmt_name.field_name=33, pfv.fmt_name[.field]
+	    alias($.pf_dot_cmd, $.arged_command),
+	    // pf.name [0|cnt]fmt
+	    alias($.pf_new_cmd, $.arged_command),
+	    // Cf [sz] [fmt]
+	    alias($.Cf_cmd, $.arged_command),
+	    // pf., pfo fdf_name: will be handled as regular arged_command
 	)),
-	pf_identifier: $ => choice(/pf[A-Za-z*]?[.]?/, /Cf[-]?/),
-	pf_arg_identifier: $ => token(seq(
-	    noneOf(...PF_SPECIAL_CHARACTERS_NOSPACE),
+	Cf_cmd: $ => seq(
+	    field('command', alias('Cf', $.cmd_identifier)),
+	    field('args', alias($._Cf_args, $.args)),
+	),
+	_Cf_args: $ => seq(
+	    $.arg,
+	    $.pf_args,
+	),
+	pf_dot_cmd_identifier: $ => 'pf.',
+	pf_new_cmd: $ => seq(
+	    field('command', alias($.pf_dot_cmd_identifier, $.cmd_identifier)),
+	    $._concat_pf_dot,
+	    field('args', $.pf_new_args),
+	),
+	pf_dot_cmd: $ => prec.left(1, seq(
+	    field('command', alias(choice($.pf_dot_cmd_identifier, 'pfv.'), $.cmd_identifier)),
+	    $._concat_pf_dot,
+	    field('args', $.pf_dot_cmd_args),
+	)),
+	pf_cmd: $ => seq(
+	    field('command', alias(/pf[*cjqs]?/, $.cmd_identifier)),
+	    field('args', $.pf_args),
+	),
+	pf_new_args: $ => seq(
+	    alias($.pf_dot_arg, $.pf_arg),
+	    $.pf_args,
+	),
+	pf_dot_cmd_args: $ => seq(
+	    alias($.pf_dot_args, $.pf_args),
 	    optional(seq(
-		repeat(noneOf(...PF_SPECIAL_CHARACTERS)),
-		noneOf(...PF_SPECIAL_CHARACTERS_NOSPACE),
+		alias('=', $.pf_arg_identifier),
+		$.pf_arg,
 	    )),
+	),
+	_pf_dot_arg_identifier: $ => token(seq(
+	    repeat1(PF_DOT_ARG_IDENTIFIER_BASE),
 	)),
+	_pf_arg_parentheses: $ => seq(
+	    alias('(', $.pf_arg_identifier),
+	    $.pf_arg,
+	    alias(')', $.pf_arg_identifier),
+	),
 	_pf_arg: $ => choice(
-	    alias($.pf_arg_identifier, $.arg_identifier),
+	    alias($.arg_identifier, $.pf_arg_identifier),
+	    $._pf_arg_parentheses,
 	    $.cmd_substitution_arg,
 	),
-	pf_concatenation: $ => prec.left(1, repeat1($._pf_arg)),
+	_pf_dot_arg: $ => choice(
+	    alias($._pf_dot_arg_identifier, $.pf_arg_identifier),
+	    $.cmd_substitution_arg,
+	),
+	pf_concatenation: $ => prec(-1, seq(
+	    $._pf_arg,
+	    repeat1(prec(-1, seq(
+		$._concat,
+		$._pf_arg,
+	    ))),
+	)),
+	pf_dot_concatenation: $ => prec(-1, seq(
+	    $._pf_dot_arg,
+	    repeat1(prec(-1, seq(
+		$._concat_pf_dot,
+		$._pf_dot_arg,
+	    ))),
+	)),
+	pf_arg: $ => choice(
+	    $._pf_arg,
+	    $.pf_concatenation
+	),
+	pf_dot_arg: $ => choice(
+	    $._pf_dot_arg,
+	    alias($.pf_dot_concatenation, $.pf_concatenation),
+	),
+	pf_args: $ => prec.left(repeat1($.pf_arg)),
+	pf_dot_args: $ => prec.left(1, seq(
+	    alias($.pf_dot_arg, $.pf_arg),
+	    repeat(seq(
+		$._concat_pf_dot,
+		'.',
+		$._concat_pf_dot,
+		alias($.pf_dot_arg, $.pf_arg),
+	    )),
+	)),
 	_env_command: $ => prec.left(seq(
 	    field('command', alias($._env_command_identifier, $.cmd_identifier)),
 	    field('args', optional(alias($.eq_sep_args, $.args))),

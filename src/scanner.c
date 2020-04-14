@@ -12,6 +12,7 @@ enum TokenType {
 	EQ_SEP_CONCAT,
 	CONCAT,
 	CONCAT_BRACE,
+	CONCAT_PF_DOT,
 };
 
 void *tree_sitter_r2cmd_external_scanner_create() {
@@ -29,7 +30,7 @@ void tree_sitter_r2cmd_external_scanner_deserialize(void *payload, const char *b
 }
 
 static bool is_pf_cmd(const char *s) {
-	return !strncmp (s, "pf", 2) || !strncmp (s, "Cf", 2);
+	return !strncmp (s, "pf", 2) || !strcmp (s, "Cf");
 }
 
 static bool is_env_cmd(const char *s) {
@@ -68,6 +69,10 @@ static bool is_concat(const int32_t ch) {
 
 static bool is_concat_brace(const int32_t ch) {
 	return is_concat(ch) && ch != '}' && ch != '{';
+}
+
+static bool is_concat_pf_dot(const int32_t ch) {
+	return is_concat(ch) && ch != '=';
 }
 
 static bool is_recursive_help(int id_len, const int32_t before_last_ch, const int32_t last_ch) {
@@ -115,6 +120,9 @@ bool tree_sitter_r2cmd_external_scanner_scan(void *payload, TSLexer *lexer, cons
 		return true;
 	} else if (valid_symbols[CONCAT_BRACE] && is_concat_brace (lexer->lookahead)) {
 		lexer->result_symbol = CONCAT_BRACE;
+		return true;
+	} else if (valid_symbols[CONCAT_PF_DOT] && is_concat_pf_dot (lexer->lookahead)) {
+		lexer->result_symbol = CONCAT_PF_DOT;
 		return true;
 	}
         if (valid_symbols[CMD_IDENTIFIER] || valid_symbols[HELP_COMMAND]) {

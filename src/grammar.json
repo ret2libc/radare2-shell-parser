@@ -197,6 +197,10 @@
         {
           "type": "SYMBOL",
           "name": "legacy_quoted_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_pf_commands"
         }
       ]
     },
@@ -1765,7 +1769,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_pf_command"
+          "name": "_pf_arged_command"
         }
       ]
     },
@@ -2157,7 +2161,179 @@
         }
       ]
     },
-    "_pf_command": {
+    "_pf_arged_command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "command",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "pf_dot_cmd_identifier"
+                },
+                "named": true,
+                "value": "cmd_identifier"
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "command",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "STRING",
+                  "value": "pfo"
+                },
+                "named": true,
+                "value": "cmd_identifier"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "args",
+              "content": {
+                "type": "SYMBOL",
+                "name": "args"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "_pf_commands": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "pf_cmd"
+            },
+            "named": true,
+            "value": "arged_command"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "pf_dot_cmd"
+            },
+            "named": true,
+            "value": "arged_command"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "pf_new_cmd"
+            },
+            "named": true,
+            "value": "arged_command"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "Cf_cmd"
+            },
+            "named": true,
+            "value": "arged_command"
+          }
+        ]
+      }
+    },
+    "Cf_cmd": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "Cf"
+            },
+            "named": true,
+            "value": "cmd_identifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "args",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_Cf_args"
+            },
+            "named": true,
+            "value": "args"
+          }
+        }
+      ]
+    },
+    "_Cf_args": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pf_args"
+        }
+      ]
+    },
+    "pf_dot_cmd_identifier": {
+      "type": "STRING",
+      "value": "pf."
+    },
+    "pf_new_cmd": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "pf_dot_cmd_identifier"
+            },
+            "named": true,
+            "value": "cmd_identifier"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_concat_pf_dot"
+        },
+        {
+          "type": "FIELD",
+          "name": "args",
+          "content": {
+            "type": "SYMBOL",
+            "name": "pf_new_args"
+          }
+        }
+      ]
+    },
+    "pf_dot_cmd": {
       "type": "PREC_LEFT",
       "value": 1,
       "content": {
@@ -2169,30 +2345,165 @@
             "content": {
               "type": "ALIAS",
               "content": {
-                "type": "SYMBOL",
-                "name": "pf_identifier"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "pf_dot_cmd_identifier"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "pfv."
+                  }
+                ]
               },
               "named": true,
               "value": "cmd_identifier"
             }
           },
           {
+            "type": "SYMBOL",
+            "name": "_concat_pf_dot"
+          },
+          {
             "type": "FIELD",
             "name": "args",
             "content": {
-              "type": "CHOICE",
+              "type": "SYMBOL",
+              "name": "pf_dot_cmd_args"
+            }
+          }
+        ]
+      }
+    },
+    "pf_cmd": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "pf[*cjqs]?"
+            },
+            "named": true,
+            "value": "cmd_identifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "args",
+          "content": {
+            "type": "SYMBOL",
+            "name": "pf_args"
+          }
+        }
+      ]
+    },
+    "pf_new_args": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "pf_dot_arg"
+          },
+          "named": true,
+          "value": "pf_arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pf_args"
+        }
+      ]
+    },
+    "pf_dot_cmd_args": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "pf_dot_args"
+          },
+          "named": true,
+          "value": "pf_args"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
               "members": [
                 {
                   "type": "ALIAS",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "pf_concatenation"
+                    "type": "STRING",
+                    "value": "="
                   },
                   "named": true,
-                  "value": "arg"
+                  "value": "pf_arg_identifier"
                 },
                 {
-                  "type": "BLANK"
+                  "type": "SYMBOL",
+                  "name": "pf_arg"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_pf_dot_arg_identifier": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[^\\s@|#\"'>;$`~\\\\,().=]"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "$$$"
+                },
+                {
+                  "type": "STRING",
+                  "value": "$$"
+                },
+                {
+                  "type": "STRING",
+                  "value": "$"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\$[^({) ]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\${[^\\r\\n $}]+}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\\\."
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\/[^\\*]"
                 }
               ]
             }
@@ -2200,54 +2511,32 @@
         ]
       }
     },
-    "pf_identifier": {
-      "type": "CHOICE",
+    "_pf_arg_parentheses": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "pf[A-Za-z*]?[.]?"
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          },
+          "named": true,
+          "value": "pf_arg_identifier"
         },
         {
-          "type": "PATTERN",
-          "value": "Cf[-]?"
+          "type": "SYMBOL",
+          "name": "pf_arg"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          },
+          "named": true,
+          "value": "pf_arg_identifier"
         }
       ]
-    },
-    "pf_arg_identifier": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[^@|#'>`;~\\n\\r\\s]"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "PATTERN",
-                      "value": "[^@|#'>`;~\\n\\r]"
-                    }
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[^@|#'>`;~\\n\\r\\s]"
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
     },
     "_pf_arg": {
       "type": "CHOICE",
@@ -2256,10 +2545,32 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "pf_arg_identifier"
+            "name": "arg_identifier"
           },
           "named": true,
-          "value": "arg_identifier"
+          "value": "pf_arg_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_pf_arg_parentheses"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "cmd_substitution_arg"
+        }
+      ]
+    },
+    "_pf_dot_arg": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_pf_dot_arg_identifier"
+          },
+          "named": true,
+          "value": "pf_arg_identifier"
         },
         {
           "type": "SYMBOL",
@@ -2268,14 +2579,158 @@
       ]
     },
     "pf_concatenation": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_pf_arg"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_concat"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_pf_arg"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "pf_dot_concatenation": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_pf_dot_arg"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_concat_pf_dot"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_pf_dot_arg"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "pf_arg": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_pf_arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pf_concatenation"
+        }
+      ]
+    },
+    "pf_dot_arg": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_pf_dot_arg"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "pf_dot_concatenation"
+          },
+          "named": true,
+          "value": "pf_concatenation"
+        }
+      ]
+    },
+    "pf_args": {
       "type": "PREC_LEFT",
-      "value": 1,
+      "value": 0,
       "content": {
         "type": "REPEAT1",
         "content": {
           "type": "SYMBOL",
-          "name": "_pf_arg"
+          "name": "pf_arg"
         }
+      }
+    },
+    "pf_dot_args": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "pf_dot_arg"
+            },
+            "named": true,
+            "value": "pf_arg"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_concat_pf_dot"
+                },
+                {
+                  "type": "STRING",
+                  "value": "."
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_concat_pf_dot"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "pf_dot_arg"
+                  },
+                  "named": true,
+                  "value": "pf_arg"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "_env_command": {
@@ -3379,6 +3834,10 @@
     {
       "type": "SYMBOL",
       "name": "_concat_brace"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_concat_pf_dot"
     }
   ],
   "inline": [

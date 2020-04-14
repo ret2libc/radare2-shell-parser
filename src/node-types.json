@@ -4,7 +4,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -38,10 +38,6 @@
         "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "arg",
-            "named": true
-          },
           {
             "type": "arged_command",
             "named": true
@@ -207,6 +203,18 @@
             "named": true
           },
           {
+            "type": "pf_args",
+            "named": true
+          },
+          {
+            "type": "pf_dot_cmd_args",
+            "named": true
+          },
+          {
+            "type": "pf_new_args",
+            "named": true
+          },
+          {
             "type": "pipe_command",
             "named": true
           },
@@ -322,6 +330,10 @@
         },
         {
           "type": "args",
+          "named": true
+        },
+        {
+          "type": "pf_args",
           "named": true
         }
       ]
@@ -8827,6 +8839,113 @@
     "fields": {}
   },
   {
+    "type": "pf_arg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "cmd_substitution_arg",
+          "named": true
+        },
+        {
+          "type": "pf_arg",
+          "named": true
+        },
+        {
+          "type": "pf_arg_identifier",
+          "named": true
+        },
+        {
+          "type": "pf_concatenation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pf_args",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "pf_arg",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pf_concatenation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "cmd_substitution_arg",
+          "named": true
+        },
+        {
+          "type": "pf_arg",
+          "named": true
+        },
+        {
+          "type": "pf_arg_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pf_dot_cmd_args",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "pf_arg",
+          "named": true
+        },
+        {
+          "type": "pf_arg_identifier",
+          "named": true
+        },
+        {
+          "type": "pf_args",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pf_new_args",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "pf_arg",
+          "named": true
+        },
+        {
+          "type": "pf_args",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "pipe_command",
     "named": true,
     "fields": {},
@@ -13953,6 +14072,10 @@
   },
   {
     "type": "html_redirect_operator",
+    "named": true
+  },
+  {
+    "type": "pf_arg_identifier",
     "named": true
   },
   {
