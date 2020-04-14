@@ -13,7 +13,7 @@ const PF_SPECIAL_CHARACTERS = [
     ';', '~', '\n',
     '\r',
 ];
-const PF_SPECIAL_CHARACTERS_START = PF_SPECIAL_CHARACTERS.concat(['\\s']);
+const PF_SPECIAL_CHARACTERS_NOSPACE = PF_SPECIAL_CHARACTERS.concat(['\\s']);
 
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
 const SPECIAL_CHARACTERS_COMMA = SPECIAL_CHARACTERS.concat([',']);
@@ -362,10 +362,13 @@ module.exports = grammar({
 	    field('command', alias($.pf_identifier, $.cmd_identifier)),
 	    field('args', optional(alias($.pf_concatenation, $.arg))),
 	)),
-	pf_identifier: $ => /pf[A-Za-z*]?[.]?/,
+	pf_identifier: $ => choice(/pf[A-Za-z*]?[.]?/, /Cf[-]?/),
 	pf_arg_identifier: $ => token(seq(
-	    noneOf(...PF_SPECIAL_CHARACTERS_START),
-	    repeat(noneOf(...PF_SPECIAL_CHARACTERS)),
+	    noneOf(...PF_SPECIAL_CHARACTERS_NOSPACE),
+	    optional(seq(
+		repeat(noneOf(...PF_SPECIAL_CHARACTERS)),
+		noneOf(...PF_SPECIAL_CHARACTERS_NOSPACE),
+	    )),
 	)),
 	_pf_arg: $ => choice(
 	    alias($.pf_arg_identifier, $.arg_identifier),

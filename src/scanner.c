@@ -29,7 +29,7 @@ void tree_sitter_r2cmd_external_scanner_deserialize(void *payload, const char *b
 }
 
 static bool is_pf_cmd(const char *s) {
-	return !strncmp (s, "pf", 2);
+	return !strncmp (s, "pf", 2) || !strncmp (s, "Cf", 2);
 }
 
 static bool is_env_cmd(const char *s) {

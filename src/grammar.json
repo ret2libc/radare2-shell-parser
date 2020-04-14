@@ -2201,8 +2201,17 @@
       }
     },
     "pf_identifier": {
-      "type": "PATTERN",
-      "value": "pf[A-Za-z*]?[.]?"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "pf[A-Za-z*]?[.]?"
+        },
+        {
+          "type": "PATTERN",
+          "value": "Cf[-]?"
+        }
+      ]
     },
     "pf_arg_identifier": {
       "type": "TOKEN",
@@ -2214,11 +2223,28 @@
             "value": "[^@|#'>`;~\\n\\r\\s]"
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "PATTERN",
-              "value": "[^@|#'>`;~\\n\\r]"
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[^@|#'>`;~\\n\\r]"
+                    }
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[^@|#'>`;~\\n\\r\\s]"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
