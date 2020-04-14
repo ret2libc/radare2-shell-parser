@@ -8851,11 +8851,11 @@
           "named": true
         },
         {
-          "type": "pf_arg",
+          "type": "pf_arg_identifier",
           "named": true
         },
         {
-          "type": "pf_arg_identifier",
+          "type": "pf_args",
           "named": true
         },
         {
@@ -8893,11 +8893,11 @@
           "named": true
         },
         {
-          "type": "pf_arg",
+          "type": "pf_arg_identifier",
           "named": true
         },
         {
-          "type": "pf_arg_identifier",
+          "type": "pf_args",
           "named": true
         }
       ]
@@ -8911,10 +8911,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "pf_arg",
-          "named": true
-        },
         {
           "type": "pf_arg_identifier",
           "named": true

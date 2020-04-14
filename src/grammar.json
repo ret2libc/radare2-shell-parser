@@ -2303,6 +2303,10 @@
       "type": "STRING",
       "value": "pf."
     },
+    "pf_dot_full_cmd_identifier": {
+      "type": "PATTERN",
+      "value": "pf[*cjqsv]\\."
+    },
     "pf_new_cmd": {
       "type": "SEQ",
       "members": [
@@ -2352,8 +2356,8 @@
                     "name": "pf_dot_cmd_identifier"
                   },
                   {
-                    "type": "STRING",
-                    "value": "pfv."
+                    "type": "SYMBOL",
+                    "name": "pf_dot_full_cmd_identifier"
                   }
                 ]
               },
@@ -2449,7 +2453,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "pf_arg"
+                  "name": "pf_args"
                 }
               ]
             },
@@ -2474,7 +2478,7 @@
                   "type": "REPEAT1",
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\\s@|#\"'>;$`~\\\\,().=]"
+                    "value": "[^\\s@|#\"'>;$`~\\\\().=]"
                   }
                 },
                 {
@@ -2525,7 +2529,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "pf_arg"
+          "name": "pf_args"
         },
         {
           "type": "ALIAS",
@@ -2538,17 +2542,63 @@
         }
       ]
     },
+    "pf_arg_identifier": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[^\\s@|#\"'>;$`~\\\\()]"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "$$$"
+                },
+                {
+                  "type": "STRING",
+                  "value": "$$"
+                },
+                {
+                  "type": "STRING",
+                  "value": "$"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\$[^({) ]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\${[^\\r\\n $}]+}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\\\."
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\/[^\\*]"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "_pf_arg": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "arg_identifier"
-          },
-          "named": true,
-          "value": "pf_arg_identifier"
+          "type": "SYMBOL",
+          "name": "pf_arg_identifier"
         },
         {
           "type": "SYMBOL",

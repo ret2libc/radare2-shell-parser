@@ -7,15 +7,16 @@ const SPECIAL_CHARACTERS = [
     '(', ')',
 ];
 
-const PF_DOT_SPECIAL_CHARACTERS = [
+const PF_SPECIAL_CHARACTERS = [
     '\\s',
     '@', '|', '#',
     '"', '\'', '>',
     ';', '$', '`',
-    '~', '\\', ',',
-    '(', ')', '.', '=',
+    '~', '\\', '(',
+    ')',
 ];
 
+const PF_DOT_SPECIAL_CHARACTERS = PF_SPECIAL_CHARACTERS.concat(['.', '=']);
 const SPECIAL_CHARACTERS_EQUAL = SPECIAL_CHARACTERS.concat(['=']);
 const SPECIAL_CHARACTERS_COMMA = SPECIAL_CHARACTERS.concat([',']);
 const SPECIAL_CHARACTERS_BRACE = SPECIAL_CHARACTERS.concat(['{', '}']);
@@ -42,6 +43,16 @@ const ARG_IDENTIFIER_BRACE = choice(
 );
 const PF_DOT_ARG_IDENTIFIER_BASE = choice(
     repeat1(noneOf(...PF_DOT_SPECIAL_CHARACTERS)),
+    '$$$',
+    '$$',
+    '$',
+    /\$[^({) ]/,
+    /\${[^\r\n $}]+}/,
+    /\\./,
+    /\/[^\*]/,
+);
+const PF_ARG_IDENTIFIER_BASE = choice(
+    repeat1(noneOf(...PF_SPECIAL_CHARACTERS)),
     '$$$',
     '$$',
     '$',
@@ -400,13 +411,14 @@ module.exports = grammar({
 	    $.pf_args,
 	),
 	pf_dot_cmd_identifier: $ => 'pf.',
+	pf_dot_full_cmd_identifier: $ => /pf[*cjqsv]\./,
 	pf_new_cmd: $ => seq(
 	    field('command', alias($.pf_dot_cmd_identifier, $.cmd_identifier)),
 	    $._concat_pf_dot,
 	    field('args', $.pf_new_args),
 	),
 	pf_dot_cmd: $ => prec.left(1, seq(
-	    field('command', alias(choice($.pf_dot_cmd_identifier, 'pfv.'), $.cmd_identifier)),
+	    field('command', alias(choice($.pf_dot_cmd_identifier, $.pf_dot_full_cmd_identifier), $.cmd_identifier)),
 	    $._concat_pf_dot,
 	    field('args', $.pf_dot_cmd_args),
 	)),
@@ -422,7 +434,7 @@ module.exports = grammar({
 	    alias($.pf_dot_args, $.pf_args),
 	    optional(seq(
 		alias('=', $.pf_arg_identifier),
-		$.pf_arg,
+		$.pf_args,
 	    )),
 	),
 	_pf_dot_arg_identifier: $ => token(seq(
@@ -430,11 +442,14 @@ module.exports = grammar({
 	)),
 	_pf_arg_parentheses: $ => seq(
 	    alias('(', $.pf_arg_identifier),
-	    $.pf_arg,
+	    $.pf_args,
 	    alias(')', $.pf_arg_identifier),
 	),
+	pf_arg_identifier: $ => token(seq(
+	    repeat1(PF_ARG_IDENTIFIER_BASE),
+	)),
 	_pf_arg: $ => choice(
-	    alias($.arg_identifier, $.pf_arg_identifier),
+	    $.pf_arg_identifier,
 	    $._pf_arg_parentheses,
 	    $.cmd_substitution_arg,
 	),

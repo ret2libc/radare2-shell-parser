@@ -107,7 +107,7 @@ pf.fmt_name.field_name[3]
 	(pf_arg (pf_arg_identifier))
 	(pf_arg (pf_arg_identifier)))
       (pf_arg_identifier)
-      (pf_arg (pf_arg_identifier))))
+      (pf_args (pf_arg (pf_arg_identifier)))))
   (arged_command (cmd_identifier)
     (pf_dot_cmd_args
       (pf_args
@@ -141,7 +141,7 @@ pfv.fmt_name.field_name=0xdeadbeef
 	(pf_arg (pf_arg_identifier))
 	(pf_arg (pf_arg_identifier)))
       (pf_arg_identifier)
-      (pf_arg (pf_arg_identifier)))))
+      (pf_args (pf_arg (pf_arg_identifier))))))
 
 ======================
 pf.fmt_name definition
@@ -202,7 +202,7 @@ pf B (BitFldType)arg_name
       (pf_arg
         (pf_concatenation
 	  (pf_arg_identifier)
-	  (pf_arg (pf_arg_identifier))
+	  (pf_args (pf_arg (pf_arg_identifier)))
 	  (pf_arg_identifier)
 	  (pf_arg_identifier))))))
 
