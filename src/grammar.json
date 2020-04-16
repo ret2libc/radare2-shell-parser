@@ -343,10 +343,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "foreach_addrsize_command"
-        },
-        {
-          "type": "SYMBOL",
           "name": "foreach_bb_command"
         },
         {

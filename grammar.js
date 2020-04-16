@@ -167,7 +167,6 @@ module.exports = grammar({
 
 	_foreach_command: $ => choice(
 	    $.foreach_addrsize_command,
-	    $.foreach_addrsize_command,
 	    $.foreach_bb_command,
 	    $.foreach_cmd_command,
 	    $.foreach_comment_command,
