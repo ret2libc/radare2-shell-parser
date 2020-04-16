@@ -453,7 +453,7 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^\\n\\r;@>|`()]*"
+                  "value": "[^\\n\\r;#@>|`()]*"
                 },
                 {
                   "type": "PATTERN",
@@ -3244,6 +3244,33 @@
           "name": "cmd_substitution_arg"
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "("
+              },
+              "named": true,
+              "value": "arg_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "args"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": ")"
+              },
+              "named": true,
+              "value": "arg_identifier"
+            }
+          ]
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "STRING",
@@ -3277,6 +3304,33 @@
         {
           "type": "SYMBOL",
           "name": "cmd_substitution_arg"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "("
+              },
+              "named": true,
+              "value": "arg_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_arg_brace"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": ")"
+              },
+              "named": true,
+              "value": "arg_identifier"
+            }
+          ]
         },
         {
           "type": "ALIAS",
@@ -3498,103 +3552,93 @@
     "arg_identifier": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "REPEAT1",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\\s@|#\"'>;$`~\\\\,()]"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "$$$"
-                },
-                {
-                  "type": "STRING",
-                  "value": "$$"
-                },
-                {
-                  "type": "STRING",
-                  "value": "$"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\$[^({) ]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\${[^\\r\\n $}]+}"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\\\."
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\/[^\\*]"
-                }
-              ]
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\s@|#\"'>;$`~\\\\,()]"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "$$$"
+            },
+            {
+              "type": "STRING",
+              "value": "$$"
+            },
+            {
+              "type": "STRING",
+              "value": "$"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\$[^({) ]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\${[^\\r\\n $}]+}"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\\\."
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\/[^\\*]"
             }
-          }
-        ]
+          ]
+        }
       }
     },
     "arg_identifier_brace": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "REPEAT1",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\\s@|#\"'>;$`~\\\\,(){}]"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "$$$"
-                },
-                {
-                  "type": "STRING",
-                  "value": "$$"
-                },
-                {
-                  "type": "STRING",
-                  "value": "$"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\$[^({) ]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\${[^\\r\\n $}]+}"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\\\."
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\/[^\\*]"
-                }
-              ]
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\s@|#\"'>;$`~\\\\,(){}]"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "$$$"
+            },
+            {
+              "type": "STRING",
+              "value": "$$"
+            },
+            {
+              "type": "STRING",
+              "value": "$"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\$[^({) ]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\${[^\\r\\n $}]+}"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\\\."
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\/[^\\*]"
             }
-          }
-        ]
+          ]
+        }
       }
     },
     "double_quoted_arg": {

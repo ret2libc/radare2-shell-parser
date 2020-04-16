@@ -224,3 +224,21 @@ Tasks command
   (task_command (cmd_identifier)
     (args (arg (arg_identifier))))
   (task_command (cmd_identifier)))
+
+
+==============
+Arg with (...)
+==============
+
+?e Hello(World)
+
+---
+
+(commands
+  (arged_command (cmd_identifier)
+    (args
+      (arg (arg_identifier))
+      (arg
+        (arg_identifier)
+        (args (arg (arg_identifier)))
+        (arg_identifier)))))

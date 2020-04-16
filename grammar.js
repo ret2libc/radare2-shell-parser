@@ -199,7 +199,7 @@ module.exports = grammar({
 	grep_specifier: $ => token(seq(
 	    repeat1(
 		choice(
-		    /[^\n\r;@>|`()]*/,
+		    /[^\n\r;#@>|`()]*/,
 		    /\\./,
 		)
 	    )
@@ -565,6 +565,11 @@ module.exports = grammar({
 	    $.double_quoted_arg,
 	    $.single_quoted_arg,
 	    $.cmd_substitution_arg,
+	    seq(
+		alias('(', $.arg_identifier),
+		$.args,
+		alias(')', $.arg_identifier),
+	    ),
 	    alias(',', $.arg_identifier),
 	),
 	_arg_brace: $ => choice(
@@ -572,6 +577,11 @@ module.exports = grammar({
 	    $.double_quoted_arg,
 	    $.single_quoted_arg,
 	    $.cmd_substitution_arg,
+	    seq(
+		alias('(', $.arg_identifier),
+		$._arg_brace,
+		alias(')', $.arg_identifier),
+	    ),
 	    alias(',', $.arg_identifier),
 	),
 	arg: $ => choice(
@@ -617,16 +627,8 @@ module.exports = grammar({
 	)),
 	_any_command: $ => /[^\r\n;~|]+/,
 
-	arg_identifier: $ => token(seq(
-	    repeat1(
-		ARG_IDENTIFIER_BASE,
-	    ),
-	)),
-	arg_identifier_brace: $ => token(seq(
-	    repeat1(
-		ARG_IDENTIFIER_BRACE,
-	    ),
-	)),
+	arg_identifier: $ => token(repeat1(ARG_IDENTIFIER_BASE)),
+	arg_identifier_brace: $ => token(repeat1(ARG_IDENTIFIER_BRACE)),
 	double_quoted_arg: $ => seq(
 	    '"',
 	    repeat(choice(
