@@ -4,6 +4,7 @@ Very simple grep
 
 pd 10 ~ mov
 pd 10~mov
+afl~$
 
 ---
 
@@ -17,6 +18,9 @@ pd 10~mov
     command: (arged_command
     	       command: (cmd_identifier)
 	       args: (args (arg (arg_identifier))))
+    specifier: (grep_specifier (grep_specifier_identifier)))
+  (grep_command
+    command: (arged_command command: (cmd_identifier))
     specifier: (grep_specifier (grep_specifier_identifier))))
 
 

@@ -200,17 +200,21 @@ module.exports = grammar({
 	    choice(
 		/[^\n\r;#@>|`$()]+/,
 		/\\./,
-		/\$[^(]/,
+		/\$[^(\r\n;#>|`]/,
 	    )
 	))),
-	grep_specifier: $ => seq(
-	    prec.left(repeat1(
-		choice(
-		    $.grep_specifier_identifier,
-		    $.cmd_substitution_arg,
+	grep_specifier: $ => prec.left(choice(
+	    seq(
+		repeat1(
+		    choice(
+			$.grep_specifier_identifier,
+			$.cmd_substitution_arg,
+		    ),
 		),
-	    )),
-	),
+		optional(alias(/[$]+/, $.grep_specifier_identifier)),
+	    ),
+	    alias(/[$]+/, $.grep_specifier_identifier),
+	)),
 
 	html_disable_command: $ => prec.right(1, seq(
 	    field('command', $._simple_command),

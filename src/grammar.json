@@ -461,7 +461,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "\\$[^(]"
+                  "value": "\\$[^(\\r\\n;#>|`]"
                 }
               ]
             }
@@ -470,29 +470,60 @@
       }
     },
     "grep_specifier": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PREC_LEFT",
-          "value": 0,
-          "content": {
-            "type": "REPEAT1",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "grep_specifier_identifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "cmd_substitution_arg"
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "REPEAT1",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "grep_specifier_identifier"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "cmd_substitution_arg"
+                    }
+                  ]
                 }
-              ]
-            }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[$]+"
+                    },
+                    "named": true,
+                    "value": "grep_specifier_identifier"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "[$]+"
+            },
+            "named": true,
+            "value": "grep_specifier_identifier"
           }
-        }
-      ]
+        ]
+      }
     },
     "html_disable_command": {
       "type": "PREC_RIGHT",
