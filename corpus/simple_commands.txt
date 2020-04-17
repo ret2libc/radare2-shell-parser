@@ -237,8 +237,9 @@ Arg with (...)
 (commands
   (arged_command (cmd_identifier)
     (args
-      (arg (arg_identifier))
       (arg
-        (arg_identifier)
-        (args (arg (arg_identifier)))
-        (arg_identifier)))))
+        (concatenation
+	  (arg_identifier)
+	  (arg_identifier)
+	  (args (arg (arg_identifier)))
+	  (arg_identifier))))))

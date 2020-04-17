@@ -63,7 +63,7 @@ static bool is_mid_command(const char *res, const int32_t ch) {
 
 static bool is_concat(const int32_t ch) {
 	return ch != '\0' && !isspace(ch) && ch != '#' && ch != '@' &&
-		ch != '|' && ch != '>' && ch != ';' && ch != '(' &&
+		ch != '|' && ch != '>' && ch != ';' &&
 		ch != ')' && ch != '`' && ch != '~' && ch != '\\';
 }
 

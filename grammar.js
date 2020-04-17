@@ -26,7 +26,7 @@ const ARG_IDENTIFIER_BASE = choice(
     '$$$',
     '$$',
     '$',
-    /\$[^({) ]/,
+    /\$[^@|#"'>;`~\\({) ]/,
     /\${[^\r\n $}]+}/,
     /\\./,
     /\/[^\*]/,
@@ -36,7 +36,7 @@ const ARG_IDENTIFIER_BRACE = choice(
     '$$$',
     '$$',
     '$',
-    /\$[^({) ]/,
+    /\$[^@|#"'>;`~\\({) ]/,
     /\${[^\r\n $}]+}/,
     /\\./,
     /\/[^\*]/,
@@ -46,7 +46,7 @@ const PF_DOT_ARG_IDENTIFIER_BASE = choice(
     '$$$',
     '$$',
     '$',
-    /\$[^({) ]/,
+    /\$[^@|#"'>;`~\\({) ]/,
     /\${[^\r\n $}]+}/,
     /\\./,
     /\/[^\*]/,
@@ -56,7 +56,7 @@ const PF_ARG_IDENTIFIER_BASE = choice(
     '$$$',
     '$$',
     '$',
-    /\$[^({) ]/,
+    /\$[^@|#"'>;`~\\({) ]/,
     /\${[^\r\n $}]+}/,
     /\\./,
     /\/[^\*]/,
@@ -195,15 +195,13 @@ module.exports = grammar({
 	    field('specifier', $.grep_specifier),
 	),
 	// FIXME: improve parser for grep specifier
-	// grep_specifier also includes ~ because r2 does not support nested grep commands yet
-	grep_specifier: $ => token(seq(
-	    repeat1(
-		choice(
-		    /[^\n\r;#@>|`()]*/,
-		    /\\./,
-		)
+	// grep_specifier_identifier also includes ~ because r2 does not support nested grep commands yet
+	grep_specifier: $ => token(seq(repeat1(
+	    choice(
+		/[^\n\r;#@>|`()]*/,
+		/\\./,
 	    )
-	)),
+	))),
 
 	html_disable_command: $ => prec.right(1, seq(
 	    field('command', $._simple_command),
