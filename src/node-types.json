@@ -4455,6 +4455,25 @@
     }
   },
   {
+    "type": "grep_specifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "cmd_substitution_arg",
+          "named": true
+        },
+        {
+          "type": "grep_specifier_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "help_command",
     "named": true,
     "fields": {
@@ -14067,7 +14086,7 @@
     "named": true
   },
   {
-    "type": "grep_specifier",
+    "type": "grep_specifier_identifier",
     "named": true
   },
   {

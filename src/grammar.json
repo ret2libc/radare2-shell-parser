@@ -441,7 +441,7 @@
         }
       ]
     },
-    "grep_specifier": {
+    "grep_specifier_identifier": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -453,17 +453,46 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^\\n\\r;#@>|`()]*"
+                  "value": "[^\\n\\r;#@>|`$()]+"
                 },
                 {
                   "type": "PATTERN",
                   "value": "\\\\."
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\$[^(]"
                 }
               ]
             }
           }
         ]
       }
+    },
+    "grep_specifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PREC_LEFT",
+          "value": 0,
+          "content": {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "grep_specifier_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "cmd_substitution_arg"
+                }
+              ]
+            }
+          }
+        }
+      ]
     },
     "html_disable_command": {
       "type": "PREC_RIGHT",
@@ -2252,35 +2281,47 @@
       }
     },
     "Cf_cmd": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "command",
-          "content": {
-            "type": "ALIAS",
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "command",
             "content": {
-              "type": "STRING",
-              "value": "Cf"
-            },
-            "named": true,
-            "value": "cmd_identifier"
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "Cf"
+              },
+              "named": true,
+              "value": "cmd_identifier"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "args",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_Cf_args"
+                  },
+                  "named": true,
+                  "value": "args"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
-        },
-        {
-          "type": "FIELD",
-          "name": "args",
-          "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_Cf_args"
-            },
-            "named": true,
-            "value": "args"
-          }
-        }
-      ]
+        ]
+      }
     },
     "_Cf_args": {
       "type": "SEQ",

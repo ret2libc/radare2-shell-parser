@@ -196,12 +196,21 @@ module.exports = grammar({
 	),
 	// FIXME: improve parser for grep specifier
 	// grep_specifier_identifier also includes ~ because r2 does not support nested grep commands yet
-	grep_specifier: $ => token(seq(repeat1(
+	grep_specifier_identifier: $ => token(seq(repeat1(
 	    choice(
-		/[^\n\r;#@>|`()]*/,
+		/[^\n\r;#@>|`$()]+/,
 		/\\./,
+		/\$[^(]/,
 	    )
 	))),
+	grep_specifier: $ => seq(
+	    prec.left(repeat1(
+		choice(
+		    $.grep_specifier_identifier,
+		    $.cmd_substitution_arg,
+		),
+	    )),
+	),
 
 	html_disable_command: $ => prec.right(1, seq(
 	    field('command', $._simple_command),
@@ -399,10 +408,10 @@ module.exports = grammar({
 	    alias($.Cf_cmd, $.arged_command),
 	    // pf., pfo fdf_name: will be handled as regular arged_command
 	)),
-	Cf_cmd: $ => seq(
+	Cf_cmd: $ => prec.left(seq(
 	    field('command', alias('Cf', $.cmd_identifier)),
-	    field('args', alias($._Cf_args, $.args)),
-	),
+	    optional(field('args', alias($._Cf_args, $.args))),
+	)),
 	_Cf_args: $ => seq(
 	    $.arg,
 	    $.pf_args,
